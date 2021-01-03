@@ -8,8 +8,20 @@ fn paths(x: u64, y: u64) -> u64 {
     }
 }
 
-// 
+// Its much faster to use binomial coefficients
+// The numerator overflows with 64 bit arithmetic so internall we must use 128 bit
+// numbers
+fn central_binom(n: u128) -> u64 {
+    let mut numerator = 1u128;
+    let mut denominator = 1u128;
+    for i in 0..n {
+        numerator *= 2*n-i;
+        denominator *= n-i;
+    }
+    let out = numerator/denominator;
+    return out as u64;
+}
 
 pub fn euler15() -> u64 {
-    
+    return central_binom(20);
 }
