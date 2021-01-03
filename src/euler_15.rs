@@ -11,7 +11,8 @@ fn paths(x: u64, y: u64) -> u64 {
 // Its much faster to use binomial coefficients
 // The numerator overflows with 64 bit arithmetic so internall we must use 128 bit
 // numbers
-fn central_binom(n: u128) -> u64 {
+fn central_binom(n: u64) -> u64 {
+    let n = n as u128;
     let mut numerator = 1u128;
     let mut denominator = 1u128;
     for i in 0..n {

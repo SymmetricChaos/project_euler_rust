@@ -15,6 +15,7 @@ mod euler_12;
 mod euler_13;
 mod euler_14;
 mod euler_15;
+mod euler_16;
 
 fn main() {
     /*
@@ -34,4 +35,5 @@ fn main() {
     println!("Euler 14: {}",euler_14::euler14());
     */
     println!("Euler 15: {}",euler_15::euler15());
+    println!("Euler 16: {}",euler_16::euler16());
 }
