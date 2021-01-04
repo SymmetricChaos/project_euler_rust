@@ -4,7 +4,7 @@ use num::bigint::BigInt;
 
 pub fn euler16() -> u64 {
     let mut n = BigInt::from(2);
-    for i in 1..1000 {
+    for _ in 1..1000 {
         n *= 2;
     }
     let s = n.to_str_radix(10);
