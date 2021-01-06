@@ -5,15 +5,20 @@ fn aliquot_sum(n:u64) -> u64 {
     if n == 0 {
         return 0u64;
     }
-    let lim = (n as f64).sqrt() as u64;
+    let lim = (n as f64).sqrt().floor() as u64;
     let mut out = 1;
-    for f in 2..lim {
+    for f in 2..lim+1 {
         if n % f == 0 {
-            out += f + n/f;
+            if f != n/f {
+                out += f + n/f;
+            } else {
+                out += f;
+            }
         }
     }
     return out;
 }
+
 
 // Get all the abundant numbers less than 28124
 fn abudant_numbers() -> Vec<u64> {
@@ -26,10 +31,12 @@ fn abudant_numbers() -> Vec<u64> {
     return v;
 }
 
+
+/*
 fn is_ab_sum(n: u64, abundants: &Vec<u64>) -> bool {
     for a in abundants {
-        if n > *a {
-            if abundants.contains(&(n-a)) {
+        if n >= *a {
+            if abundants.contains(&(n-*a)) {
                 return true;
             }
         } else {
@@ -38,15 +45,39 @@ fn is_ab_sum(n: u64, abundants: &Vec<u64>) -> bool {
     }
     return false;
 }
+*/
 
-// This either doesn't work or is much too slow
+
 pub fn euler23() -> u64 {
     let mut out = 0u64;
     let abundants = abudant_numbers();
-    for n in 2..28124 {
+
+    /*
+    //For some reason this loop is extremely slow probably due to the subtractions and nested
+    //if statements in is_ab_sum function
+    for n in 1..28124 {
         if !is_ab_sum(n,&abundants) {
+            //println!("{}",n);
             out += n;
         }
+    }
+    */
+
+    let mut arr: [u64; 28124] = [0; 28124];
+    for i in 0..28123 {
+        arr[i] = i as u64
+    }
+    for a in &abundants {
+        for b in &abundants {
+            if a+b > 28123 {
+                break;
+            } else {
+                arr[(a+b) as usize] = 0;
+            }
+        }
+    }
+    for a in &arr {
+        out += a
     }
     return out;
 }
