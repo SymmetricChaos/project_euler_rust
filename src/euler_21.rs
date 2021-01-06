@@ -1,10 +1,18 @@
 // Evaluate the sum of all the amicable numbers under 10000.
 
 fn aliquot_sum(n:u64) -> u64 {
-    let mut out = 0;
-    for f in 1..n {
+    if n == 0 {
+        return 0u64;
+    }
+    let lim = (n as f64).sqrt().floor() as u64;
+    let mut out = 1;
+    for f in 2..lim+1 {
         if n % f == 0 {
-            out += f;
+            if f != n/f {
+                out += f + n/f;
+            } else {
+                out += f;
+            }
         }
     }
     return out;

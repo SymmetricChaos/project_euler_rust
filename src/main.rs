@@ -23,6 +23,7 @@ mod euler_19;
 mod euler_20;
 mod euler_21;
 mod euler_22;
+mod euler_23;
 
 fn main() {
     println!("\nWelcome to My Project Euler Rust Project!");
@@ -55,6 +56,7 @@ fn main() {
             "20" => println!("\nEuler 20: {}",euler_20::euler20()),
             "21" => println!("\nEuler 21: {}",euler_21::euler21()),
             "22" => println!("\nEuler 22: {}",euler_22::euler22()),
+            "23" => println!("\nEuler 23: {}",euler_23::euler23()),
             "quit" => break,
             _ => println!("Haven't gotten to that one yet, sorry.")
         }
