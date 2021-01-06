@@ -36,6 +36,7 @@ fn update(year: &mut u32, month: &mut u32, month_day: &mut u32, week_day: &mut u
 }
 
 fn count_days() -> u64 {
+    // Enclude Tuesday, January 1st, 1901 as oue starting date
     let mut year: u32 = 1901;
     let mut month: u32 = 1;
     let mut month_day: u32 = 1;
@@ -43,6 +44,8 @@ fn count_days() -> u64 {
 
     let mut ctr = 0;
     loop {
+        // Pass mutable references here so that the update function can change the variables
+        // we give to it
         update(&mut year, &mut month, &mut month_day, &mut week_day);
         if year == 2001 {
             break;
