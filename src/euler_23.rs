@@ -1,5 +1,5 @@
-// Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 // By mathematical analysis, it can be shown that all integers greater than 28123 can be written as the sum of two abundant numbers.
+// Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 
 fn aliquot_sum(n:u64) -> u64 {
     if n == 0 {
@@ -32,11 +32,14 @@ fn is_ab_sum(n: u64, abundants: &Vec<u64>) -> bool {
             if abundants.contains(&(n-a)) {
                 return true;
             }
+        } else {
+            return false;
         }
     }
     return false;
 }
 
+// This either doesn't work or is much too slow
 pub fn euler23() -> u64 {
     let mut out = 0u64;
     let abundants = abudant_numbers();
