@@ -13,7 +13,8 @@
 // 8^5 = 32768
 // 9^5 = 59049
 
-// 
+// An upper bound is not too hard to find. All numbers that qualify must be less than
+// 999999 since the sum of the 5th powers of its digits is only 354294.
 
 fn int_to_digits(n: u64) -> Vec<u8> {
     let mut digits = Vec::new();
@@ -27,14 +28,22 @@ fn int_to_digits(n: u64) -> Vec<u8> {
     return digits;
 }
 
-pub fn euler30() -> u64 {
-    let v = int_to_digits(1234);
-    println!("{:?}",v);
-    let mut s = 0;
-    for d in v {
+fn pow_digit_sum(n: u64, p: u64) -> u64 {
+    let digits = int_to_digits(n);
+    let mut out = 0;
+    for d in digits {
         let digit = d as u64;
-        s += digit.pow(5);
+        out += digit.pow(p as u32);
     }
-    println!("{:?}",s);
-    return 0u64;
+    return out;
+}
+
+pub fn euler30() -> u64 {
+    let mut out = 0;
+    for n in 2..1000000 {
+        if pow_digit_sum(n,5u64) == n {
+            out += n;
+        }
+    }
+    return out;
 }
