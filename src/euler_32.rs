@@ -9,8 +9,10 @@ since 99*99 = 9801, so none of those equations can be pandigital.
 Likewise the smallest product pair of three digit numbers allowed is 135*246 = 33210 which
 has too many digits to be pandigital.
 
-Thus only products of a two digit and a three digit number can possibly work. This means
-there are less than 72*900 = 64800 posibilities to check, no clever optimitizted needed.
+It is possible for a one digit number and a for digit number to work as well.
+
+Thus the only kinds of products to conider are 2D x 3D = 4D and 1D x 4D = 4D. This restricts
+the possibiliites enough that no special tricks are needed.
 */
 
 // Get all the 2-digit numbers allowed
