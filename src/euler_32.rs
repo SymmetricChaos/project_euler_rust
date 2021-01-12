@@ -119,7 +119,7 @@ fn equations() -> u64 {
                     out += m*n;
                     prods.push(m*n);
                 }
-                println!("{} * {} = {}", n,m,n*m);
+                //println!("{} * {} = {}", n,m,n*m);
             }
 
         }
@@ -149,7 +149,7 @@ fn equations() -> u64 {
                     out += m*n;
                     prods.push(m*n);
                 }
-                println!("{} * {} = {}", n,m,n*m);
+                //println!("{} * {} = {}", n,m,n*m);
             }
 
         }
