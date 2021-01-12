@@ -35,6 +35,7 @@ mod euler_31;
 mod euler_32;
 mod euler_33;
 mod rationals;
+mod aux_funcs;
 
 fn main() {
     println!("\nWelcome to My Project Euler Rust Project!");

@@ -1,5 +1,7 @@
 
 use std::fmt;
+use std::ops::Mul;
+use crate::aux_funcs::{gcd};
 
 #[derive(Debug, Copy, Clone)]
 pub struct Rational {
@@ -23,25 +25,26 @@ impl PartialEq for Rational {
     }
 }
 
+// Implement multiplication
+impl Mul for Rational {
+    // The multiplication of rational numbers is a closed operation.
+    type Output = Self;
+
+    fn mul(self, rhs: Self) -> Self {
+        let num = self.n * rhs.n;
+        let den = self.d * rhs.d;
+        Rational{n: num, d: den}
+    }
+}
+
 // Implement custom methods
 impl Rational {
     // Instance method to reduce the fraction assuming it is mutable
-    fn reduce(&mut self) {
+    pub fn reduce(&mut self) {
         let g = gcd(self.n,self.d);
         self.n = self.n/g;
         self.d = self.d/g;
     }
-}
-
-pub fn gcd(a: u64, b: u64) -> u64 {
-    let mut x = a;
-    let mut y = b;
-    while y != 0 {
-        let t = y;
-        y = x % y;
-        x = t;
-    }
-    return x;
 }
 
 pub fn reduced(r: &Rational) -> Rational {
@@ -49,5 +52,3 @@ pub fn reduced(r: &Rational) -> Rational {
     let y = r.d/gcd(r.n,r.d);
     Rational{n: x, d: y}
 }
-
-

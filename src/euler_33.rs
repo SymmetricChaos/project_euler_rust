@@ -5,6 +5,8 @@
 use crate::rationals::Rational;
 
 pub fn euler33() -> u64 {
+    let mut prod = Rational{n: 1, d: 1};
+
     for n in 10..100 {
         for d in n+1..100 {
             let r = Rational{n: n, d: d};
@@ -17,39 +19,40 @@ pub fn euler33() -> u64 {
                 continue
             }
 
-            //println!("{},{}",n,d);
-            //println!("{} {}, {} {}",num_1,num_2,den_1,den_2);
-
             if num_1 == den_1 {
                 let s = Rational{n: num_2, d: den_2};
                 if r == s {
-                    println!("{} = {}",r,s);
+                    //println!("{} = {}",r,s);
+                    prod = prod * s;
                 }
             }
 
             if num_1 == den_2 {
                 let s = Rational{n: num_2, d: den_1};
                 if r == s {
-                    println!("{} = {}",r,s);
+                    //println!("{} = {}",r,s);
+                    prod = prod * s;
                 }
             }
 
             if num_2 == den_1 {
                 let s = Rational{n: num_1, d: den_2};
                 if r == s {
-                    println!("{} = {}",r,s);
+                    //println!("{} = {}",r,s);
+                    prod = prod * s;
                 }
             }
 
             if num_2 == den_2 {
                 let s = Rational{n: num_1, d: den_1};
                 if r == s {
-                    println!("{} = {}",r,s);
+                    //println!("{} = {}",r,s);
+                    prod = prod * s;
                 }
             }
 
-
         }
     }
-    return 0u64;
+    prod.reduce();
+    return prod.d;
 }

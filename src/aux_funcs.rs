@@ -9,3 +9,14 @@ pub fn int_to_digits(n: u64) -> Vec<u8> {
     }
     return digits;
 }
+
+pub fn gcd(a: u64, b: u64) -> u64 {
+    let mut x = a;
+    let mut y = b;
+    while y != 0 {
+        let t = y;
+        y = x % y;
+        x = t;
+    }
+    return x;
+}
