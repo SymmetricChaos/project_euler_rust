@@ -50,7 +50,6 @@ pub fn euler33() -> u64 {
                     prod = prod * s;
                 }
             }
-
         }
     }
     prod.reduce();

@@ -1,6 +1,9 @@
 
 use std::io;
 
+mod rationals;
+mod aux_funcs;
+
 mod euler_1;
 mod euler_2;
 mod euler_3;
@@ -34,8 +37,8 @@ mod euler_30;
 mod euler_31;
 mod euler_32;
 mod euler_33;
-mod rationals;
-mod aux_funcs;
+mod euler_34;
+
 
 fn main() {
     println!("\nWelcome to My Project Euler Rust Project!");
@@ -79,6 +82,7 @@ fn main() {
             "31" => println!("\nEuler 31: {}",euler_31::euler31()),
             "32" => println!("\nEuler 32: {}",euler_32::euler32()),
             "33" => println!("\nEuler 33: {}",euler_33::euler33()),
+            "34" => println!("\nEuler 34: {}",euler_34::euler34()),
             "quit" => break,
             _ => println!("Haven't gotten to that one yet, sorry.")
         }
