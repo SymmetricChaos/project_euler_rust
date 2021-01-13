@@ -10,6 +10,18 @@ pub fn int_to_digits(n: u64) -> Vec<u64> {
     return digits;
 }
 
+pub fn digits_to_int(digits: Vec<u64>) -> u64 {
+    let mut ctr = digits.len();
+    let mut pow_ten = 1;
+    let mut out = 0;
+    while ctr > 0 {
+        ctr -= 1;
+        out += digits[ctr]*pow_ten;
+        pow_ten *= 10;
+    }
+    out
+}
+
 pub fn gcd(a: u64, b: u64) -> u64 {
     let mut x = a;
     let mut y = b;
@@ -47,7 +59,6 @@ pub fn is_prime(n: u64) -> bool {
             return true;
         }
         if n % *p == 0 {
-            //println!("{}|{}",*p,n);
             return false;
         }
     }
@@ -60,7 +71,6 @@ pub fn is_prime(n: u64) -> bool {
         d /= 2;
         r += 1;
     }
-    //println!("{} = 2^{} * {} + 1 {}",n,r,d,n == 2u64.pow(r)*d+1);
     
     'outer: for w in witnesses.iter() {
         let mut x = pow_mod(*w,d,n);
@@ -76,8 +86,47 @@ pub fn is_prime(n: u64) -> bool {
                  continue 'outer;               
             }
         }
-        println!("{} eliminated by witness {}",n,*w);
         return false;
     }
     true
+}
+
+
+use std::collections::HashMap;
+
+pub struct PrimeSieve {
+    sieve: HashMap::<u64,Vec<u64>>,
+    n: u64,
+}
+
+impl Iterator for PrimeSieve {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<u64> {
+        loop {
+            self.n += 1;
+            if !self.sieve.contains_key(&self.n) {
+                self.sieve.insert(self.n+self.n,vec![self.n]);
+                return Some(self.n)
+            } else {
+                let factors = &self.sieve[&self.n].clone();
+                for factor in factors {
+                    if self.sieve.contains_key(&(factor+self.n)) {
+                        self.sieve.get_mut(&(factor+self.n)).unwrap().push(*factor);
+                    } else {
+                        self.sieve.insert(factor+self.n,vec![*factor]);
+                    }
+                    
+                    
+                }
+                self.sieve.remove(&self.n);
+            }
+        }
+    }
+}
+
+pub fn prime_sieve() -> PrimeSieve {
+    PrimeSieve{
+        sieve: HashMap::<u64,Vec<u64>>::new(),
+        n: 1u64}
 }
