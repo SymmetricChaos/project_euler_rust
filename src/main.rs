@@ -40,6 +40,7 @@ mod euler_33;
 mod euler_34;
 mod euler_35;
 mod euler_36;
+mod euler_37;
 
 
 fn main() {
@@ -87,6 +88,7 @@ fn main() {
             "34" => println!("\nEuler 34: {}",euler_34::euler34()),
             "35" => println!("\nEuler 35: {}",euler_35::euler35()),
             "36" => println!("\nEuler 36: {}",euler_36::euler36()),
+            "37" => println!("\nEuler 37: {}",euler_37::euler37()),
             "quit" => break,
             _ => println!("Haven't gotten to that one yet, sorry.")
         }
