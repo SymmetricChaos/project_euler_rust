@@ -37,12 +37,13 @@ pub fn pow_mod(n: u64, e: u64, m: u64) -> u64 {
     if e == 0 {
         return 1;
     }
-    let mut out = n;
-    for _ in 0..e-1 {
-        out *= n;
-        out = out % m;
+    let mut result = 1u128;
+    let base = n as u128;
+    let modulus = m as u128;
+    for _ in 0..e {
+        result = (result * base) % modulus;
     }
-    out
+    result as u64
 }
 
 // 64-bit primality test
@@ -53,8 +54,15 @@ pub fn is_prime(n: u64) -> bool {
         return false;
     }
 
-    // Check small prime factors to quickly eliminate 80% of possible composite inputs
-    for p in [2,3,5,7,11,13].iter() {
+    // Check the witnesses using simple division
+    // There are two reasons for this.
+    // First it eliminates about 85% of composite numbers immediately
+    // Secondly if we don't do this the witnesses themselves will bereported as
+    // composite by the later portion of the test
+    
+    let witnesses = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
+
+    for p in witnesses.iter() {
         if n == *p {
             return true;
         }
@@ -62,8 +70,6 @@ pub fn is_prime(n: u64) -> bool {
             return false;
         }
     }
-
-    let witnesses = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
     
     let mut d = (n-1)/2;
     let mut r = 1;
@@ -116,8 +122,6 @@ impl Iterator for PrimeSieve {
                     } else {
                         self.sieve.insert(factor+self.n,vec![*factor]);
                     }
-                    
-                    
                 }
                 self.sieve.remove(&self.n);
             }

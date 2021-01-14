@@ -1,12 +1,39 @@
 // How many circular primes are there below one million?
 
-use crate::aux_funcs::{is_prime,pow_mod};
+use crate::aux_funcs::{is_prime, int_to_digits, digits_to_int, prime_sieve};
+
+fn cycle_digits(n: u64) -> u64 {
+    let mut digits = int_to_digits(n);
+    let d = digits.pop().unwrap();
+    digits.insert(0,d);
+    digits_to_int(digits)
+}
+
 
 pub fn euler35() -> u64 {
-    for i in 100..200 {
-        if is_prime(i) {
-            println!("{}",i);
+    let mut p = prime_sieve();
+    let mut out = 2; // include 2 and 5 which are otherwise excluded
+    let disallowed_digits = [0,2,4,5,6,8];
+    'outer: loop {
+        let cur = p.next().unwrap();
+        if cur > 1_000_000 {
+            break;
         }
+        let digits = int_to_digits(cur);
+        for d in digits.iter() {
+            if disallowed_digits.contains(d) {
+                continue 'outer
+            }
+        }
+        let mut temp = cur;
+        for _ in 0..digits.len() {
+            temp = cycle_digits(temp);
+            if !is_prime(temp) {
+                continue 'outer
+            }
+        }
+        println!("{}",cur);
+        out += 1;
     }
-    return 0u64;
+    return out;
 }
