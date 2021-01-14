@@ -11,7 +11,7 @@ use crate::aux_funcs::{int_to_digits};
 
 fn digit_factorial_sum(n: u64) -> u64 {
     let factorials = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880];
-    let digits = int_to_digits(n);
+    let digits = int_to_digits(n,10);
     let mut out = 0;
     for d in digits {
         out += factorials[d as usize];

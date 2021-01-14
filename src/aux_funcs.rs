@@ -1,23 +1,23 @@
-pub fn int_to_digits(n: u64) -> Vec<u64> {
+pub fn int_to_digits(n: u64, base: u64) -> Vec<u64> {
     let mut digits = Vec::new();
     let mut num = n;
     while num != 0 {
-        let q = num/10;
-        let r = num%10;
+        let q = num/base;
+        let r = num%base;
         digits.insert(0,r as u64);
         num = q;
     }
     return digits;
 }
 
-pub fn digits_to_int(digits: Vec<u64>) -> u64 {
+pub fn digits_to_int(digits: Vec<u64>, base: u64) -> u64 {
     let mut ctr = digits.len();
-    let mut pow_ten = 1;
+    let mut pow = 1;
     let mut out = 0;
     while ctr > 0 {
         ctr -= 1;
-        out += digits[ctr]*pow_ten;
-        pow_ten *= 10;
+        out += digits[ctr]*pow;
+        pow *= base;
     }
     out
 }

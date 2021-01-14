@@ -3,10 +3,10 @@
 use crate::aux_funcs::{is_prime, int_to_digits, digits_to_int, prime_sieve};
 
 fn cycle_digits(n: u64) -> u64 {
-    let mut digits = int_to_digits(n);
+    let mut digits = int_to_digits(n,10);
     let d = digits.pop().unwrap();
     digits.insert(0,d);
-    digits_to_int(digits)
+    digits_to_int(digits,10)
 }
 
 
@@ -19,7 +19,7 @@ pub fn euler35() -> u64 {
         if cur > 1_000_000 {
             break;
         }
-        let digits = int_to_digits(cur);
+        let digits = int_to_digits(cur,10);
         for d in digits.iter() {
             if disallowed_digits.contains(d) {
                 continue 'outer
