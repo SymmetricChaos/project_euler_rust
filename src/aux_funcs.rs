@@ -56,10 +56,9 @@ pub fn is_prime(n: u64) -> bool {
 
     // Check the witnesses using simple division
     // There are two reasons for this.
-    // First it eliminates about 85% of composite numbers immediately
-    // Secondly if we don't do this the witnesses themselves will bereported as
+    // First it eliminates 85% of composite numbers immediately
+    // Secondly if we don't do this the witnesses themselves will be reported as
     // composite by the later portion of the test
-    
     let witnesses = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
 
     for p in witnesses.iter() {
@@ -84,12 +83,11 @@ pub fn is_prime(n: u64) -> bool {
         if x == 1 || x == n-1 {
             continue 'outer;
         }
-        
         for _ in 0..r-1 {
             x = pow_mod(x,2,n);
             
             if x == n-1 {
-                 continue 'outer;               
+                 continue 'outer;
             }
         }
         return false;

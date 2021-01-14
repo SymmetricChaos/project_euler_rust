@@ -1,6 +1,5 @@
 // Find the sum of the only eleven primes that are both truncatable from left to right and right to left.
 
-use std::collections::VecDeque;
 use crate::aux_funcs::{int_to_digits, prime_sieve, is_prime};
 
 fn is_double_truncatable(n: u64) -> bool {
@@ -39,14 +38,12 @@ pub fn euler37() -> u64 {
         if p < 10 {
             continue
         }
-
         let digits = int_to_digits(p,10);
         for d in digits.iter() {
             if disallowed_digits.contains(d) {
                 continue 'outer
             }
         }
-
         if is_double_truncatable(p) {
             println!("{}",p);
             ctr += 1;
