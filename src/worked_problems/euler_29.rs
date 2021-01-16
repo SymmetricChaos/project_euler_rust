@@ -12,5 +12,5 @@ pub fn euler29() -> u64 {
             h.insert(x.pow(b as u32));
         }
     }
-    return h.len() as u64;
+    h.len() as u64
 }

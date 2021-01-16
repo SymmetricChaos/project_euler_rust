@@ -14,7 +14,7 @@ fn num_factors(n: u32) -> u32 {
            }
        }
     }
-    return total;
+    total
 }
 
 pub fn euler12() -> u32 {
@@ -28,5 +28,5 @@ pub fn euler12() -> u32 {
         }
         ctr += 1;
     }
-    return triangle;
+    triangle
 }

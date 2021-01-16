@@ -15,5 +15,5 @@ pub fn euler3() -> u64 {
         }
         ctr += 1;
     };
-    return out;
+    out
 }

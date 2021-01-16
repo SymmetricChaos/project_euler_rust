@@ -7,7 +7,7 @@ fn big_factorial(n: u32) -> BigInt {
     for p in 2..n+1 {
         out *= p;
     }
-    return out;
+    out
 }
 
 pub fn euler20() -> u64 {
@@ -16,5 +16,5 @@ pub fn euler20() -> u64 {
     for ch in s.chars() {
         out += ch.to_digit(10).unwrap() as u64;
     }
-    return out;
+    out
 }

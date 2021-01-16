@@ -12,7 +12,7 @@ fn read_data() -> Vec<String> {
     for w in words {
         v.push(String::from(w.replace("\"","")))
     }
-    return v;
+    v
 }
 
 
@@ -21,7 +21,7 @@ fn alpha_score(s: String) -> u64 {
     for ch in s.chars() {
         out += ch.to_digit(36).unwrap() as u64 - 9u64;
     }
-    return out;
+    out
 }
 
 
@@ -34,5 +34,5 @@ pub fn euler22() -> u64 {
         out += alpha_score(word)*ctr;
         ctr += 1;
     }
-    return out;
+    out
 }

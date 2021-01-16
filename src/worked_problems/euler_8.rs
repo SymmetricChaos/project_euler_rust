@@ -45,5 +45,5 @@ pub fn euler8() -> u64 {
             }
         }
     }
-    return biggest_num;
+    biggest_num
 }

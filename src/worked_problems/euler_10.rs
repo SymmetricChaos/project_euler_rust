@@ -13,5 +13,5 @@ pub fn euler10() -> u64 {
         }
         out += p;
     }
-    return out;
+    out
 }

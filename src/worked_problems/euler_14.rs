@@ -33,5 +33,5 @@ pub fn euler14() -> u64 {
             out = i;
         }
     }
-    return out;
+    out
 }

@@ -11,5 +11,5 @@ pub fn euler13() -> u64 {
         sum += BigInt::parse_bytes(n.as_bytes(),10).unwrap();
     }
     let out = &sum.to_str_radix(10)[1..10];
-    return out.parse::<u64>().unwrap();
+    out.parse::<u64>().unwrap()
 }

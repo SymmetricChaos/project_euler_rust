@@ -49,6 +49,7 @@ fn make_message(input: &str) {
         "39" => worked_problems::euler_39::euler39().to_string(),
         "40" => worked_problems::euler_40::euler40().to_string(),
         "41" => worked_problems::euler_41::euler41().to_string(),
+        "42" => worked_problems::euler_42::euler42().to_string(),
         _ => "Haven't gotten to that one yet, sorry.".to_string(),
     };
 

@@ -16,8 +16,7 @@ impl Iterator for Quadratic {
         let t = Some(self.n*self.n + self.n*self.a + self.b);
         self.n += 1;
         //emit Some(number) or None if the iterator terminates
-        return t;
-
+        t
     }
 }
 
@@ -45,6 +44,5 @@ pub fn euler27() -> i64 {
             }
         }
     }
-    
-    return out;
+    out
 }

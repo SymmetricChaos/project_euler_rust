@@ -12,7 +12,7 @@ fn factoradic(n: u64) -> Vec<u64> {
         n /= f;
         f += 1
     };
-    return v;
+    v
 }
 
 pub fn euler24() -> u64 {
@@ -25,5 +25,5 @@ pub fn euler24() -> u64 {
         ctr -= 1;
         out += elems.remove(pos as usize) * 10u64.pow(ctr);
     }
-    return out;
+    out
 }

@@ -16,7 +16,7 @@ fn aliquot_sum(n:u64) -> u64 {
             }
         }
     }
-    return out;
+    out
 }
 
 
@@ -28,7 +28,7 @@ fn abudant_numbers() -> Vec<u64> {
             v.push(n);
         }
     }
-    return v;
+    v
 }
 
 
@@ -79,5 +79,5 @@ pub fn euler23() -> u64 {
     for a in &arr {
         out += a
     }
-    return out;
+    out
 }

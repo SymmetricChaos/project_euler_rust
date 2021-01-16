@@ -12,5 +12,5 @@ pub fn euler16() -> u64 {
     for ch in s.chars() {
         out += ch.to_digit(10).unwrap() as u64;
     }
-    return out;
+    out
 }

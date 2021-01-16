@@ -26,7 +26,7 @@ impl Iterator for SkipFib {
 // Start at (0,1) and skip two terms before emitting a new value
 // This saves comutation of checking if each term is even since 
 // the Fibonnacci sequence has partity 0,1,1,0,1,1,0,1,1...
-pub fn euler2() -> u32 {
+pub fn euler2() -> u64 {
     let mut f = SkipFib {a: 0, b: 1, skips: 2};
     let mut out = 0;
     let mut cur = 0;
@@ -37,5 +37,5 @@ pub fn euler2() -> u32 {
             None => 0
         }
     }
-    return out;
+    out as u64
 }

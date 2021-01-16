@@ -7,5 +7,5 @@ pub fn euler1() -> u64 {
             s += i;
         }
     }
-    return s;
+    s
 }

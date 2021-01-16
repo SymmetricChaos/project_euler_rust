@@ -26,5 +26,5 @@ fn central_binom(n: u64) -> u64 {
 }
 
 pub fn euler15() -> u64 {
-    return central_binom(20);
+    central_binom(20)
 }

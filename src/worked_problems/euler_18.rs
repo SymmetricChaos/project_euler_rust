@@ -31,7 +31,7 @@ fn read_data() -> Vec<Vec<u32>> {
         let v = elems.map(|x| x.parse::<u32>().unwrap()).collect::<Vec<u32>>();
         vec.push(v);
     }
-    return vec;
+    vec
 }
 
 // Search through the triangle created for the greatest sum
@@ -45,5 +45,5 @@ fn search_triangle(t: &Vec<Vec<u32>>, a: usize, b: usize) -> u32 {
 
 pub fn euler18() -> u64 {
     let triangle = read_data();
-    return search_triangle(&triangle,0,0) as u64;
+    search_triangle(&triangle,0,0) as u64
 }

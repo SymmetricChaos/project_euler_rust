@@ -78,5 +78,5 @@ pub fn euler11() -> u32 {
             }
         }
     }
-    return biggest_num;
+    biggest_num
 }

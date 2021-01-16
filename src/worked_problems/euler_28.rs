@@ -18,5 +18,5 @@ pub fn euler28() -> u64 {
             break;
         }
     }
-    return out;
+    out
 }

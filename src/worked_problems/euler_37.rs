@@ -22,7 +22,6 @@ fn is_double_truncatable(n: u64) -> bool {
             return false
         }
     }
-
     true
 }
 

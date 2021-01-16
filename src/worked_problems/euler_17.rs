@@ -32,5 +32,5 @@ pub fn euler17() -> u64 {
     for n in 1..1001 {
         out += num_to_name(n).len() as u64;
     }
-    return out;
+    out
 }

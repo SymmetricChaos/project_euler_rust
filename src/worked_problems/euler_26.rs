@@ -31,7 +31,7 @@ fn decimal_part_len(n: u64) -> u64 {
     // the last digit, giving a cycle length of zero.
     let end = digits.len() as u64;
     let start = partials.iter().position(|x| x == partials.last().unwrap()).unwrap() as u64;
-    return end-start as u64;
+    end-start as u64
 }
 
 pub fn euler26() -> u64 {
@@ -43,5 +43,5 @@ pub fn euler26() -> u64 {
             best = i
         }
     }
-    return best;
+    best
 }

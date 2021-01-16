@@ -14,5 +14,5 @@ pub fn euler9() -> u64 {
             }
         }
     }
-    return out;
+    out
 }

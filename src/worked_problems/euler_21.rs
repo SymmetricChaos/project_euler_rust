@@ -15,7 +15,7 @@ fn aliquot_sum(n:u64) -> u64 {
             }
         }
     }
-    return out;
+    out
 }
 
 
@@ -35,5 +35,5 @@ pub fn euler21() -> u64 {
             }
         }
     }
-    return out;
+    out
 }

@@ -26,7 +26,7 @@ fn all_valid_two_digit() -> Vec<Vec<u64>> {
             }
         }
     }
-    return out;
+    out
 }
 
 // Get all the 3-digit numbers that pair with a given 2-digit number
@@ -49,7 +49,7 @@ fn three_digit_pair(n: Vec<u64>) -> Vec<Vec<u64>> {
             }
         }
     }
-    return out;
+    out
 }
 
 
@@ -70,7 +70,7 @@ fn four_digit_pair(n: u64) -> Vec<Vec<u64>> {
             }
         }
     }
-    return out;
+    out
 }
 
 fn int_to_digits(n: u64) -> Vec<u64> {
@@ -82,7 +82,7 @@ fn int_to_digits(n: u64) -> Vec<u64> {
         digits.insert(0,r);
         num = q;
     }
-    return digits;
+    digits
 }
 
 fn equations() -> u64 {
@@ -154,10 +154,9 @@ fn equations() -> u64 {
 
         }
     }
-
-    return out;
+    out
 }
 
 pub fn euler32() -> u64 {
-    return equations();
+    equations()
 }

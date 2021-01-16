@@ -53,5 +53,5 @@ pub fn euler33() -> u64 {
         }
     }
     prod.reduce();
-    return prod.d;
+    prod.d
 }

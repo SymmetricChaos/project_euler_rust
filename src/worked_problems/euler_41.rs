@@ -27,5 +27,5 @@ pub fn euler41() -> u64 {
             break
         }
     }
-    return out as u64
+    out as u64
 }

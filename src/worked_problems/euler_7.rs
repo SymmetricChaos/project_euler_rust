@@ -7,5 +7,5 @@ use primes::{Sieve, PrimeSet};
 pub fn euler7() -> u64 {
     let mut pset = Sieve::new();
     let out = pset.iter().skip(10_000).next().unwrap();
-    return out;
+    out
 }

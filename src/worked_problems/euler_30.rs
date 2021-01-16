@@ -25,7 +25,7 @@ fn int_to_digits(n: u64) -> Vec<u8> {
         digits.insert(0,r as u8);
         num = q;
     }
-    return digits;
+    digits
 }
 
 fn pow_digit_sum(n: u64, p: u64) -> u64 {
@@ -35,7 +35,7 @@ fn pow_digit_sum(n: u64, p: u64) -> u64 {
         let digit = d as u64;
         out += digit.pow(p as u32);
     }
-    return out;
+    out
 }
 
 pub fn euler30() -> u64 {
@@ -45,5 +45,5 @@ pub fn euler30() -> u64 {
             out += n;
         }
     }
-    return out;
+    out
 }

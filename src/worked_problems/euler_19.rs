@@ -55,9 +55,9 @@ fn count_days() -> u64 {
             //println!("{},{},{},{}",year,month,month_day,week_day);
         }
     }
-    return ctr;
+    ctr
 }
 
 pub fn euler19() -> u64 {
-    return count_days();
+    count_days()
 }
