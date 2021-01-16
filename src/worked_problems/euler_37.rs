@@ -44,7 +44,7 @@ pub fn euler37() -> u64 {
             }
         }
         if is_double_truncatable(p) {
-            println!("{}",p);
+            //println!("{}",p);
             ctr += 1;
             out += p;
         }
