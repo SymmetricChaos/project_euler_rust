@@ -5,7 +5,7 @@ No number that is 1-9 pandigtal can also be prime because all of them are divisi
 The same is true for numbers for 8, 6, 5, 3
 */
 
-use crate::aux_funcs::{is_prime,digits_to_int_usize};
+use crate::aux_funcs::{is_prime,digits_to_int};
 use itertools::Itertools;
 
 pub fn euler41() -> u64 {
@@ -14,10 +14,10 @@ pub fn euler41() -> u64 {
     for max_val in max_vals.iter() {
         out = 0;
         //println!{"{}",max_val};
-        let digits = (1..max_val+1).rev();
-        let perms = digits.permutations(*max_val).into_iter();
+        let digits = (1..max_val+1u64).rev();
+        let perms = digits.permutations(*max_val as usize).into_iter();
         for p in perms {
-            let cur = digits_to_int_usize(p,10);
+            let cur = digits_to_int(p,10);
             if cur > out && is_prime(cur as u64) {
                 out = cur;
             }

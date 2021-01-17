@@ -1,3 +1,5 @@
+use std::convert::TryFrom;
+
 pub fn int_to_digits(n: u64, base: u64) -> Vec<u64> {
     let mut digits = Vec::new();
     let mut num = n;
@@ -10,28 +12,16 @@ pub fn int_to_digits(n: u64, base: u64) -> Vec<u64> {
     return digits;
 }
 
-pub fn digits_to_int(digits: Vec<u64>, base: u64) -> u64 {
+pub fn digits_to_int<T: Copy + Into<u64>>(digits: Vec<T>, base: u64) -> u64 {
     let mut ctr = digits.len();
     let mut pow = 1;
     let mut out = 0;
     while ctr > 0 {
         ctr -= 1;
-        out += digits[ctr]*pow;
-        pow *= base;
+        out += pow*u64::try_from(digits[ctr]).unwrap();
+        pow = pow*base;
     }
-    out
-}
-
-pub fn digits_to_int_usize(digits: Vec<usize>, base: usize) -> usize {
-    let mut ctr = digits.len();
-    let mut pow = 1;
-    let mut out = 0;
-    while ctr > 0 {
-        ctr -= 1;
-        out += digits[ctr]*pow;
-        pow *= base;
-    }
-    out
+    out as u64
 }
 
 pub fn gcd(a: u64, b: u64) -> u64 {

@@ -50,7 +50,6 @@ pub fn euler42() -> u64 {
     // Get all the triangle numbers up to and including that limit
     let triang = triangle_nums(limit as u64);
 
-
     // Calculate and match
     for word in words {
         if triang.contains(&alpha_score(&word)) {
