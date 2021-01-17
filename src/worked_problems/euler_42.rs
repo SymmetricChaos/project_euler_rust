@@ -13,6 +13,18 @@ fn read_data() -> Vec<String> {
     v
 }
 
+fn triangle_nums(limit: u64) -> Vec<u64> {
+    let mut num = 0;
+    let mut n = 0;
+    let mut triang = Vec::new();
+    while num < limit {
+        n += 1;
+        num += n;
+        triang.push(num as u64);
+    }
+    triang
+}
+
 
 fn alpha_score(s: &str) -> u64 {
     let mut out = 0u64;
@@ -25,9 +37,26 @@ fn alpha_score(s: &str) -> u64 {
 
 pub fn euler42() -> u64 {
     let mut out = 0;
-    let v = read_data();
-    
-    println!("{}",alpha_score("SKY"));
-    
+    let words = read_data();
+
+    // Find the largest alpha_score possible using simple multiplication
+    let mut limit = 0;
+    for word in &words {
+        if word.len()*26 > limit {
+            limit = word.len()*26;
+        }
+    }
+
+    // Get all the triangle numbers up to and including that limit
+    let triang = triangle_nums(limit as u64);
+
+
+    // Calculate and match
+    for word in words {
+        if triang.contains(&alpha_score(&word)) {
+            out += 1
+        }
+    }
+
     out
 }
