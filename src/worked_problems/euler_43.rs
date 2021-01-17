@@ -3,7 +3,6 @@
 use itertools::Itertools;
 use crate::aux_funcs::{digits_to_int};
 
-
 pub fn euler43() -> u64 {
     let mut out = 0;
 

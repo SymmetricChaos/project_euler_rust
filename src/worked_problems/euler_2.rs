@@ -39,3 +39,30 @@ pub fn euler2() -> u64 {
     }
     out as u64
 }
+
+pub fn euler2_example() -> u64 {
+    println!("\nBy considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.");
+    println!("\nThere is no need to check which terms are even as the Fibonacci sequence has a simple cycle in its parity (0,1,1,0,1,1...) so we can simply skip every two terms.");
+    println!("\nThe interesting code is creating a generator for the Fibonacci sequence.");
+    let s = "struct SkipFib {
+    a: u32,
+    b: u32,
+    skips: u8,
+}
+    
+impl Iterator for SkipFib {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<u32> {
+        for _i in 0..self.skips+1 {
+            let new = self.a + self.b;
+            self.a = self.b;
+            self.b = new;
+        }
+        Some(self.a)
+    }
+}";
+    println!("\n{}\n",s);
+    println!("The answer is: {}",euler2());
+    0u64
+}

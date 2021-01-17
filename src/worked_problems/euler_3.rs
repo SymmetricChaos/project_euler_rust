@@ -4,10 +4,8 @@ pub fn euler3() -> u64 {
     let mut m = 600851475143;
     let mut ctr = 2;
 
-    // this assigns to 'out' whatever value the loop returns
     let out = loop {
         if ctr > m/2 {
-            // this breaks the loop and returns the value of m
             break m;
         }
         while m % ctr == 0 {
@@ -16,4 +14,27 @@ pub fn euler3() -> u64 {
         ctr += 1;
     };
     out
+}
+
+pub fn euler3_example() -> u64 {
+    println!("\nWhat is the largest prime factor of the number 600851475143");
+    println!("\nSince the number in question is \"small\" it is sufficient to simply test factors one by one.");
+    let s = "pub fn euler3() -> u64 {
+    let mut m = 600851475143;
+    let mut ctr = 2;
+
+    let out = loop {
+        if ctr > m/2 {
+            break m;
+        }
+        while m % ctr == 0 {
+            m /= ctr;
+        }
+        ctr += 1;
+    };
+    out
+}";
+    println!("\n{}\n",s);
+    println!("The answer is: {}",euler3());
+    0u64
 }

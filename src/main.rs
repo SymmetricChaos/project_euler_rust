@@ -7,11 +7,11 @@ mod worked_problems;
 
 fn make_message(input: &str) {
     let out_string = format!("\nSee Problem At: https://projecteuler.net/problem={}",input);
-    let n = match input {
-        "1" => worked_problems::euler_1::euler1().to_string(),
-        "2" => worked_problems::euler_2::euler2().to_string(),
-        "3" => worked_problems::euler_3::euler3().to_string(),
-        "4" => worked_problems::euler_4::euler4().to_string(),
+    match input {
+        "1" => worked_problems::euler_1::euler1_example().to_string(),
+        "2" => worked_problems::euler_2::euler2_example().to_string(),
+        "3" => worked_problems::euler_3::euler3_example().to_string(),
+        "4" => worked_problems::euler_4::euler4_example().to_string(),
         "5" => worked_problems::euler_5::euler5().to_string(),
         "6" => worked_problems::euler_6::euler6().to_string(),
         "7" => worked_problems::euler_7::euler7().to_string(),
@@ -54,8 +54,6 @@ fn make_message(input: &str) {
         "44" => worked_problems::euler_44::euler44().to_string(),
         _ => "Haven't gotten to that one yet, sorry.".to_string(),
     };
-
-    println!("{}\nAnswer is: {}",out_string,n)
 }
 
 fn main() {

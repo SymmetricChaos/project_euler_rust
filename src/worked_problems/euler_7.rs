@@ -2,10 +2,10 @@
 
 // we import the primes crate in order to get Sieve and PrimeSet
 // woud like to come up with own implementation
-use primes::{Sieve, PrimeSet};
+use crate::aux_funcs::{prime_sieve};
 
 pub fn euler7() -> u64 {
-    let mut pset = Sieve::new();
-    let out = pset.iter().skip(10_000).next().unwrap();
+    let pset = prime_sieve();
+    let out = pset.skip(10_000).next().unwrap();
     out
 }
