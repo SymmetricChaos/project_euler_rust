@@ -39,7 +39,7 @@ pub fn euler38() -> u64 {
             }
         }
 
-        let val = digits_to_int(digits.clone(),10);
+        let val = digits_to_int(&digits.clone(),10);
         digits.sort();
 
         if ds == format!("{:?}",digits) && val > out {

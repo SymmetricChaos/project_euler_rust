@@ -12,7 +12,7 @@ pub fn int_to_digits(n: u64, base: u64) -> Vec<u64> {
     return digits;
 }
 
-pub fn digits_to_int<T: Copy + Into<u64>>(digits: Vec<T>, base: u64) -> u64 {
+pub fn digits_to_int<T: Copy + Into<u64>>(digits: &Vec<T>, base: u64) -> u64 {
     let mut ctr = digits.len();
     let mut pow = 1;
     let mut out = 0;

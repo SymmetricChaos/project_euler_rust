@@ -6,7 +6,7 @@ fn cycle_digits(n: u64) -> u64 {
     let mut digits = int_to_digits(n,10);
     let d = digits.pop().unwrap();
     digits.insert(0,d);
-    digits_to_int(digits,10)
+    digits_to_int(&digits,10)
 }
 
 

@@ -7,7 +7,7 @@ fn is_palindrome(n: u64)-> bool {
     let mut bits = int_to_digits(n,2);
     digits.reverse();
     bits.reverse();
-    if n == digits_to_int(digits,10) && n == digits_to_int(bits,2) {
+    if n == digits_to_int(&digits,10) && n == digits_to_int(&bits,2) {
         return true
     }
     false
