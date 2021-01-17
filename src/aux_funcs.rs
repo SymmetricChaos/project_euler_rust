@@ -1,4 +1,5 @@
 use std::convert::TryFrom;
+use std::collections::HashMap;
 
 pub fn int_to_digits(n: u64, base: u64) -> Vec<u64> {
     let mut digits = Vec::new();
@@ -98,7 +99,6 @@ pub fn is_prime(n: u64) -> bool {
 }
 
 
-use std::collections::HashMap;
 
 pub struct PrimeSieve {
     sieve: HashMap::<u64,Vec<u64>>,
@@ -133,4 +133,26 @@ pub fn prime_sieve() -> PrimeSieve {
     PrimeSieve{
         sieve: HashMap::<u64,Vec<u64>>::new(),
         n: 1u64}
+}
+
+pub fn prime_factorization(n: u64) -> HashMap<u64,u64> {
+    let mut canon = HashMap::new();
+    let mut x = n;
+    let mut primes = prime_sieve();
+    loop {
+        let p = primes.next().unwrap();
+        println!("{}",x);
+        let mut ctr = 0;
+        while x % p == 0 {
+            x /= p;
+            ctr += 1;
+        }
+        if ctr != 0 {
+            canon.insert(p,ctr);
+        }
+        if x == 1 {
+            break
+        }
+    }
+    canon
 }
