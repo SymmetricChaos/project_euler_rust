@@ -12,7 +12,7 @@ fn make_message(input: &str) {
         "2" => worked_problems::euler_2::euler2_example().to_string(),
         "3" => worked_problems::euler_3::euler3_example().to_string(),
         "4" => worked_problems::euler_4::euler4_example().to_string(),
-        "5" => worked_problems::euler_5::euler5().to_string(),
+        "5" => worked_problems::euler_5::euler5_example().to_string(),
         "6" => worked_problems::euler_6::euler6().to_string(),
         "7" => worked_problems::euler_7::euler7().to_string(),
         "8" => worked_problems::euler_8::euler8().to_string(),

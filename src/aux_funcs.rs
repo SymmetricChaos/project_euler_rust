@@ -141,7 +141,6 @@ pub fn prime_factorization(n: u64) -> HashMap<u64,u64> {
     let mut primes = prime_sieve();
     loop {
         let p = primes.next().unwrap();
-        println!("{}",x);
         let mut ctr = 0;
         while x % p == 0 {
             x /= p;
