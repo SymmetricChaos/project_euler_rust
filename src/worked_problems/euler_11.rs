@@ -76,3 +76,66 @@ pub fn euler11() -> u64 {
     }
     biggest_num as u64
 }
+
+
+pub fn euler10_example() -> u64 {
+    println!("\nProblem: What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the provided 20×20 grid?");
+    println!("\n\nThe code here is a long but basically just reads the file into an array then checks all the rows, columns, diagonals, and antidiagonals.");
+    let s = "
+use std::fs;
+
+pub fn euler11() -> u64 {
+    // Read the file and split it into numbers
+    let s = fs::read_to_string(\"Euler11Doc.txt\").unwrap();
+    let nums = s.split(" ");
+
+    // 20 x 20 array of zeroes
+    let mut grid = [[0u32; 20]; 20];
+
+    // Parse the strings into numbers and read them into the 2D array
+    let mut r = 0;
+    let mut c = 0;
+    for n in nums {
+        grid[c][r] = n.parse::<u32>().unwrap();
+        if c == 19 {
+            r += 1;
+        }
+        c = (c+1)%20;
+    }
+
+    // Try every possible run of four adjacent numbers and store the biggest
+    let mut biggest_num = 0u32;
+    for r in 0..20 {
+        for c in 0..20 {
+            if r <= 16 {// row
+                let val = grid[c][r] * grid[c][r+1] * grid[c][r+2] * grid[c][r+3];
+                if biggest_num < val {
+                    biggest_num = val
+                }
+            }
+            if c <= 16 {// column
+                let val = grid[c][r] * grid[c+1][r] * grid[c+2][r] * grid[c+3][r];
+                if biggest_num < val {
+                    biggest_num = val
+                }
+                if r <= 16 {// diagonal
+                    let val = grid[c][r] * grid[c+1][r+1] * grid[c+2][r+2] * grid[c+3][r+3];
+                    if biggest_num < val {
+                        biggest_num = val
+                    }
+                }
+                if r >= 3 {// antidiagonal
+                    let val = grid[c][r] * grid[c+1][r-1] * grid[c+2][r-2] * grid[c+3][r-3];
+                    if biggest_num < val {
+                        biggest_num = val
+                    }
+                }
+            }
+        }
+    }
+    biggest_num as u64
+}";
+    println!("\n{}\n",s);
+    println!("The answer is: {}",euler10());
+    0u64
+}

@@ -26,8 +26,8 @@ pub fn euler5() -> u64 {
 }
 
 pub fn euler5_example() -> u64 {
-    println!("\nWhat is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?");
-    println!("\nThis can easily be solved by hand by inspection of the prime factors of the integers in question. Using this method we get 2*3*2*5*7*2*3*11*13*2*17*19 = 232792560");
+    println!("\nProblem: What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?");
+    println!("\n\nThis can easily be solved by hand by inspection of the prime factors of the integers in question. Using this method we get 2*3*2*5*7*2*3*11*13*2*17*19 = 232792560");
     println!("\nHowever it is worth considered how to solve a question like this in general. Here we use a simple axiliary function that produces a HashMap with keys primes and values the exponent they are to be raised to.");
     let s = "
 use crate::aux_funcs::{prime_factorization};

@@ -11,8 +11,8 @@ pub fn euler6() -> u64 {
 }
 
 pub fn euler6_example() -> u64 {
-    println!("\nFind the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum of the first one hundred natural numbers.");
-    println!("\nThis one is easy to solve directly. Nothing clever involved.");
+    println!("\nProblem: Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum of the first one hundred natural numbers.");
+    println!("\n\nThis one is easy to solve directly. Nothing clever involved.");
     let s = "
 pub fn euler6() -> u64 {
     let mut sum = 0;

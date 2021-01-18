@@ -6,7 +6,6 @@ mod aux_funcs;
 mod worked_problems;
 
 fn make_message(input: &str) {
-    let out_string = format!("\nSee Problem At: https://projecteuler.net/problem={}",input);
     match input {
         "1" => worked_problems::euler_1::euler1_example().to_string(),
         "2" => worked_problems::euler_2::euler2_example().to_string(),
@@ -74,7 +73,7 @@ fn main() {
             println!("\nERROR: Must input an integer or a valid command.");
             continue
         }
-
+        println!("\n\n\nSee Problem At: https://projecteuler.net/problem={}",v);
         make_message(v);
     }
 }
