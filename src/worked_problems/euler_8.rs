@@ -47,3 +47,36 @@ pub fn euler8() -> u64 {
     }
     biggest_num
 }
+
+pub fn euler8_example() -> u64 {
+    println!("\nFind the thirteen adjacent digits in the 1000-digit number provided that have the greatest product. What is the value of this product?");
+    println!("\nThe main challenge here is reading the provided file.");
+    let s = "
+use std::fs;
+
+pub fn euler8() -> u64 {
+    let mut biggest_num = 0u64;
+    let s = fs::read_to_string(\"Euler8Doc.txt\").unwrap();
+    for i in 0..988 {
+        let substring = &s[i..i+13];
+        if substring.contains(\"0\") {
+            // we can ignore any substring that contains zero
+        } else {
+            // we must use u64 because the maximum value that might
+            // occur is 9^13 which is greaterthan any u32
+            let mut temp = 1u64;
+            for c in substring.chars() {
+                let t = c.to_digit(10).unwrap();
+                temp *= t as u64;
+            }
+            if temp > biggest_num {
+                biggest_num = temp;
+            }
+        }
+    }
+    biggest_num
+}";
+    println!("\n{}\n",s);
+    println!("The answer is: {}",euler8());
+    0u64
+}
