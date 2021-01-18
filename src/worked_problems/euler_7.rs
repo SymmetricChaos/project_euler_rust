@@ -12,7 +12,7 @@ pub fn euler7_example() -> u64 {
     println!("\nWhat is the 10 001st prime number?");
     println!("\nTo solve this a Sieve of Eratosthenes is used.");
     let s = "
-pub struct PrimeSieve {
+struct PrimeSieve {
     sieve: HashMap::<u64,Vec<u64>>,
     n: u64,
 }
@@ -41,7 +41,7 @@ impl Iterator for PrimeSieve {
     }
 }
 
-pub fn prime_sieve() -> PrimeSieve {
+fn prime_sieve() -> PrimeSieve {
     PrimeSieve{
         sieve: HashMap::<u64,Vec<u64>>::new(),
         n: 1u64}

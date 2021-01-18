@@ -16,8 +16,8 @@ fn make_message(input: &str) {
         "6" => worked_problems::euler_6::euler6_example().to_string(),
         "7" => worked_problems::euler_7::euler7_example().to_string(),
         "8" => worked_problems::euler_8::euler8_example().to_string(),
-        "9" => worked_problems::euler_9::euler9().to_string(),
-        "10" => worked_problems::euler_10::euler10().to_string(),
+        "9" => worked_problems::euler_9::euler9_example().to_string(),
+        "10" => worked_problems::euler_10::euler10_example().to_string(),
         "11" => worked_problems::euler_11::euler11().to_string(),
         "12" => worked_problems::euler_12::euler12().to_string(),
         "13" => worked_problems::euler_13::euler13().to_string(),
@@ -60,7 +60,7 @@ fn main() {
     println!("\nWelcome to My Project Euler Rust Project!");
     println!("Type \"quit\" to exit.");
     loop {
-        println!("\n\nWhich Project Euler Problem Should I Calculate?");
+        println!("\n\nWhich Project Euler Problem Should I Show You?");
         let mut val = String::new();
         io::stdin().read_line(&mut val).expect("Failed to read line");
 

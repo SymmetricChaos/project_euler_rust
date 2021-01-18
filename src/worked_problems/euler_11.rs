@@ -25,7 +25,7 @@
 
 use std::fs;
 
-pub fn euler11() -> u32 {
+pub fn euler11() -> u64 {
     // Read the file and split it into numbers
     let s = fs::read_to_string("Euler11Doc.txt").unwrap();
     let nums = s.split(" ");
@@ -48,28 +48,24 @@ pub fn euler11() -> u32 {
     let mut biggest_num = 0u32;
     for r in 0..20 {
         for c in 0..20 {
-            if r <= 16 {
-                // row
+            if r <= 16 {// row
                 let val = grid[c][r] * grid[c][r+1] * grid[c][r+2] * grid[c][r+3];
                 if biggest_num < val {
                     biggest_num = val
                 }
             }
-            if c <= 16 {
-                // column
+            if c <= 16 {// column
                 let val = grid[c][r] * grid[c+1][r] * grid[c+2][r] * grid[c+3][r];
                 if biggest_num < val {
                     biggest_num = val
                 }
-                if r <= 16 {
-                    // diagonal
+                if r <= 16 {// diagonal
                     let val = grid[c][r] * grid[c+1][r+1] * grid[c+2][r+2] * grid[c+3][r+3];
                     if biggest_num < val {
                         biggest_num = val
                     }
                 }
-                if r >= 3 {
-                    // antidiagonal
+                if r >= 3 {// antidiagonal
                     let val = grid[c][r] * grid[c+1][r-1] * grid[c+2][r-2] * grid[c+3][r-3];
                     if biggest_num < val {
                         biggest_num = val
@@ -78,5 +74,5 @@ pub fn euler11() -> u32 {
             }
         }
     }
-    biggest_num
+    biggest_num as u64
 }

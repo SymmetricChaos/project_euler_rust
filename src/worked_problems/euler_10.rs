@@ -13,3 +13,23 @@ pub fn euler10() -> u64 {
     }
     out
 }
+
+pub fn euler10_example() -> u64 {
+    println!("\nFind the sum of all the primes below two million.");
+    println!("The same sieving method as used for Problem 7 allows us to generate primes.")
+    let s = "
+pub fn euler10() -> u64 {
+    let pset = prime_sieve();
+    let mut out = 0;
+    for p in pset {
+        if p > 2_000_000 {
+            break;
+        }
+        out += p;
+    }
+    out
+}";
+    println!("\n{}\n",s);
+    println!("The answer is: {}",euler10());
+    0u64
+}
