@@ -78,7 +78,7 @@ pub fn euler11() -> u64 {
 }
 
 
-pub fn euler11_example() -> u64 {
+pub fn euler11_example() {
     println!("\nProblem: What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the provided 20×20 grid?");
     println!("\n\nThe code here is a long but basically just reads the file into an array then checks all the rows, columns, diagonals, and antidiagonals.");
     let s = "
@@ -137,7 +137,6 @@ pub fn euler11() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler11());
-    0u64
 }
 
 #[test]

@@ -17,7 +17,7 @@ pub fn euler9() -> u64 {
     out
 }
 
-pub fn euler9_example() -> u64 {
+pub fn euler9_example() {
     println!("\nThere exists exactly one Pythagorean triplet for which a + b + c = 1000.");
     let s = "
 pub fn euler9() -> u64 {
@@ -37,7 +37,6 @@ pub fn euler9() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler9());
-    0u64
 }
 
 #[test]

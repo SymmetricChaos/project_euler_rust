@@ -19,7 +19,7 @@ pub fn euler4() -> u64 {
     biggest
 }
 
-pub fn euler4_example() -> u64 {
+pub fn euler4_example() {
     println!("\nProblem: Find the largest palindrome made from the product of two 3-digit numbers.");
     println!("\n\nA bit of string manipulation can be used to quickly test if a number is a palindrome.");
     let s = "
@@ -43,7 +43,6 @@ pub fn euler4() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler4());
-    0u64
 }
 
 #[test]

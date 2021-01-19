@@ -36,7 +36,7 @@ pub fn euler14() -> u64 {
     out
 }
 
-pub fn euler14_example() -> u64 {
+pub fn euler14_example() {
     println!("\nProblem: Which starting number, under one million, produces the longest Collatz chain?");
     println!("\n\nCalculating a million Collatz chains is time consuming, however Collatz chains are a memoryless process. We can easily memoize the task by recording the length of every chain we generate and using that information to finish any chain we encounter later.");
     let s = "
@@ -75,7 +75,6 @@ pub fn euler14() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler14());
-    0u64
 }
 
 #[test]

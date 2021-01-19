@@ -48,7 +48,7 @@ pub fn euler8() -> u64 {
     biggest_num
 }
 
-pub fn euler8_example() -> u64 {
+pub fn euler8_example() {
     println!("\nFind the thirteen adjacent digits in the 1000-digit number provided that have the greatest product. What is the value of this product?");
     println!("\nThe main challenge here is reading the provided file.");
     let s = "
@@ -78,7 +78,6 @@ pub fn euler8() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler8());
-    0u64
 }
 
 #[test]

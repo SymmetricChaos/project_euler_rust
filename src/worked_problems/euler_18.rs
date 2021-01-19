@@ -48,6 +48,43 @@ pub fn euler18() -> u64 {
     search_triangle(&triangle,0,0) as u64
 }
 
+pub fn euler18_example() {
+    println!("\nProblem: Find the maximum total from top to bottom of the triangle provided.");
+    println!("\n\nAlthough the description provided warns that a clever method is needed for a larger example in this case there is no difficulty in simply trying every route.");
+    let s = "
+use std::fs;
+use std::cmp::max;
+
+// Read the file and create a vector of vectors that contains u32s
+fn read_data() -> Vec<Vec<u32>> {
+    let s = fs::read_to_string(\"Euler18Doc.txt\").unwrap();
+    let rows = s.split(\"\\r\\n\");
+    let mut vec = Vec::new();
+    for r in rows {
+        let elems = r.split(\" \");
+        let v = elems.map(|x| x.parse::<u32>().unwrap()).collect::<Vec<u32>>();
+        vec.push(v);
+    }
+    vec
+}
+
+// Search through the triangle created for the greatest sum
+fn search_triangle(t: &Vec<Vec<u32>>, a: usize, b: usize) -> u32 {
+    if a == 14 {
+        return t[a][b];
+    } else {
+        return max(t[a][b] + search_triangle(t,a+1,b), t[a][b] + search_triangle(t,a+1,b+1));
+    }
+}
+
+pub fn euler18() -> u64 {
+    let triangle = read_data();
+    search_triangle(&triangle,0,0) as u64
+}";
+    println!("\n{}\n",s);
+    println!("The answer is: {}",euler18());
+}
+
 #[test]
 fn test18() {
     assert_eq!(euler18(),1074)

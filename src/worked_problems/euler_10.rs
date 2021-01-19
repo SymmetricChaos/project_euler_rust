@@ -14,7 +14,7 @@ pub fn euler10() -> u64 {
     out
 }
 
-pub fn euler10_example() -> u64 {
+pub fn euler10_example() {
     println!("\nProblem: Find the sum of all the primes below two million.");
     println!("\n\nThe same sieving method as used for Problem 7 allows us to generate primes.");
     let s = "
@@ -31,7 +31,6 @@ pub fn euler10() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler10());
-    0u64
 }
 
 #[test]

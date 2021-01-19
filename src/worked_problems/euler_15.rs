@@ -25,7 +25,7 @@ pub fn euler15() -> u64 {
     return out as u64;
 }
 
-pub fn euler15_example() -> u64 {
+pub fn euler15_example() {
     println!("\nProblem: How many routes are there through a 20×20 grid starting in the top left corner and only being able to move to the right and down?");
     println!("\n\nThe paths can be counted by a very simple algorithm, however that turns out to be infeasibly slow for a grid of the size requested. The number required also turns out to be a central binomial coefficient which can be calculate very easily.");
     let s = "
@@ -50,7 +50,6 @@ pub fn euler15() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler15());
-    0u64
 }
 
 #[test]

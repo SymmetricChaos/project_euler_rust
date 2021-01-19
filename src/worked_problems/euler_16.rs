@@ -15,7 +15,7 @@ pub fn euler16() -> u64 {
     out
 }
 
-pub fn euler16_example() -> u64 {
+pub fn euler16_example() {
     println!("\nProblem: What is the sum of the digits of the number 2^1000?");
     println!("\n\nThe BigInt library ones again makes this fairly easy.");
     let s = "
@@ -35,7 +35,6 @@ pub fn euler16() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler16());
-    0u64
 }
 
 #[test]

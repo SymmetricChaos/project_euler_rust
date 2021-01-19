@@ -8,7 +8,7 @@ pub fn euler7() -> u64 {
     out
 }
 
-pub fn euler7_example() -> u64 {
+pub fn euler7_example() {
     println!("\nWhat is the 10 001st prime number?");
     println!("\nTo solve this a Sieve of Eratosthenes is used.");
     let s = "
@@ -54,7 +54,6 @@ pub fn euler7() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler7());
-    0u64
 }
 
 #[test]

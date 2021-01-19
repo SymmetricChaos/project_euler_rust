@@ -10,7 +10,7 @@ pub fn euler1() -> u64 {
     s
 }
 
-pub fn euler1_example() -> u64 {
+pub fn euler1_example() {
     println!("\nProblem: Find the sum of all the multiples of 3 or 5 below 1000.");
     println!("\n\nThe code is short and simple. Iterate over the integers from 1 to 999 checking if they are multiples of 3 or 5");
     let s = "pub fn euler1() -> u64 {
@@ -24,7 +24,6 @@ pub fn euler1_example() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler1());
-    0u64
 }
 
 #[test]

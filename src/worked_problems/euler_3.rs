@@ -16,7 +16,7 @@ pub fn euler3() -> u64 {
     out
 }
 
-pub fn euler3_example() -> u64 {
+pub fn euler3_example() {
     println!("\nProblem: What is the largest prime factor of the number 600851475143");
     println!("\n\nSince the number in question is \"small\" it is sufficient to simply test factors one by one.");
     let s = "pub fn euler3() -> u64 {
@@ -36,7 +36,6 @@ pub fn euler3_example() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler3());
-    0u64
 }
 
 

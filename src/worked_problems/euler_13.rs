@@ -14,7 +14,7 @@ pub fn euler13() -> u64 {
     out.parse::<u64>().unwrap()
 }
 
-pub fn euler13_example() -> u64 {
+pub fn euler13_example() {
     println!("\nProblem: Work out the first ten digits of the sum of the provided one-hundred 50-digit numbers.");
     println!("\n\nThere's probably a clever way to do this but I chose to use a BigInt library to solve it directly.");
     let s = "
@@ -33,7 +33,6 @@ pub fn euler13() -> u64 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler13());
-    0u64
 }
 
 #[test]

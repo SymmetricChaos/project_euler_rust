@@ -31,7 +31,7 @@ pub fn euler12() -> u32 {
     triangle
 }
 
-pub fn euler12_example() -> u64 {
+pub fn euler12_example() {
     println!("\nProblem: What is the value of the first triangle number to have over five hundred divisors?");
     println!("\n\nTriangle numbers are easy to generate so counting factors the major challenge.");
     let s = "
@@ -67,7 +67,6 @@ pub fn euler12() -> u32 {
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler12());
-    0u64
 }
 
 #[test]
