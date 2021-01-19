@@ -29,7 +29,7 @@ fn make_message(input: &str) {
         "20" => worked_problems::euler_20::euler20_example(),
         "21" => worked_problems::euler_21::euler21_example(),
         "22" => worked_problems::euler_22::euler22_example(),
-        "23" => worked_problems::euler_23::euler23_example(),/*
+        "23" => worked_problems::euler_23::euler23_example(),
         "24" => worked_problems::euler_24::euler24_example(),
         "25" => worked_problems::euler_25::euler25_example(),
         "26" => worked_problems::euler_26::euler26_example(),
@@ -37,7 +37,7 @@ fn make_message(input: &str) {
         "28" => worked_problems::euler_28::euler28_example(),
         "29" => worked_problems::euler_29::euler29_example(),
         "30" => worked_problems::euler_30::euler30_example(),
-        "31" => worked_problems::euler_31::euler31_example(),
+        "31" => worked_problems::euler_31::euler31_example(),/*
         "32" => worked_problems::euler_32::euler32_example(),
         "33" => worked_problems::euler_33::euler33_example(),
         "34" => worked_problems::euler_34::euler34_example(),

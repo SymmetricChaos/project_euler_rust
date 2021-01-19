@@ -9,7 +9,7 @@ since 99*99 = 9801, so none of those equations can be pandigital.
 Likewise the smallest product pair of three digit numbers allowed is 135*246 = 33210 which
 has too many digits to be pandigital.
 
-It is possible for a one digit number and a for digit number to work as well.
+It is possible for a one digit number and a four digit number to work as well.
 
 Thus the only kinds of products to conider are 2D x 3D = 4D and 1D x 4D = 4D. This restricts
 the possibiliites enough that no special tricks are needed.
@@ -85,7 +85,7 @@ fn int_to_digits(n: u64) -> Vec<u64> {
     digits
 }
 
-fn equations() -> u64 {
+pub fn euler32() -> u64 {
     let mut out = 0;
     let two_digit = all_valid_two_digit();
     let mut prods = Vec::new();
@@ -119,7 +119,6 @@ fn equations() -> u64 {
                     out += m*n;
                     prods.push(m*n);
                 }
-                //println!("{} * {} = {}", n,m,n*m);
             }
 
         }
@@ -149,7 +148,6 @@ fn equations() -> u64 {
                     out += m*n;
                     prods.push(m*n);
                 }
-                //println!("{} * {} = {}", n,m,n*m);
             }
 
         }
@@ -157,9 +155,83 @@ fn equations() -> u64 {
     out
 }
 
+pub fn euler32_example() {
+    println!("\nProblem: Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital.");
+    println!("\n\nThe only possibilities that need to be checked are two digit times three digit and one digit times four digit. For brevity only the function for checking which products work is provided. Generating the valid pairs is not too hard.");
+    let s = "
 pub fn euler32() -> u64 {
-    equations()
+    let mut out = 0;
+    let two_digit = all_valid_two_digit();
+    let mut prods = Vec::new();
+
+    let ds = \"[1, 2, 3, 4, 5, 6, 7, 8, 9]\";
+
+    // Two digit times three digit
+    for t in two_digit.iter() {
+        let n = (10*t[0] + t[1]) as u64;
+
+        let complement = three_digit_pair(t.to_vec());
+
+        for c in complement.iter() {
+            let m = (100*c[0] + 10*c[1] + c[2]) as u64;
+
+            if n*m < 1000 || n*m > 9999 {
+                continue
+            }
+            let p = int_to_digits(n*m);
+
+            let mut v = Vec::new();
+            v.extend(t);
+            v.extend(c);
+            v.extend(p);
+
+            v.sort();
+
+            let vs = format!(\"{:?}\",v);
+            if vs == ds {
+                if !prods.contains(&(m*n)) {
+                    out += m*n;
+                    prods.push(m*n);
+                }
+            }
+
+        }
+    }
+
+    // One digit times four digit
+    for n in 1..10 {
+        let complement = four_digit_pair(n);
+
+        for c in complement.iter() {
+            let m = (1000*c[0] + 100*c[1] + 10*c[2] + c[3]) as u64;
+
+            if n*m < 1000 || n*m > 9999 {
+                continue
+            }
+            let p = int_to_digits(n*m);
+
+            let mut v = vec![n];
+            v.extend(c);
+            v.extend(p);
+
+            v.sort();
+
+            let vs = format!(\"{:?}\",v);
+            if vs == ds {
+                if !prods.contains(&(m*n)) {
+                    out += m*n;
+                    prods.push(m*n);
+                }
+            }
+
+        }
+    }
+    out
+}";
+    println!("\n{}\n",s);
+    println!("The answer is: {}",euler32());
 }
+
 
 #[test]
 fn test32() {

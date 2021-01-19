@@ -84,7 +84,7 @@ pub fn euler23() -> u64 {
 
 pub fn euler23_example() {
     println!("\nProblem: By mathematical analysis, it can be shown that all integers greater than 28123 can be written as the sum of two abundant numbers. Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.");
-    println!("\n\n");
+    println!("\n\nIt is simple enough to get the abundant numbers. There are lots of ways to work with the sums. Here we have some fun with arrays thought vectors would be simpler.");
     let s = "
 fn aliquot_sum(n:u64) -> u64 {
     if n == 0 {
