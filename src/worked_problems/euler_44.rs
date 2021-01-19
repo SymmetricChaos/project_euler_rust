@@ -32,3 +32,8 @@ pub fn euler44() -> u64 {
     }
     out
 }
+
+#[test]
+fn test44() {
+    assert_eq!(euler44(),5482660)
+}

@@ -14,3 +14,8 @@ pub fn euler29() -> u64 {
     }
     h.len() as u64
 }
+
+#[test]
+fn test29() {
+    assert_eq!(euler29(),9183)
+}

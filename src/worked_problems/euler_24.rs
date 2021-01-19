@@ -27,3 +27,8 @@ pub fn euler24() -> u64 {
     }
     out
 }
+
+#[test]
+fn test24() {
+    assert_eq!(euler24(),2783915460)
+}

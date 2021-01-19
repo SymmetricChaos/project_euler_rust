@@ -38,3 +38,9 @@ pub fn euler3_example() -> u64 {
     println!("The answer is: {}",euler3());
     0u64
 }
+
+
+#[test]
+fn test3() {
+    assert_eq!(euler3(),6857)
+}

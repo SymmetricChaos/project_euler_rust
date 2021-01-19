@@ -45,3 +45,8 @@ pub fn euler26() -> u64 {
     }
     best
 }
+
+#[test]
+fn test26() {
+    assert_eq!(euler26(),983)
+}

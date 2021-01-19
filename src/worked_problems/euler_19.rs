@@ -61,3 +61,8 @@ fn count_days() -> u64 {
 pub fn euler19() -> u64 {
     count_days()
 }
+
+#[test]
+fn test19() {
+    assert_eq!(euler19(),171)
+}

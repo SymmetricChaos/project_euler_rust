@@ -24,3 +24,8 @@ pub fn euler31() -> u64 {
     let coins = [1,2,5,10,20,50,100,200];
     restricted_partition(&coins,0,200u64)
 }
+
+#[test]
+fn test31() {
+    assert_eq!(euler31(),73682)
+}

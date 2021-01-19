@@ -80,3 +80,8 @@ pub fn euler2() -> u64 {
     println!("The answer is: {}",euler2());
     0u64
 }
+
+#[test]
+fn test2() {
+    assert_eq!(euler2(),4613732)
+}

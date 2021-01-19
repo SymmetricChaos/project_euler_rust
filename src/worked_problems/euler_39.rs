@@ -32,3 +32,8 @@ pub fn euler39() -> u64 {
     //println!("{:?}",hmap);
     out
 }
+
+#[test]
+fn test39() {
+    assert_eq!(euler39(),840)
+}

@@ -39,3 +39,8 @@ pub fn euler9() -> u64 {
     println!("The answer is: {}",euler9());
     0u64
 }
+
+#[test]
+fn test9() {
+    assert_eq!(euler9(),31875000)
+}

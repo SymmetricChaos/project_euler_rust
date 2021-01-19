@@ -55,3 +55,8 @@ pub fn euler33() -> u64 {
     prod.reduce();
     prod.d
 }
+
+#[test]
+fn test33() {
+    assert_eq!(euler33(),100)
+}

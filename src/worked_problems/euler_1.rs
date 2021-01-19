@@ -26,3 +26,8 @@ pub fn euler1_example() -> u64 {
     println!("The answer is: {}",euler1());
     0u64
 }
+
+#[test]
+fn test() {
+    assert_eq!(euler1(),233168)
+}

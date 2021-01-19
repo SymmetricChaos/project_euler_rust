@@ -160,3 +160,8 @@ fn equations() -> u64 {
 pub fn euler32() -> u64 {
     equations()
 }
+
+#[test]
+fn test32() {
+    assert_eq!(euler32(),45228)
+}

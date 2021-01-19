@@ -47,3 +47,8 @@ pub fn euler18() -> u64 {
     let triangle = read_data();
     search_triangle(&triangle,0,0) as u64
 }
+
+#[test]
+fn test18() {
+    assert_eq!(euler18(),1074)
+}

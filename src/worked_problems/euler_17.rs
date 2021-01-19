@@ -34,3 +34,8 @@ pub fn euler17() -> u64 {
     }
     out
 }
+
+#[test]
+fn test17() {
+    assert_eq!(euler17(),21124)
+}

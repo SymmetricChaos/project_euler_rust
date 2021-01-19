@@ -18,3 +18,8 @@ pub fn euler25() -> u64 {
     }
     ctr
 }
+
+#[test]
+fn test25() {
+    assert_eq!(euler25(),4782)
+}

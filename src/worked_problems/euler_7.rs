@@ -56,3 +56,8 @@ pub fn euler7() -> u64 {
     println!("The answer is: {}",euler7());
     0u64
 }
+
+#[test]
+fn test7() {
+    assert_eq!(euler7(),104743)
+}

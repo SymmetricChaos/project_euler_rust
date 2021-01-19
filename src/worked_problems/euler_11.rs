@@ -78,7 +78,7 @@ pub fn euler11() -> u64 {
 }
 
 
-pub fn euler10_example() -> u64 {
+pub fn euler11_example() -> u64 {
     println!("\nProblem: What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the provided 20×20 grid?");
     println!("\n\nThe code here is a long but basically just reads the file into an array then checks all the rows, columns, diagonals, and antidiagonals.");
     let s = "
@@ -87,7 +87,7 @@ use std::fs;
 pub fn euler11() -> u64 {
     // Read the file and split it into numbers
     let s = fs::read_to_string(\"Euler11Doc.txt\").unwrap();
-    let nums = s.split(" ");
+    let nums = s.split(\" \");
 
     // 20 x 20 array of zeroes
     let mut grid = [[0u32; 20]; 20];
@@ -136,6 +136,11 @@ pub fn euler11() -> u64 {
     biggest_num as u64
 }";
     println!("\n{}\n",s);
-    println!("The answer is: {}",euler10());
+    println!("The answer is: {}",euler11());
     0u64
+}
+
+#[test]
+fn test11() {
+    assert_eq!(euler11(),70600674)
 }
