@@ -45,3 +45,4 @@ pub mod euler_44;
 pub mod euler_45;
 pub mod euler_46;
 pub mod euler_47;
+pub mod euler_48;
