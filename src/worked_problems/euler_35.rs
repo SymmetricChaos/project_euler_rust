@@ -38,7 +38,7 @@ pub fn euler35() -> u64 {
     out
 }
 
-pub fn euler34_example() {
+pub fn euler35_example() {
     println!("\nProblem: How many circular primes are there below one million?");
     println!("\n\nWe import several previously established functions to make this possible. For speed we keep an array of disallowed digits that allow us to discard candidates that will inevitably fail to be circular because they contain an even digit or a 5 digit.");
     let s = "
@@ -50,7 +50,6 @@ fn cycle_digits(n: u64) -> u64 {
     digits.insert(0,d);
     digits_to_int(&digits,10)
 }
-
 
 pub fn euler35() -> u64 {
     let mut p = prime_sieve();
@@ -80,7 +79,7 @@ pub fn euler35() -> u64 {
     out
 }";
     println!("\n{}\n",s);
-    println!("The answer is: {}",euler34());
+    println!("The answer is: {}",euler35());
 }
 
 #[test]
