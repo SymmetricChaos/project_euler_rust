@@ -11,28 +11,26 @@ fn is_pentagonal(n: u64) -> bool {
 }
 
 pub fn euler44() -> u64 {
-    let mut out = 0;
     let mut pentagonal = vec![1];
     let mut n = 1;
-    'outer: loop {
+    let out = 'outer: loop {
         n += 1;
         let p = (3*n*n-n)/2;
         for pent in &pentagonal {
             let sum = p+pent;
             let dif = p-pent;
             if pentagonal.contains(&dif) && is_pentagonal(sum) {
-                out = dif;
-                break 'outer
+                break 'outer dif;
             }
         }
         pentagonal.push(p);
-    }
+    };
     out
 }
 
 pub fn euler44_example() {
     println!("\nProblem: Find the pair of pentagonal numbers, Pj and Pk, for which their sum and difference are pentagonal and D = |Pk − Pj| is minimised; what is the value of D?");
-    println!("\n\nPentagonal numbers as easy to generate by formula. The trick is checking if their sum is pentagonal. That can be done by a bit of algebra (that I found on Wikipedia).");
+    println!("\n\nPentagonal numbers are easy to generate by formula. The trick is checking if their sum is pentagonal. That can be done by a bit of algebra (that I found on Wikipedia).");
     let s = "
 use num::integer::Roots;
 
@@ -45,22 +43,20 @@ fn is_pentagonal(n: u64) -> bool {
 }
 
 pub fn euler44() -> u64 {
-    let mut out = 0;
     let mut pentagonal = vec![1];
     let mut n = 1;
-    'outer: loop {
+    let out = 'outer: loop {
         n += 1;
         let p = (3*n*n-n)/2;
         for pent in &pentagonal {
             let sum = p+pent;
             let dif = p-pent;
             if pentagonal.contains(&dif) && is_pentagonal(sum) {
-                out = dif;
-                break 'outer
+                break 'outer dif;
             }
         }
         pentagonal.push(p);
-    }
+    };
     out
 }";
     println!("\n{}\n",s);

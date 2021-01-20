@@ -1,72 +1,50 @@
-// What is the smallest odd composite that cannot be written as the sum of a prime and twice a square?
+// 40755 is triangular, pentagonal, and hexagonal. What is the next number with this property?
 
-use crate::aux_funcs::{is_prime};
+use num::integer::Roots;
 
-fn prime_diff(n: u64, v: &Vec<u64>) -> bool {
-    for s in v {
-        if s < &n {
-            if is_prime(n-s) {
-                return true
-            }
-        }
+fn is_pentagonal(n: u64) -> bool {
+    let a = ((24*n+1).sqrt()+1)/6;
+    if (3*a*a-a)/2 == n {
+        return true
     }
-    return false
+    false
 }
 
 pub fn euler45() -> u64 {
-    let mut odd = 1;
-    let mut n = 1;
-    let mut two_square = vec![2];
 
+    let mut n = 143;
     let out = loop {
-        odd += 2;
-        if is_prime(odd) {
-            continue
-        }
-        if odd > *two_square.last().unwrap() {
-            two_square.push(2*n*n);
-            n += 1;
-        }
-        if !prime_diff(odd,&two_square) {
-            break odd;
+        n += 1;
+        let hex = n*(2*n-1);
+        if is_pentagonal(hex) {
+            break hex
         }
     };
     out
 }
 
 pub fn euler45_example() {
-    println!("\nProblem: What is the smallest odd composite that cannot be written as the sum of a prime and twice a square?");
-    println!("\n\nIn this case checking for primality is less work than checking is a number is twice a square. So we'll generate twice squares and check if the difference is prime.");
+    println!("\nProblem: 40755 is triangular, pentagonal, and hexagonal. What is the next number with this property?");
+    println!("\n\nAll hexagonal numbers are also triangular so we only actually need to check for being pentagonal and hexagonal. Fortunately hexagonal numbers are quite sparse. The same method of checking if a number is pentagonal is used as in the previous problem.");
     let s = "
-use crate::aux_funcs::{is_prime};
+use num::integer::Roots;
 
-fn prime_diff(n: u64, v: &Vec<u64>) -> bool {
-    for s in v {
-        if s < &n {
-            if is_prime(n-s) {
-                return true
-            }
-        }
+fn is_pentagonal(n: u64) -> bool {
+    let a = ((24*n+1).sqrt()+1)/6;
+    if (3*a*a-a)/2 == n {
+        return true
     }
-    return false
+    false
 }
 
 pub fn euler45() -> u64 {
-    let mut odd = 1;
-    let mut n = 1;
-    let mut two_square = vec![2];
 
+    let mut n = 143;
     let out = loop {
-        odd += 2;
-        if is_prime(odd) {
-            continue
-        }
-        if odd > *two_square.last().unwrap() {
-            two_square.push(2*n*n);
-            n += 1;
-        }
-        if !prime_diff(odd,&two_square) {
-            break odd;
+        n += 1;
+        let hex = n*(2*n-1);
+        if is_pentagonal(hex) {
+            break hex
         }
     };
     out
@@ -77,5 +55,5 @@ pub fn euler45() -> u64 {
 
 #[test]
 fn test45() {
-    assert_eq!(euler45(),5777)
+    assert_eq!(euler45(),1533776805)
 }
