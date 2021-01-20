@@ -42,3 +42,4 @@ pub mod euler_41;
 pub mod euler_42;
 pub mod euler_43;
 pub mod euler_44;
+pub mod euler_45;

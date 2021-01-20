@@ -32,7 +32,6 @@ pub fn euler35() -> u64 {
                 continue 'outer
             }
         }
-        //println!("{}",cur);
         out += 1;
     }
     out
@@ -73,7 +72,6 @@ pub fn euler35() -> u64 {
                 continue 'outer
             }
         }
-        //println!("{}",cur);
         out += 1;
     }
     out
