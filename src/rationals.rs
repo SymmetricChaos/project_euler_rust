@@ -19,8 +19,8 @@ impl fmt::Display for Rational {
 // Implement equality
 impl PartialEq for Rational {
     fn eq(&self, other: &Self) -> bool {
-        let ra = reduced(self);
-        let rb = reduced(other);
+        let ra = self.reduced();
+        let rb = other.reduced();
         ra.n == rb.n && ra.d == rb.d
     }
 }
@@ -37,7 +37,7 @@ impl Mul for Rational {
     }
 }
 
-// Implement custom methods
+// Implement methods to reduce fractions and to output a reduced fraction
 impl Rational {
     // Instance method to reduce the fraction assuming it is mutable
     pub fn reduce(&mut self) {
@@ -45,10 +45,9 @@ impl Rational {
         self.n = self.n/g;
         self.d = self.d/g;
     }
-}
 
-pub fn reduced(r: &Rational) -> Rational {
-    let x = r.n/gcd(r.n,r.d);
-    let y = r.d/gcd(r.n,r.d);
-    Rational{n: x, d: y}
+    pub fn reduced(&self) -> Self {
+        let g = gcd(self.n,self.d);
+        Rational{n: self.n/g, d: self.d/g}
+    }
 }

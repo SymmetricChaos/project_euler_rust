@@ -37,11 +37,11 @@ fn make_message(input: &str) {
         "28" => worked_problems::euler_28::euler28_example(),
         "29" => worked_problems::euler_29::euler29_example(),
         "30" => worked_problems::euler_30::euler30_example(),
-        "31" => worked_problems::euler_31::euler31_example(),/*
+        "31" => worked_problems::euler_31::euler31_example(),
         "32" => worked_problems::euler_32::euler32_example(),
         "33" => worked_problems::euler_33::euler33_example(),
         "34" => worked_problems::euler_34::euler34_example(),
-        "35" => worked_problems::euler_35::euler35_example(),
+        "35" => worked_problems::euler_35::euler35_example(),/*
         "36" => worked_problems::euler_36::euler36_example(),
         "37" => worked_problems::euler_37::euler37_example(),
         "38" => worked_problems::euler_38::euler38_example(),
