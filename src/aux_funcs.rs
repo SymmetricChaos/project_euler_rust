@@ -57,14 +57,11 @@ pub fn is_prime(n: u64) -> bool {
         return false;
     }
 
-    // Check the witnesses using simple division
-    // There are two reasons for this.
-    // First it eliminates 85% of composite numbers immediately
-    // Secondly if we don't do this the witnesses themselves will be reported as
-    // composite by the later portion of the test
-    let witnesses = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
+    // Check all primes below 100 and all witnesses
+    // This quickly eliminates the vast majority of composite numbers
+    let small_factors = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 325, 9375, 28178, 450775, 9780504, 1795265022];
 
-    for p in witnesses.iter() {
+    for p in small_factors.iter() {
         if n == *p {
             return true;
         }
@@ -79,6 +76,9 @@ pub fn is_prime(n: u64) -> bool {
         d /= 2;
         r += 1;
     }
+
+    // Witnesses found by Jim Sinclair
+    let witnesses = [2, 325, 9375, 28178, 450775, 9780504, 1795265022];
     
     'outer: for w in witnesses.iter() {
         let mut x = pow_mod(*w,d,n);
