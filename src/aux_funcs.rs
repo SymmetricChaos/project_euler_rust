@@ -1,5 +1,6 @@
 use std::convert::TryFrom;
 use std::collections::HashMap;
+use mod_exp::mod_exp;
 
 pub fn int_to_digits(n: u64, base: u64) -> Vec<u64> {
     let mut digits = Vec::new();
@@ -36,19 +37,6 @@ pub fn gcd(a: u64, b: u64) -> u64 {
     return x;
 }
 
-pub fn pow_mod(n: u64, e: u64, m: u64) -> u64 {
-    if e == 0 {
-        return 1;
-    }
-    let mut result = 1u128;
-    let base = n as u128;
-    let modulus = m as u128;
-    for _ in 0..e {
-        result = (result * base) % modulus;
-    }
-    result as u64
-}
-
 // 64-bit primality test
 // First checks small possible factors then switches to deterministic Miller-Rabin
 pub fn is_prime(n: u64) -> bool {
@@ -81,13 +69,13 @@ pub fn is_prime(n: u64) -> bool {
     let witnesses = [2, 325, 9375, 28178, 450775, 9780504, 1795265022];
     
     'outer: for w in witnesses.iter() {
-        let mut x = pow_mod(*w,d,n);
+        let mut x = mod_exp(*w,d,n);
         
         if x == 1 || x == n-1 {
             continue 'outer;
         }
         for _ in 0..r-1 {
-            x = pow_mod(x,2,n);
+            x = mod_exp(x,2,n);
             
             if x == n-1 {
                  continue 'outer;
