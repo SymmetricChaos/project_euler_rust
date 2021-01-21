@@ -47,3 +47,4 @@ pub mod euler_46;
 pub mod euler_47;
 pub mod euler_48;
 pub mod euler_49;
+pub mod euler_50;
