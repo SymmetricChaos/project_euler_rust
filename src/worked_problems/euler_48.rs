@@ -5,7 +5,7 @@ pub fn euler48() -> u64 {
     let mut out = 0;
     for n in 1..1000 {
         let mut a = 1;
-        for exp in 0..n {
+        for _ in 0..n {
             a = (a*n) % m;
         }
         out += a;
@@ -22,7 +22,7 @@ pub fn euler48() -> u64 {
     let mut out = 0;
     for n in 1..1000 {
         let mut a = 1;
-        for exp in 0..n {
+        for _ in 0..n {
             a = (a*n) % m;
         }
         out += a;
