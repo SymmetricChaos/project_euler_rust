@@ -21,37 +21,51 @@ d***d
 
 */
 
-use crate::aux_funcs::{is_prime};
+use crate::aux_funcs::{is_prime,digits_to_int};
+use itertools::izip;
 
-fn should_swap(list: &Vec<u64>, index: usize, pos: usize) -> bool {
-    for i in index..pos {
-        if list[i] == list[pos] {
-            return false
+fn test_n(n: usize, any: &Vec<usize>, final_digit: u64, positions: &Vec<usize>) -> Vec<u64> {
+    let mut out = Vec::new();
+    for x in 0..10 {
+        let mut v = vec![x;n-1];
+        v.push(final_digit);
+        for (pos,val) in izip!(positions.iter(), any.iter()) {
+            v[*pos] = *val as u64;
+        }
+        if v[0] == 0 {
+            continue
+        }
+        if is_prime(digits_to_int(&v,10)) {
+            out.push(digits_to_int(&v,10));
         }
     }
-    true
+
+    out
 }
 
-fn distinct_permutations(list: &mut Vec<u64>, index: usize) -> Vec<Vec<u64>> {
-    let length = list.len();
-    let mut out = Vec::new();
-    if index == length {
-        return vec![list.clone().to_vec()]
-    }
-    for i in index..length {
-        if should_swap(&list, index, i) {
-            list.swap(i,index);
-            out.extend(distinct_permutations(list,index+1));
-            list.swap(i,index);
+fn test_all_6_2() -> u64 {
+    let mut out = 0;
+    let constant_positions = [vec![0,1], vec![0,2], vec![0,3], vec![0,4], vec![1,2], vec![1,3], vec![1,4], vec![2,3], vec![2,4], vec![3,4]];
+    let final_digits = [1,3,7,9];
+    let digits = [0,1,2,3,4,5,6,7,8,9];
+    for c in &constant_positions {
+        for f in &final_digits {
+            for d1 in &digits {
+                for d2 in &digits {
+                    let t = test_n(6,&vec![*d1,*d2],*f,c);
+                    if t.len() == 8 {
+                        out = t[0];
+                        println!("{:?}",t);
+                    }
+                }
+            }
         }
     }
     out
 }
 
 pub fn euler51() -> u64 {
-    let v = distinct_permutations(&mut vec![0,0,0,1,1],0);
-    println!("{:?}",v);
-    0u64
+    test_all_6_2()
 }
 
 pub fn euler51_example() {

@@ -143,3 +143,31 @@ pub fn prime_factorization(n: u64) -> HashMap<u64,u64> {
     }
     canon
 }
+
+/*
+fn should_swap(list: &Vec<u64>, index: usize, pos: usize) -> bool {
+    for i in index..pos {
+        if list[i] == list[pos] {
+            return false
+        }
+    }
+    true
+}
+
+// By generating distinct permutations we can produce digits with 0s for blank spaces
+pub fn distinct_permutations(list: &mut Vec<u64>, index: usize) -> Vec<Vec<u64>> {
+    let length = list.len();
+    let mut out = Vec::new();
+    if index == length {
+        return vec![list.clone().to_vec()]
+    }
+    for i in index..length {
+        if should_swap(&list, index, i) {
+            list.swap(i,index);
+            out.extend(distinct_permutations(list,index+1));
+            list.swap(i,index);
+        }
+    }
+    out
+}
+*/
