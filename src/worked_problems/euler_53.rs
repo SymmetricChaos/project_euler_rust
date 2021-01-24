@@ -72,5 +72,5 @@ pub fn euler53() -> u64 {
 
 #[test]
 fn test53() {
-    assert_eq!(euler53(),142857)
+    assert_eq!(euler53(),4075)
 }
