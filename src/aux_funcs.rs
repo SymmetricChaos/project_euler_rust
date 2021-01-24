@@ -144,6 +144,13 @@ pub fn prime_factorization(n: u64) -> HashMap<u64,u64> {
     canon
 }
 
+pub fn vec_identical<T: PartialEq>(va: &[T], vb: &[T]) -> bool {
+    (va.len() == vb.len()) &&  // zip stops at the shortest
+     va.iter()
+       .zip(vb)
+       .all(|(a,b)| *a == *b)
+}
+
 /*
 fn should_swap(list: &Vec<u64>, index: usize, pos: usize) -> bool {
     for i in index..pos {
