@@ -5,12 +5,34 @@
 */
 
 use std::fs;
+use std::cmp::Ordering;
 
 #[derive(Debug)]
 struct Card {
     rank: u8,
     suit: char,
 }
+
+impl PartialEq for Card {
+    fn eq(&self, other: &Self) -> bool {
+        self.rank == other.rank
+    }
+}
+
+impl Eq for Card {}
+
+impl PartialOrd for Card {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.rank.partial_cmp(&other.rank)
+    }
+}
+
+impl Ord for Card {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.rank.cmp(&other.rank)
+    }
+}
+
 
 fn str_to_card(s: &str) -> Card {
     let v: Vec<char> = s.chars().collect();
@@ -33,14 +55,42 @@ fn str_to_card(s: &str) -> Card {
     Card{ rank: rank, suit: v[1]}
 }
 
+fn is_flush(hand: &Vec<Card>) -> bool {
+    hand.iter().all(|x| x.suit == hand[0].suit)
+}
 
-fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> u8 {
-    let p1hand: Vec<Card> = p1.into_iter().map(|x| str_to_card(x)).collect();
-    let p2hand: Vec<Card> = p2.into_iter().map(|x| str_to_card(x)).collect();
+fn is_straight(hand: &Vec<Card>) -> bool {
+    let low = hand.first().unwrap().rank;
+    let mut ctr = 0;
+    for i in hand {
+        if i.rank-ctr != low {
+            return false
+        }
+        ctr += 1;
+    }
+    true
+}
 
-    println!("{:?}",p1hand);
-    println!("{:?}",p2hand);
-    0u8
+fn is_full_house(hand: &Vec<Card>) -> bool {
+
+}
+
+// Return true for p1 win, return false for p2 win or tie
+fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
+    let mut p1_hand: Vec<Card> = p1.into_iter().map(|x| str_to_card(x)).collect();
+    let mut p2_hand: Vec<Card> = p2.into_iter().map(|x| str_to_card(x)).collect();
+
+    p1_hand.sort();
+    p2_hand.sort();
+
+    if is_straight(&p1_hand) {
+        println!("{:?}",p1_hand);
+    }
+    if is_straight(&p2_hand) {
+        println!("{:?}",p2_hand);
+    }
+
+    true
 }
 
 
@@ -58,7 +108,10 @@ pub fn euler54() -> u64 {
         p2_hands.push(g[15..29].split(" ").collect());
     }
 
-    compare_hands(&p1_hands[0],&p2_hands[0]);
+    for i in 0..1000 {
+        compare_hands(&p1_hands[i],&p2_hands[i]);
+    }
+    
 
     0u64
 }
