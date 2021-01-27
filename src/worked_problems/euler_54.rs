@@ -57,15 +57,15 @@ fn str_to_card(s: &str) -> Card {
     Card{ rank: rank, suit: v[1]}
 }
 
-fn is_straight_flush(hand: &Vec<Card>) -> u8 {
-    is_flush(hand) > 0 && is_straight(hand) > 0 {
-        //return rank of high card
+fn straight_flush(hand: &Vec<Card>) -> u8 {
+    if flush(hand) > 0 && straight(hand) > 0 {
+        return hand[4].rank
     }
     0
 }
 
 // Does any rank appear four times?
-fn is_foak(hand: &Vec<Card>) -> u8 {
+fn four_of_a_kind(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     for u in uniques {
         if hand.iter().filter(|elem| elem.rank == u).count() == 4 {
@@ -76,12 +76,12 @@ fn is_foak(hand: &Vec<Card>) -> u8 {
 }
 
 // Are there exactly two ranks in the hand and one with length 2?
-fn is_full_house(hand: &Vec<Card>) -> u8 {
+fn full_house(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     if uniques.len() == 2 {
         for u in uniques {
             if hand.iter().filter(|elem| elem.rank == u).count() == 2 {
-                return true
+                return hand[4].rank
             }
         }
     }
@@ -89,15 +89,15 @@ fn is_full_house(hand: &Vec<Card>) -> u8 {
 }
 
 // Are all the suits the same?
-fn is_flush(hand: &Vec<Card>) -> u8 {
+fn flush(hand: &Vec<Card>) -> u8 {
     if hand.iter().all(|x| x.suit == hand[0].suit) {
-        //return rank of high card
+        return hand[4].rank
     }
     0
 }
 
 // Are the cards a sequential sequence?
-fn is_straight(hand: &Vec<Card>) -> u8 {
+fn straight(hand: &Vec<Card>) -> u8 {
     let low = hand.first().unwrap().rank;
     let mut ctr = 0;
     for i in hand {
@@ -106,11 +106,11 @@ fn is_straight(hand: &Vec<Card>) -> u8 {
         }
         ctr += 1;
     }
-    //return rank of high hard
+    return hand[4].rank
 }
 
 // Does any rank appear three times?
-fn is_toak(hand: &Vec<Card>) -> u8 {
+fn three_of_a_kind(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     for u in uniques {
         if hand.iter().filter(|elem| elem.rank == u).count() == 3 {
@@ -121,7 +121,7 @@ fn is_toak(hand: &Vec<Card>) -> u8 {
 }
 
 // Does two ranks appear two times each?
-fn is_two_pair(hand: &Vec<Card>) -> u8 {
+fn two_pair(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     let mut high = 0u8;
     for u in uniques {
@@ -136,7 +136,7 @@ fn is_two_pair(hand: &Vec<Card>) -> u8 {
 }
 
 // Does any rank appear two times?
-fn is_pair(hand: &Vec<Card>) -> u8 {
+fn pair(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     for u in uniques {
         if hand.iter().filter(|elem| elem.rank == u).count() == 2 {
@@ -156,16 +156,34 @@ fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
     p1_hand.sort();
     p2_hand.sort();
 
-    if is_straight_flush(&p1_hand) 
-
-    if is_two_pair(&p1_hand) {
-        println!("{:?}",p1_hand);
+    if straight_flush(&p1_hand) > straight_flush(&p2_hand) {
+        return true
     }
-    if is_two_pair(&p2_hand) {
-        println!("{:?}",p2_hand);
+    if four_of_a_kind(&p1_hand) > four_of_a_kind(&p2_hand) {
+        return true
     }
-
-    true
+    if full_house(&p1_hand) > full_house(&p2_hand) {
+        return true
+    }
+    if flush(&p1_hand) > flush(&p2_hand) {
+        return true
+    }
+    if straight(&p1_hand) > straight(&p2_hand) {
+        return true
+    }
+    if three_of_a_kind(&p1_hand) > three_of_a_kind(&p2_hand) {
+        return true
+    }
+    if two_pair(&p1_hand) > two_pair(&p2_hand) {
+        return true
+    }
+    if pair(&p1_hand) > pair(&p2_hand) {
+        return true
+    }
+    if p1_hand[4].rank > p2_hand[4].rank {
+        return true
+    }
+    false
 }
 
 
@@ -183,12 +201,14 @@ pub fn euler54() -> u64 {
         p2_hands.push(g[15..29].split(" ").collect());
     }
 
+    let mut ctr = 0;
     for i in 0..1000 {
-        compare_hands(&p1_hands[i],&p2_hands[i]);
+        if compare_hands(&p1_hands[i],&p2_hands[i]) {
+            ctr += 1;
+        }
     }
     
-
-    0u64
+    ctr as u64
 }
 
 pub fn euler54_example() {
