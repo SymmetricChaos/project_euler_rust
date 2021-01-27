@@ -96,21 +96,17 @@ fn score_hand(hand: &Vec<Card>) -> (u8,u8,Vec<u8>) {
 
     if hand.iter().all(|x| x.suit == hand[0].suit) {
         if is_straight(hand) {
-            //println!("Straight Flush");
             return (9,*unique_ranks.last().unwrap(),unique_ranks)
         }
-        //println!("Flush");
         return (6,*unique_ranks.last().unwrap(),unique_ranks)
     }
 
     if is_straight(hand) {
-        //println!("Straight");
         return (5,*unique_ranks.last().unwrap(),unique_ranks)
     }
 
     for (rank,count) in rank_counts.iter() {
         if *count == 4 {
-            //println!("Four of a Kind");
             return (8,*rank,unique_ranks)
         }
     }
@@ -119,11 +115,9 @@ fn score_hand(hand: &Vec<Card>) -> (u8,u8,Vec<u8>) {
         if *count1 == 3 {
             for (rank2,count2) in rank_counts.iter() {
                 if *count2 == 2 {
-                    //println!("Full House");
                     return (7,max(*rank1,*rank2),unique_ranks)
                 }
             }
-            //println!("Three of a Kind");
             return (4,*rank1,unique_ranks)
         }
     }
@@ -131,33 +125,15 @@ fn score_hand(hand: &Vec<Card>) -> (u8,u8,Vec<u8>) {
     for (rank1,count1) in rank_counts.iter() {
         if *count1 == 2 {
             for (rank2,count2) in rank_counts.iter() {
-                if *count2 == 2 {
-                    //println!("Two Pair");
+                if *count2 == 2 && *rank2 != *rank1 {
                     return (3,max(*rank1,*rank2),unique_ranks)
                 }
             }
-            //println!("One Pair");
             return (2,*rank1,unique_ranks)
         }
     }
 
-    //println!("High Card");
     return (1,*unique_ranks.last().unwrap(),unique_ranks)
-}
-
-fn hand_rank_to_name(rank: &u8) -> &str {
-    match rank {
-        1 => "High Card",
-        2 => "One Pair",
-        3 => "Two Pair",
-        4 => "Three of a Kind",
-        5 => "Straight",
-        6 => "Flash",
-        7 => "Full House",
-        8 => "Four of a Kind",
-        9 => "Straight Flush",
-        _ => "ERROR"
-    }
 }
 
 // Return true for p1 win, return false for p2 win or tie
@@ -171,16 +147,12 @@ fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
     let mut p1_score = score_hand(&p1_hand);
     let mut p2_score = score_hand(&p2_hand);
     
-    println!("");
     if p1_score.0 > p2_score.0 {
-        println!("P1 wins, {} beats {}",hand_rank_to_name(&p1_score.0),hand_rank_to_name(&p2_score.0));
         return true
     } else if p1_score.0 == p2_score.0 {
-        println!("both players have {}, moving to tiebreak",hand_rank_to_name(&p1_score.0));
         if p1_score.1 > p2_score.1 {
             return true
-        } else if p1_score.1 == p2_score.1 {
-            println!("tie breaker failed, going to high card");
+        } else if p1_score.1 == p2_score.1 {;
             while p1_score.2.len() > 0 && p2_score.2.len() > 0 {
                 let p1h = p1_score.2.pop().unwrap();
                 let p2h = p2_score.2.pop().unwrap();
