@@ -5,8 +5,9 @@
 */
 
 use std::fs;
-use std::cmp::Ordering;
+use std::cmp::{Ordering,max};
 use itertools::Itertools;
+
 
 #[derive(Debug,Hash)]
 struct Card {
@@ -56,19 +57,26 @@ fn str_to_card(s: &str) -> Card {
     Card{ rank: rank, suit: v[1]}
 }
 
+fn is_straight_flush(hand: &Vec<Card>) -> u8 {
+    is_flush(hand) > 0 && is_straight(hand) > 0 {
+        //return rank of high card
+    }
+    0
+}
+
 // Does any rank appear four times?
-fn is_foak(hand: &Vec<Card>) -> bool {
+fn is_foak(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     for u in uniques {
         if hand.iter().filter(|elem| elem.rank == u).count() == 4 {
-            return true
+            return u
         }
     }
-    false
+    0
 }
 
 // Are there exactly two ranks in the hand and one with length 2?
-fn is_full_house(hand: &Vec<Card>) -> bool {
+fn is_full_house(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     if uniques.len() == 2 {
         for u in uniques {
@@ -77,62 +85,65 @@ fn is_full_house(hand: &Vec<Card>) -> bool {
             }
         }
     }
-    false
+    0
 }
 
 // Are all the suits the same?
-fn is_flush(hand: &Vec<Card>) -> bool {
-    hand.iter().all(|x| x.suit == hand[0].suit)
+fn is_flush(hand: &Vec<Card>) -> u8 {
+    if hand.iter().all(|x| x.suit == hand[0].suit) {
+        //return rank of high card
+    }
+    0
 }
 
 // Are the cards a sequential sequence?
-fn is_straight(hand: &Vec<Card>) -> bool {
+fn is_straight(hand: &Vec<Card>) -> u8 {
     let low = hand.first().unwrap().rank;
     let mut ctr = 0;
     for i in hand {
         if i.rank-ctr != low {
-            return false
+            return 0;
         }
         ctr += 1;
     }
-    true
+    //return rank of high hard
 }
 
 // Does any rank appear three times?
-fn is_toak(hand: &Vec<Card>) -> bool {
+fn is_toak(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     for u in uniques {
         if hand.iter().filter(|elem| elem.rank == u).count() == 3 {
-            return true
+            return u
         }
     }
-    false
+    0
 }
 
 // Does two ranks appear two times each?
-fn is_two_pair(hand: &Vec<Card>) -> bool {
+fn is_two_pair(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
-    let mut ctr = 0;
+    let mut high = 0u8;
     for u in uniques {
         if hand.iter().filter(|elem| elem.rank == u).count() == 2 {
-            ctr += 1;
-            if ctr == 2 {
-                return true
+            if high != 0 {
+                return max(high,u)
             }
+            high = u
         }
     }
-    false
+    0
 }
 
 // Does any rank appear two times?
-fn is_pair(hand: &Vec<Card>) -> bool {
+fn is_pair(hand: &Vec<Card>) -> u8 {
     let uniques = hand.iter().map(|card| card.rank).unique().collect_vec();
     for u in uniques {
         if hand.iter().filter(|elem| elem.rank == u).count() == 2 {
-            return true
+            return u
         }
     }
-    false
+    0
 }
 
 
@@ -144,6 +155,8 @@ fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
 
     p1_hand.sort();
     p2_hand.sort();
+
+    if is_straight_flush(&p1_hand) 
 
     if is_two_pair(&p1_hand) {
         println!("{:?}",p1_hand);
