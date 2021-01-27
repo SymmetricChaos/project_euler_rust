@@ -1,11 +1,19 @@
 // Problem: How many hands from the provided file does Player 1 win?
 
 /*
-
+High Card       - 1
+One Pair        - 2
+Two Pair        - 3
+Three of a Kind - 4
+Straight        - 5
+Flush           - 6
+Full House      - 7
+Four of a Kind  - 8
+Straight Flush  - 9
 */
 
 use std::fs;
-use std::cmp::{Ordering,max,min};
+use std::cmp::{Ordering,max};
 use itertools::Itertools;
 use std::collections::HashMap;
 
@@ -78,6 +86,7 @@ fn rank_map(hand: &Vec<Card>) -> HashMap<u8,u8> {
     rank_counts
 }
 
+
 fn score_hand(hand: &Vec<Card>) -> (u8,u8,Vec<u8>) {
 
     let mut unique_ranks = hand.iter().map(|card| card.rank).unique().collect_vec();
@@ -87,35 +96,35 @@ fn score_hand(hand: &Vec<Card>) -> (u8,u8,Vec<u8>) {
 
     if hand.iter().all(|x| x.suit == hand[0].suit) {
         if is_straight(hand) {
-            println!("Straight Flush");
+            //println!("Straight Flush");
             return (9,*unique_ranks.last().unwrap(),unique_ranks)
         }
-        println!("Flush");
+        //println!("Flush");
         return (6,*unique_ranks.last().unwrap(),unique_ranks)
     }
 
     if is_straight(hand) {
-        println!("Straight");
+        //println!("Straight");
         return (5,*unique_ranks.last().unwrap(),unique_ranks)
     }
 
     for (rank,count) in rank_counts.iter() {
         if *count == 4 {
-            println!("Four of a Kind");
-            return (5,*rank,unique_ranks)
+            //println!("Four of a Kind");
+            return (8,*rank,unique_ranks)
         }
     }
     
-    for (rank,count1) in rank_counts.iter() {
+    for (rank1,count1) in rank_counts.iter() {
         if *count1 == 3 {
-            for (_,count2) in rank_counts.iter() {
+            for (rank2,count2) in rank_counts.iter() {
                 if *count2 == 2 {
-                    println!("Full House");
-                    return (8,*rank,unique_ranks)
+                    //println!("Full House");
+                    return (7,max(*rank1,*rank2),unique_ranks)
                 }
             }
-            println!("Three of a Kind");
-            return (4,*rank,unique_ranks)
+            //println!("Three of a Kind");
+            return (4,*rank1,unique_ranks)
         }
     }
 
@@ -123,19 +132,33 @@ fn score_hand(hand: &Vec<Card>) -> (u8,u8,Vec<u8>) {
         if *count1 == 2 {
             for (rank2,count2) in rank_counts.iter() {
                 if *count2 == 2 {
-                    println!("Two Pair");
+                    //println!("Two Pair");
                     return (3,max(*rank1,*rank2),unique_ranks)
                 }
             }
-            println!("One Pair");
+            //println!("One Pair");
             return (2,*rank1,unique_ranks)
         }
     }
 
-    println!("High Card");
+    //println!("High Card");
     return (1,*unique_ranks.last().unwrap(),unique_ranks)
 }
 
+fn hand_rank_to_name(rank: &u8) -> &str {
+    match rank {
+        1 => "High Card",
+        2 => "One Pair",
+        3 => "Two Pair",
+        4 => "Three of a Kind",
+        5 => "Straight",
+        6 => "Flash",
+        7 => "Full House",
+        8 => "Four of a Kind",
+        9 => "Straight Flush",
+        _ => "ERROR"
+    }
+}
 
 // Return true for p1 win, return false for p2 win or tie
 fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
@@ -148,18 +171,27 @@ fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
     let mut p1_score = score_hand(&p1_hand);
     let mut p2_score = score_hand(&p2_hand);
     
+    println!("");
     if p1_score.0 > p2_score.0 {
-        return true;
+        println!("P1 wins, {} beats {}",hand_rank_to_name(&p1_score.0),hand_rank_to_name(&p2_score.0));
+        return true
     } else if p1_score.0 == p2_score.0 {
+        println!("both players have {}, moving to tiebreak",hand_rank_to_name(&p1_score.0));
         if p1_score.1 > p2_score.1 {
-            return true;
+            return true
         } else if p1_score.1 == p2_score.1 {
-            while p1_score.2.len() > 0 && p1_score.2.len() > 0 {
-                if p1_score.2.pop() > p2_score.2.pop() {
-                    return true;
-                } else if p1_score.2.pop() < p2_score.2.pop() {
-                    return false;
+            println!("tie breaker failed, going to high card");
+            while p1_score.2.len() > 0 && p2_score.2.len() > 0 {
+                let p1h = p1_score.2.pop().unwrap();
+                let p2h = p2_score.2.pop().unwrap();
+                if p1h > p2h {
+                    return true
+                } else if p1h < p2h {
+                    return false
                 }
+            if p1_score.2.len() > p2_score.2.len() {
+                return true
+            }
             }
         }
     }
