@@ -26,6 +26,37 @@ pub fn digits_to_int<T: Copy + Into<u64>>(digits: &Vec<T>, base: u64) -> u64 {
     out as u64
 }
 
+fn op_to_zero(input: Option<u64>) -> u64 {
+    match input {
+        Some(x) => x,
+        None => 0,
+    }
+}
+
+pub fn digit_addition(a: &Vec<u64>, b: &Vec<u64>, base: u64) -> Vec<u64> {
+    let mut ta = a.clone();
+    let mut tb = b.clone();
+
+    let mut out: Vec<u64> = Vec::new();
+
+    let mut carry = 0;
+    while ta.len() > 0 && tb.len() > 0 {
+        let v1 = op_to_zero(ta.pop());
+        let v2 = op_to_zero(tb.pop());
+        let mut val = v1 + v2 + carry;
+        carry = val / base;
+        val = val % base;
+        out.push(val)
+    }
+
+    if carry != 0 {
+        out.push(carry)
+    }
+
+    out.reverse();
+    out
+}
+
 pub fn gcd(a: u64, b: u64) -> u64 {
     let mut x = a;
     let mut y = b;
@@ -178,3 +209,4 @@ pub fn distinct_permutations(list: &mut Vec<u64>, index: usize) -> Vec<Vec<u64>>
     out
 }
 */
+
