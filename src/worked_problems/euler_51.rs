@@ -28,9 +28,9 @@ fn test_n(n: usize, any: &Vec<usize>, final_digit: u64, positions: &Vec<usize>) 
     let mut out = Vec::new();
     for x in 0..10 {
         let mut v = vec![x;n-1];
-        v.push(final_digit);
+        v.push(final_digit as u8);
         for (pos,val) in izip!(positions.iter(), any.iter()) {
-            v[*pos] = *val as u64;
+            v[*pos] = *val as u8;
         }
         if v[0] == 0 {
             continue

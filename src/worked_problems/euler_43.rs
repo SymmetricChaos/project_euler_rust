@@ -4,10 +4,10 @@ use itertools::Itertools;
 use crate::aux_funcs::{digits_to_int};
 
 pub fn euler43() -> u64 {
-    let mut out = 0;
+    let mut out = 0u64;
 
     // All the 0 to 9 pandigital numbers
-    let perms = (0..10u64).permutations(10).into_iter();
+    let perms = (0..10u8).permutations(10).into_iter();
 
     for p in perms {
         if p[0] == 0 {

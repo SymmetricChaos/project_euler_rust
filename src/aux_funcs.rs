@@ -1,20 +1,22 @@
 use std::convert::TryFrom;
 use std::collections::HashMap;
 use mod_exp::mod_exp;
+use num::traits::{Unsigned,Zero};
 
-pub fn int_to_digits(n: u64, base: u64) -> Vec<u64> {
+
+pub fn int_to_digits(n: u64, base: u64) -> Vec<u8> {
     let mut digits = Vec::new();
     let mut num = n;
     while num != 0 {
         let q = num/base;
         let r = num%base;
-        digits.insert(0,r as u64);
+        digits.insert(0,r as u8);
         num = q;
     }
     return digits;
 }
 
-pub fn digits_to_int<T: Copy + Into<u64>>(digits: &Vec<T>, base: u64) -> u64 {
+pub fn digits_to_int(digits: &Vec<u8>, base: u64) -> u64 {
     let mut ctr = digits.len();
     let mut pow = 1;
     let mut out = 0;
@@ -26,36 +28,33 @@ pub fn digits_to_int<T: Copy + Into<u64>>(digits: &Vec<T>, base: u64) -> u64 {
     out as u64
 }
 
-fn op_to_zero(input: Option<u64>) -> u64 {
-    match input {
-        Some(x) => x,
-        None => 0,
-    }
-}
-
-pub fn digit_addition(a: &Vec<u64>, b: &Vec<u64>, base: u64) -> Vec<u64> {
+pub fn digit_addition<T: Unsigned + Zero + Copy>(a: &Vec<T>, b: &Vec<T>, base: T) -> Vec<T> {
     let mut ta = a.clone();
     let mut tb = b.clone();
 
-    let mut out: Vec<u64> = Vec::new();
+    let zero = T::zero();
 
-    let mut carry = 0;
+    let mut out: Vec<T> = Vec::new();
+
+    let mut carry = zero;
     while ta.len() > 0 && tb.len() > 0 {
-        let v1 = op_to_zero(ta.pop());
-        let v2 = op_to_zero(tb.pop());
+        let v1 = ta.pop().unwrap_or(zero);
+        let v2 = tb.pop().unwrap_or(zero);
         let mut val = v1 + v2 + carry;
         carry = val / base;
         val = val % base;
         out.push(val)
     }
 
-    if carry != 0 {
+    if carry != zero {
         out.push(carry)
     }
 
     out.reverse();
     out
 }
+
+
 
 pub fn gcd(a: u64, b: u64) -> u64 {
     let mut x = a;
