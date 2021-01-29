@@ -9,12 +9,11 @@ use crate::aux_funcs::{is_prime,digits_to_int};
 use itertools::Itertools;
 
 pub fn euler41() -> u64 {
-    let mut out = 0;
+    let mut out = 0u64;
     let max_vals = [7,4,3,2];
     for max_val in max_vals.iter() {
         out = 0;
-        //println!{"{}",max_val};
-        let digits = (1..max_val+1u8).rev();
+        let digits = (1..=*max_val).rev();
         let perms = digits.permutations(*max_val as usize).into_iter();
         for p in perms {
             let cur = digits_to_int(&p,10);
@@ -26,7 +25,7 @@ pub fn euler41() -> u64 {
             break
         }
     }
-    out as u64
+    out
 }
 
 pub fn euler41_example() {

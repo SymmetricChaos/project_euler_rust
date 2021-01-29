@@ -5,11 +5,17 @@
 */
 
 
+use crate::aux_funcs::{int_to_digits,digit_addition,digit_multiplication};
+
 
 
 pub fn euler56() -> u64 {
+    let v1 = int_to_digits(99,10);
+    let v2 = int_to_digits(12,10);
+    let v3 = digit_multiplication(&v1,&v2,10);
+    println!("{:?} * {:?} = {:?}",v1,v2,v3);
 
-
+    0u64
 }
 
 pub fn euler56_example() {
@@ -23,5 +29,5 @@ pub fn euler56_example() {
 
 #[test]
 fn test56() {
-    assert_eq!(euler56(),376)
+    assert_eq!(euler56(),972)
 }

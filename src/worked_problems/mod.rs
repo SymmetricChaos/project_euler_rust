@@ -53,3 +53,4 @@ pub mod euler_52;
 pub mod euler_53;
 pub mod euler_54;
 pub mod euler_55;
+pub mod euler_56;

@@ -1,10 +1,14 @@
+use std::fmt::Debug;
 use std::convert::TryFrom;
 use std::collections::HashMap;
 use mod_exp::mod_exp;
 use num::traits::{Unsigned,Zero};
-
+use std::cmp::max;
 
 pub fn int_to_digits(n: u64, base: u64) -> Vec<u8> {
+    if n == 0 {
+        return vec![0u8]
+    }
     let mut digits = Vec::new();
     let mut num = n;
     while num != 0 {
@@ -32,12 +36,13 @@ pub fn digit_addition<T: Unsigned + Zero + Copy>(a: &Vec<T>, b: &Vec<T>, base: T
     let mut ta = a.clone();
     let mut tb = b.clone();
 
+    let length = max(ta.len(),tb.len());
     let zero = T::zero();
 
     let mut out: Vec<T> = Vec::new();
 
     let mut carry = zero;
-    while ta.len() > 0 && tb.len() > 0 {
+    for _ in 0..length {
         let v1 = ta.pop().unwrap_or(zero);
         let v2 = tb.pop().unwrap_or(zero);
         let mut val = v1 + v2 + carry;
@@ -50,6 +55,37 @@ pub fn digit_addition<T: Unsigned + Zero + Copy>(a: &Vec<T>, b: &Vec<T>, base: T
         out.push(carry)
     }
 
+    out.reverse();
+    out
+}
+
+pub fn digit_multiplication<T: Unsigned + Zero + Copy + Debug>(a: &Vec<T>, b: &Vec<T>, base: T) -> Vec<T> {
+
+    let zero = T::zero();
+    let mut out = vec![zero];
+    let mut offset = 0;
+
+    for d1 in a.iter().rev() {
+        let mut partial: Vec<T> = Vec::new();
+
+        let mut carry = zero;
+        for d2 in b.iter().rev() {
+            let mut val = *d1 * *d2 + carry;
+            carry = val / base;
+            val = val % base;
+            partial.push(val)
+        }
+        if carry != zero {
+            partial.push(carry)
+        }
+        for _ in 0..offset {
+            partial.push(zero);
+        }
+        println!("{:?} + {:?} = {:?}",partial,out,digit_addition(&partial,&out,base));
+        out = digit_addition(&partial,&out,base);
+
+        offset += 1;
+    }
     out.reverse();
     out
 }
