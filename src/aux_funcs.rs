@@ -41,6 +41,13 @@ pub fn digit_addition<T: Unsigned + Zero + Copy>(a: &Vec<T>, b: &Vec<T>, base: T
 
     let mut out: Vec<T> = Vec::new();
 
+    while ta.len() < tb.len() {
+        ta.insert(0,zero)
+    }
+    while tb.len() < ta.len() {
+        tb.insert(0,zero)
+    }
+
     let mut carry = zero;
     for _ in 0..length {
         let v1 = ta.pop().unwrap_or(zero);
@@ -65,11 +72,14 @@ pub fn digit_multiplication<T: Unsigned + Zero + Copy + Debug>(a: &Vec<T>, b: &V
     let mut out = vec![zero];
     let mut offset = 0;
 
-    for d1 in a.iter().rev() {
+    for d1 in b.iter().rev() {
         let mut partial: Vec<T> = Vec::new();
-
+        for _ in 0..offset {
+            partial.push(zero);
+        }
         let mut carry = zero;
-        for d2 in b.iter().rev() {
+        for d2 in a.iter().rev() {
+            //println!("{:?} * {:?}",*d1,*d2);
             let mut val = *d1 * *d2 + carry;
             carry = val / base;
             val = val % base;
@@ -78,12 +88,7 @@ pub fn digit_multiplication<T: Unsigned + Zero + Copy + Debug>(a: &Vec<T>, b: &V
         if carry != zero {
             partial.push(carry)
         }
-        for _ in 0..offset {
-            partial.push(zero);
-        }
-        println!("{:?} + {:?} = {:?}",partial,out,digit_addition(&partial,&out,base));
         out = digit_addition(&partial,&out,base);
-
         offset += 1;
     }
     out.reverse();
