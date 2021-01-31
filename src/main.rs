@@ -65,20 +65,20 @@ fn make_message(input: &str) {
         "56" => worked_problems::euler_56::euler56_example(),
         "57" => worked_problems::euler_57::euler57_example(),
         "58" => worked_problems::euler_58::euler58_example(),
+        "59" => worked_problems::euler_59::euler59_example(),
         _ => println!("Haven't gotten to that one yet, sorry."),
     };
 }
 
 fn main() {
-    println!("\nWelcome to My Project Euler Rust Project!");
-    println!("Type \"quit\" to exit.");
+    println!("\nWelcome to My Project Euler Rust Project!\nhttps://github.com/SymmetricChaos/project_euler_rust\nProblems 1 to 59 are available\n\nType \"quit\" to exit.");
     loop {
         println!("\n\nWhich Project Euler Problem Should I Show You?");
         let mut val = String::new();
         io::stdin().read_line(&mut val).expect("Failed to read line");
 
         let v = val.trim();
-            
+        
         if v == "q" || v == "quit" {
             break
         }
