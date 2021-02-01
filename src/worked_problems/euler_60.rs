@@ -37,19 +37,23 @@ pub fn euler60() -> u64 {
     let mut prime_iter = prime_sieve();
     let mut primes = Vec::<u64>::new();
 
-    for _ in 0..20 {
+    for _ in 0..120 {
         let p = prime_iter.next().unwrap();
         if p == 2 || p == 5 {
             continue
         }
+        valid_pairs.insert(p,Vec::<u64>::new());
         for v in primes.iter() {
             if is_pair(p,*v) {
                 valid_pairs.get_mut(v).unwrap().push(p);
+                valid_pairs.get_mut(&p).unwrap().push(*v);
             }
         }
         primes.push(p)
     }
-    println!("{:?}",valid_pairs);
+    for p in primes.iter() {
+        println!("{}: {:?}",p,valid_pairs[p]);
+    }
     out
 }
 
