@@ -140,13 +140,13 @@ pub fn is_prime(n: u64) -> bool {
     let witnesses = [2, 325, 9375, 28178, 450775, 9780504, 1795265022];
     
     'outer: for w in witnesses.iter() {
-        let mut x = mod_exp(*w,d,n);
+        let mut x = mod_exp(*w as u128,d as u128,n as u128) as u64;
         
         if x == 1 || x == n-1 {
             continue 'outer;
         }
         for _ in 0..r-1 {
-            x = mod_exp(x,2,n);
+            x = mod_exp(x as u128, 2u128, n as u128) as u64;
             
             if x == n-1 {
                  continue 'outer;
