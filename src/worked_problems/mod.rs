@@ -58,3 +58,4 @@ pub mod euler_57;
 pub mod euler_58;
 pub mod euler_59;
 pub mod euler_60;
+pub mod euler_61;

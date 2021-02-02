@@ -157,6 +157,55 @@ pub fn is_prime(n: u64) -> bool {
     true
 }
 
+// 23-bit primality test
+// First checks small possible factors then switches to deterministic Miller-Rabin
+pub fn is_prime32(n: u32) -> bool {
+
+    if n <= 1 {
+        return false;
+    }
+
+    // Check all primes below 100 and all witnesses
+    // This quickly eliminates the vast majority of composite numbers
+    let small_factors = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61];
+
+    for p in small_factors.iter() {
+        if n == *p {
+            return true;
+        }
+        if n % *p == 0 {
+            return false;
+        }
+    }
+    
+    let mut d = (n-1)/2;
+    let mut r = 1;
+    while d % 2 == 0 {
+        d /= 2;
+        r += 1;
+    }
+
+    let witnesses = [2, 7, 61];
+    
+    'outer: for w in witnesses.iter() {
+        let mut x = mod_exp(*w as u64,d as u64,n as u64) as u32;
+        
+        if x == 1 || x == n-1 {
+            continue 'outer;
+        }
+        for _ in 0..r-1 {
+            x = mod_exp(x as u64, 2u64, n as u64) as u32;
+            
+            if x == n-1 {
+                 continue 'outer;
+            }
+        }
+        return false;
+    }
+    true
+}
+
+
 
 
 pub struct PrimeSieve {
