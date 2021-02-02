@@ -68,7 +68,7 @@ pub fn euler60() -> u64 {
                     //println!("{}: {:?}",p,valid_pairs[p]);
                     for quad in valid_pairs[p].iter().combinations(4) {
                         if check_set_of_five(*quad[0],*quad[1],*quad[2],*quad[3],&valid_pairs) {
-                            println!("{}: {:?}",p,quad);
+                            //println!("{}: {:?}",p,quad);
                             return p+*quad[0]+*quad[1]+*quad[2]+*quad[3]
                         }
         
@@ -144,10 +144,10 @@ pub fn euler60() -> u64 {
         if ctr % 300 == 0 {
             for p in primes.iter() {
                 if valid_pairs[p].len() >= 5 {
-                    //println!("{}: {:?}",p,valid_pairs[p]);
+                    //println!(\"{}: {:?}\",p,valid_pairs[p]);
                     for quad in valid_pairs[p].iter().combinations(4) {
                         if check_set_of_five(*quad[0],*quad[1],*quad[2],*quad[3],&valid_pairs) {
-                            println!("{}: {:?}",p,quad);
+                            //println!(\"{}: {:?}\",p,quad);
                             return p+*quad[0]+*quad[1]+*quad[2]+*quad[3]
                         }
         
