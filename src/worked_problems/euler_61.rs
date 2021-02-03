@@ -45,6 +45,29 @@ fn start_map(nums: &Vec<u16>) -> HashMap<u16,Vec<u16>> {
     map
 }
 
+fn recur(val: Vec<u16>, maps: &Vec<HashMap<u16,Vec<u16>>>) -> Vec<u16> {
+    if maps.len() == 0 {
+        if val.first().unwrap() / 100 == val.last().unwrap() % 100 {
+            return val
+        }
+    }
+    let cur = val.last().unwrap();
+    let end = cur % 100;
+    let mut out = Vec::<u16>::new();
+    for (pos,map) in maps.iter().enumerate() {
+        if map.contains_key(&end) {
+            let mut cl = maps.clone();
+            cl.remove(pos);
+            for num in map[&end].iter() {
+                let mut v = val.clone();
+                v.push(*num);
+                out.append(&mut recur(v,&cl));
+            }
+        }
+    }
+    out
+}
+
 pub fn euler61() -> u64 {
     let tri = all_four_digit_figurate(3);
     let sqr = all_four_digit_figurate(4);
@@ -53,21 +76,18 @@ pub fn euler61() -> u64 {
     let sep = all_four_digit_figurate(7);
     let oct = all_four_digit_figurate(8);
     
-    let tri_map = start_map(&tri);
-    let sqr_map = start_map(&sqr);
-    let pen_map = start_map(&pen);
-    let hex_map = start_map(&hex);
-    let sep_map = start_map(&sep);
-    let oct_map = start_map(&oct);
+    let maps = vec![start_map(&sqr),start_map(&pen),
+                  start_map(&hex),start_map(&sep),start_map(&oct)];
 
+    let mut s: u16 = 0;
+    for t in tri.iter() {
+        let v = recur(vec![*t],&maps);
+        if v.len() == 6 {
+            s = v.iter().sum();
+        }
+    }
 
-    println!("{:?}\n\n{:?}\n\n{:?}\n\n{:?}\n\n{:?}\n\n{:?}",tri,sqr,pen,hex,sep,oct);
-
-
-    //let sets = [&sqr,&pen,&hex,&sep,&oct];
-
-
-    0u64
+    s as u64
 }
 
 pub fn euler61_example() {
