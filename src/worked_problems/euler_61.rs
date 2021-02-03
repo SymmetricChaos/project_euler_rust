@@ -3,20 +3,7 @@
 
 */
 
-use crate::aux_funcs::{is_prime,prime_sieve};
 use std::collections::HashMap;
-use itertools::Itertools;
-
-fn count_digits(n: u16) -> u8 {
-    let mut ctr = 1;
-    let mut n = n;
-    n /= 10;
-    while n != 0 {
-        ctr += 1;
-        n /= 10;
-    }
-    ctr
-}
 
 fn figurate(s: u16, n: u16) -> u16 {
     if s == 3 {
@@ -31,15 +18,31 @@ fn all_four_digit_figurate(s: u16) -> Vec<u16> {
     loop {
         ctr += 1;
         let f = figurate(s,ctr);
-        let c = count_digits(f);
-        if c > 4 {
+        if f > 9999 {
             break
         }
-        if c == 4 {
+        // Trim these out b/c they can't qualify
+        if (f % 100) / 10 == 0 {
+            continue
+        }
+        if f > 999 {
             out.push(f)
         }
     }
     out
+}
+
+fn start_map(nums: &Vec<u16>) -> HashMap<u16,Vec<u16>> {
+    let mut map: HashMap<u16,Vec<u16>> = HashMap::new();
+    for s in nums.iter() {
+        let start = s/100;
+        if map.contains_key(&start) {
+            map.get_mut(&start).unwrap().push(*s)
+        } else {
+            map.insert(start,vec![*s]);
+        }
+    }
+    map
 }
 
 pub fn euler61() -> u64 {
@@ -49,7 +52,20 @@ pub fn euler61() -> u64 {
     let hex = all_four_digit_figurate(6);
     let sep = all_four_digit_figurate(7);
     let oct = all_four_digit_figurate(8);
-    println!("{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}",tri,sqr,pen,hex,sep,oct);
+    
+    let tri_map = start_map(&tri);
+    let sqr_map = start_map(&sqr);
+    let pen_map = start_map(&pen);
+    let hex_map = start_map(&hex);
+    let sep_map = start_map(&sep);
+    let oct_map = start_map(&oct);
+
+
+    println!("{:?}\n\n{:?}\n\n{:?}\n\n{:?}\n\n{:?}\n\n{:?}",tri,sqr,pen,hex,sep,oct);
+
+
+    //let sets = [&sqr,&pen,&hex,&sep,&oct];
+
 
     0u64
 }
