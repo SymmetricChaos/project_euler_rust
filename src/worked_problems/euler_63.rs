@@ -33,7 +33,6 @@ pub fn euler63() -> u64 {
             let ex = BigInt::from(n).pow(p);
             let c = count_digits(ex.clone());
             if c == p {
-                println!("{}^{} = {}",n,p,ex);
                 ctr += 1
             }
             if c < p {
@@ -51,9 +50,32 @@ pub fn euler63() -> u64 {
 
 pub fn euler63_example() {
     println!("\nProblem: How many n-digit positive integers exist which are also an nth power?");
-    println!("\n\n");
+    println!("\n\nThis can only happen if the base of the power has one digits since 10^p always has p+1 digits. Second note that multiplting by a one digit number either gives a value with the same number of digits or with one more digit. So if a sequence of powers falls behind it can never catch up later on.");
     let s = "
-";
+pub fn euler63() -> u64 {
+    // All the digits are 1-digit 1th powers, zero is not positive so it is excluded
+    let mut ctr = 9;
+    let mut p = 2;
+    'outer: loop {
+        let mut lo = 2;
+        for n in lo..10 {
+            let ex = BigInt::from(n).pow(p);
+            let c = count_digits(ex.clone());
+            if c == p {
+                ctr += 1
+            }
+            if c < p {
+                lo = n+1;
+                if lo == 10 {
+                    break 'outer
+                }
+            }
+
+        }
+        p += 1;
+    }
+    ctr
+}";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler63());
 }
