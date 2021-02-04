@@ -3,7 +3,9 @@
 /*
 Again we need to find an upper bound. One must exist or the problem is impossible.
 A bit of playing with powers shows that the base of the power must be between 0 and 9 since 10^p always has more than p digits.
-Since powers are increasing on the naturals if 9^p has more than p-digits then 9^(p+1) also has more than p-digits
+Similarly 1 can only produce powers with 1 digit it doesn't ever need to be checked.
+Since powers are increasing on the naturals if b^p has more than p-digits then b^(p+1) also has more than p-digits
+Multiplying by any digit 1 to 9 either gives a value that has same number of digits or one additional digit. Thus for any digit b if b^p has less than p digits b^(p+1) has less than p+1 digits.
 */
 
 use num::bigint::BigInt;
@@ -22,22 +24,25 @@ fn count_digits(n: BigInt) -> u32 {
 
 
 pub fn euler63() -> u64 {
-    // All the digits are 1-digit 1th powers
-    let mut ctr = 10;
+    // All the digits are 1-digit 1th powers, zero is not positive so it is excluded
+    let mut ctr = 9;
     let mut p = 2;
     'outer: loop {
-        for n in 2..10 {
+        let mut lo = 2;
+        for n in lo..10 {
             let ex = BigInt::from(n).pow(p);
             let c = count_digits(ex.clone());
             if c == p {
                 println!("{}^{} = {}",n,p,ex);
                 ctr += 1
-            } else if c > p {
-                if n == 9 {
-                    break 'outer;
-                }
-                break
             }
+            if c < p {
+                lo = n+1;
+                if lo == 10 {
+                    break 'outer
+                }
+            }
+
         }
         p += 1;
     }
