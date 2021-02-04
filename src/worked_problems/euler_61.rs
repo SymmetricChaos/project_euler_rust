@@ -79,6 +79,7 @@ pub fn euler61() -> u64 {
     let maps = vec![start_map(&sqr),start_map(&pen),
                   start_map(&hex),start_map(&sep),start_map(&oct)];
 
+    // The sum is guaranteed to fit in a u16 so no map or anything is needed
     let mut s: u16 = 0;
     for t in tri.iter() {
         let v = recur(vec![*t],&maps);
