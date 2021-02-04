@@ -1,62 +1,61 @@
-// Problem: Find the smallest cube for which exactly five permutations of its digits are cube.
+// Problem: Find the smallest cube for which exactly five permutations of its digits are cubes.
 /*
-
+Iterating through permutations of cubes is not feasible in this case. However we don't need to do that.
+Instead we can hash known cubes based on their digits and see if those digits have shown up before
 */
 
-use num::integer::Roots;
-use itertools::Itertools;
+use std::collections::HashMap;
 use crate::aux_funcs::{int_to_digits};
 
-pub fn digits_to_int(digits: &Vec<&u8>, base: u64) -> u64 {
-    let mut ctr = digits.len();
-    let mut pow = 1;
-    let mut out = 0;
-    while ctr > 0 {
-        ctr -= 1;
-        let d = *digits[ctr] as u64;
-        out += pow*d;
-        pow = pow*base;
-    }
-    out as u64
-}
-
-fn is_cube(n: u64) -> bool {
-    let cbrt = n.cbrt();
-    if cbrt*cbrt*cbrt == n {
-        return true
-    }
-    return false
-}
-
 pub fn euler62() -> u64 {
-    // Start with five because there cube must have at least three digits
+    // Start with five because the cube must have at least three digits
     let mut n = 5;
+    let mut known_cubes: HashMap<String,Vec<u64>> = HashMap::new();
     loop {
-        let mut ctr = 0;
         let cube = n*n*n;
-        let digits = int_to_digits(cube,10);
-        for p in digits.iter().permutations(digits.len()).unique() {
-            if *p[0] == 0 {
-                continue
+        let mut digits = int_to_digits(cube,10);
+        digits.sort();
+        let s = format!("{:?}",digits);
+        if known_cubes.contains_key(&s) {
+            known_cubes.get_mut(&s).unwrap().push(cube);
+            if known_cubes[&s].len() == 5 {
+                return known_cubes[&s][0]
             }
-            let c = digits_to_int(&p,10);
-            if is_cube(c) {
-                ctr += 1
-            }
-            if ctr == 5 {
-                return cube
-            }
+        } else {
+            known_cubes.insert(s.clone(),vec![cube]);
         }
         n += 1
     }
-    0u64
 }
 
 pub fn euler62_example() {
-    println!("\nProblem: Find the smallest cube for which exactly five permutations of its digits are cube.");
-    println!("\n\n");
+    println!("\nProblem: Find the smallest cube for which exactly five permutations of its digits are cubes.");
+    println!("\n\nIterating through permutations of cubes is not feasible in this case. However we don't need to do that. Instead we can hash known cubes based on their digits and see if those digits have shown up before
+    ");
     let s = "
-";
+use std::collections::HashMap;
+use crate::aux_funcs::{int_to_digits};
+
+pub fn euler62() -> u64 {
+    // Start with five because the cube must have at least three digits
+    let mut n = 5;
+    let mut known_cubes: HashMap<String,Vec<u64>> = HashMap::new();
+    loop {
+        let cube = n*n*n;
+        let mut digits = int_to_digits(cube,10);
+        digits.sort();
+        let s = format!(\"{:?}\",digits);
+        if known_cubes.contains_key(&s) {
+            known_cubes.get_mut(&s).unwrap().push(cube);
+            if known_cubes[&s].len() == 5 {
+                return known_cubes[&s][0]
+            }
+        } else {
+            known_cubes.insert(s.clone(),vec![cube]);
+        }
+        n += 1
+    }
+}";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler62());
 }

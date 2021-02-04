@@ -82,7 +82,7 @@ pub fn euler60() -> u64 {
 
 pub fn euler60_example() {
     println!("\nProblem: Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.");
-    println!("\n\nThis brute force method works very slowly. There are graph theoretic solutions to this which are much faster.");
+    println!("\n\nThis is the first PE problem I've solved in Rust but not in another language. This brute force method works very slowly. There are graph theoretic solutions to this which are much faster.");
     let s = "
 use crate::aux_funcs::{is_prime,prime_sieve};
 use std::collections::HashMap;
