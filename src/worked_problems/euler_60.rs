@@ -2,14 +2,13 @@
 /*
 We can exclude 2 and 5, obviously.
 Memoization will probably help here as we are only interested in concatenating pairs of primes.
-
 */
 
-use crate::aux_funcs::{is_prime,prime_sieve};
+use crate::aux_funcs::{is_prime32,prime_sieve};
 use std::collections::HashMap;
 use itertools::Itertools;
 
-fn digit_mask(n: u64) -> u64 {
+fn digit_mask(n: u32) -> u32 {
     let mut mul = 10;
     let mut n = n;
     n /= 10;
@@ -20,10 +19,10 @@ fn digit_mask(n: u64) -> u64 {
     mul
 }
 
-fn is_pair(a: u64, b: u64) -> bool {
+fn is_pair(a: u32, b: u32) -> bool {
     let p1 = a+b*digit_mask(a);
     let p2 = b+a*digit_mask(b);
-    if is_prime(p1) && is_prime(p2) {
+    if is_prime32(p1) && is_prime32(p2) {
         return true
     }
     false
@@ -31,7 +30,7 @@ fn is_pair(a: u64, b: u64) -> bool {
 
 
 // We will pick numbers that are all in some set so we don't need to check the first number
-fn check_set_of_five(b: u64, c: u64, d: u64, e: u64, hmap: &HashMap<u64,Vec<u64>>) -> bool {
+fn check_set_of_five(b: u32, c: u32, d: u32, e: u32, hmap: &HashMap<u32,Vec<u32>>) -> bool {
     if hmap[&b].contains(&c) && hmap[&b].contains(&d) && hmap[&b].contains(&e) {
         if hmap[&c].contains(&d) && hmap[&c].contains(&e) {
             if hmap[&d].contains(&e) {
@@ -43,18 +42,16 @@ fn check_set_of_five(b: u64, c: u64, d: u64, e: u64, hmap: &HashMap<u64,Vec<u64>
 }
 
 pub fn euler60() -> u64 {
-    let mut valid_pairs: HashMap<u64,Vec<u64>> = HashMap::new();
+    let mut valid_pairs: HashMap<u32,Vec<u32>> = HashMap::new();
 
     let mut prime_iter = prime_sieve();
-    let mut primes = Vec::<u64>::new();
-    let mut ctr = 0;
+    let mut primes = Vec::<u32>::new();
     loop {
-        ctr += 1;
-        let p = prime_iter.next().unwrap();
+        let p = prime_iter.next().unwrap() as u32;
         if p == 2 || p == 5 {
             continue
         }
-        valid_pairs.insert(p,Vec::<u64>::new());
+        valid_pairs.insert(p,Vec::<u32>::new());
         for v in primes.iter() {
             if is_pair(p,*v) {
                 valid_pairs.get_mut(v).unwrap().push(p);
@@ -62,19 +59,12 @@ pub fn euler60() -> u64 {
             }
         }
         primes.push(p);
-        if ctr % 300 == 0 {
-            for p in primes.iter() {
-                if valid_pairs[p].len() >= 5 {
-                    //println!("{}: {:?}",p,valid_pairs[p]);
-                    for quad in valid_pairs[p].iter().combinations(4) {
-                        if check_set_of_five(*quad[0],*quad[1],*quad[2],*quad[3],&valid_pairs) {
-                            //println!("{}: {:?}",p,quad);
-                            return p+*quad[0]+*quad[1]+*quad[2]+*quad[3]
-                        }
-        
-                    }
+        if valid_pairs[&p].len() >= 5 {
+            for quad in valid_pairs[&p].iter().combinations(4) {
+                if check_set_of_five(*quad[0],*quad[1],*quad[2],*quad[3],&valid_pairs) {
+                    return (p+*quad[0]+*quad[1]+*quad[2]+*quad[3]) as u64
                 }
-                
+
             }
         }
     }
