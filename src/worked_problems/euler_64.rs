@@ -60,7 +60,7 @@ pub fn euler64() -> u64 {
 
 pub fn euler64_example() {
     println!("\nProblem: How many continued fractions for the sqrt of n for n <= 10000 have an odd period?");
-    println!("\n\nIt turns out that the continue fraction expansion of a sqrt is always periodic starting from the first index after the integer. So there's no need to find exactly where the period starts.");
+    println!("\n\nIt turns out that the continued fraction expansion of a sqrt is always periodic starting from the first index after the integer. So there's no need to find exactly where the period starts.");
     let s = "
 use num::integer::Roots;
 

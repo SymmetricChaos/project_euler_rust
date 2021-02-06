@@ -9,7 +9,7 @@ use crate::aux_funcs::{int_to_digits};
 pub fn euler40() -> u64 {
     let mut out = 1u64;
     let mut index = 10;
-    let mut n = 2;
+    let mut n = 2u32;
     let mut pos = 1;
     loop {
         let s = n.to_string();

@@ -21,7 +21,7 @@ fn is_palindrome(digits: &Vec<u8>) -> bool {
 
 pub fn euler55() -> u64 {
     let mut ctr = 10000;
-    for i in 0..10000 {
+    for i in 0..10000u32 {
         let mut x = int_to_digits(i,10);
         x = lychrel_step(&x);
         for _ in 0..50 {

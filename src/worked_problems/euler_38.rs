@@ -13,7 +13,7 @@ use crate::aux_funcs::{int_to_digits, digits_to_int};
 pub fn euler38() -> u64 {
     let mut out = 0;
     let ds = "[1, 2, 3, 4, 5, 6, 7, 8, 9]";
-    let mut cur = 9;
+    let mut cur = 9u32;
 
     'outer: while cur < 10_000 {
         cur += 1;

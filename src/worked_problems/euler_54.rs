@@ -196,7 +196,7 @@ pub fn euler54() -> u64 {
 
 pub fn euler54_example() {
     println!("\nProblem: How many hands from the provided file does Player 1 win?");
-    println!("\n\n");
+    println!("\n\nThere's a ton of code here working out how to score the ranks of poker hands. Not much interesting to say. ");
     let s = "
 use std::fs;
 use std::cmp::{Ordering,max};
@@ -228,7 +228,6 @@ impl Ord for Card {
         self.rank.cmp(&other.rank)
     }
 }
-
 
 fn str_to_card(s: &str) -> Card {
     let v: Vec<char> = s.chars().collect();
@@ -272,13 +271,11 @@ fn rank_map(hand: &Vec<Card>) -> HashMap<u8,u8> {
     rank_counts
 }
 
-
 fn score_hand(hand: &Vec<Card>) -> (u8,u8,Vec<u8>) {
 
     let mut unique_ranks = hand.iter().map(|card| card.rank).unique().collect_vec();
     unique_ranks.sort();
     let rank_counts = rank_map(&hand);
-
 
     if hand.iter().all(|x| x.suit == hand[0].suit) {
         if is_straight(hand) {
@@ -355,7 +352,6 @@ fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
     }
     false
 }
-
 
 pub fn euler54() -> u64 {
 

@@ -2,19 +2,22 @@ use std::fmt::Debug;
 use std::convert::TryFrom;
 use std::collections::HashMap;
 use mod_exp::mod_exp;
-use num::traits::{Unsigned,Zero};
+use num::traits::{Unsigned,Zero,ToPrimitive};
 use std::cmp::max;
 
-pub fn int_to_digits(n: u64, base: u64) -> Vec<u8> {
-    if n == 0 {
+pub fn int_to_digits<T: Unsigned + Zero + ToPrimitive + Clone>(n: T, base: T) -> Vec<u8> {
+    if n == T::zero() {
         return vec![0u8]
     }
     let mut digits = Vec::new();
     let mut num = n;
-    while num != 0 {
-        let q = num/base;
-        let r = num%base;
-        digits.insert(0,r as u8);
+    while num != T::zero() {
+        let number = num.clone();
+        let divisor = base.clone();
+        let q = number.clone() / divisor.clone();
+        let r = number % divisor;
+
+        digits.insert(0,r.to_u8().unwrap());
         num = q;
     }
     return digits;
@@ -79,7 +82,6 @@ pub fn digit_multiplication<T: Unsigned + Zero + Copy + Debug>(a: &Vec<T>, b: &V
         }
         let mut carry = zero;
         for d2 in a.iter().rev() {
-            //println!("{:?} * {:?}",*d1,*d2);
             let mut val = *d1 * *d2 + carry;
             carry = val / base;
             val = val % base;
@@ -165,7 +167,7 @@ pub fn is_prime32(n: u32) -> bool {
         return false;
     }
 
-    // Check all primes below 100 and all witnesses
+    // Check all primes below 62 and all witnesses
     // This quickly eliminates the vast majority of composite numbers
     let small_factors = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61];
 
