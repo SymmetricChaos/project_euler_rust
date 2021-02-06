@@ -30,7 +30,6 @@ fn convergent(coef: &Vec<BigUint>) -> (BigUint,BigUint) {
         let g = gcd(n1.clone(),d1.clone());
         n1 = &n1/&g;
         d1 = &d1/&g;
-
     }
     (n1,d1)
 }
