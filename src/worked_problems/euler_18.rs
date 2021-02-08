@@ -21,21 +21,21 @@
 use std::fs;
 use std::cmp::max;
 
-// Read the file and create a vector of vectors that contains u32s
-fn read_data() -> Vec<Vec<u32>> {
+// Read the file and create a vector of vectors that contains u16s
+fn read_data() -> Vec<Vec<u16>> {
     let s = fs::read_to_string("Euler18Doc.txt").unwrap();
     let rows = s.split("\r\n");
     let mut vec = Vec::new();
     for r in rows {
         let elems = r.split(" ");
-        let v = elems.map(|x| x.parse::<u32>().unwrap()).collect::<Vec<u32>>();
+        let v = elems.map(|x| x.parse::<u16>().unwrap()).collect::<Vec<u16>>();
         vec.push(v);
     }
     vec
 }
 
 // Search through the triangle created for the greatest sum
-fn search_triangle(t: &Vec<Vec<u32>>, a: usize, b: usize) -> u32 {
+fn search_triangle(t: &Vec<Vec<u16>>, a: usize, b: usize) -> u16 {
     if a == 14 {
         return t[a][b];
     } else {
@@ -55,21 +55,21 @@ pub fn euler18_example() {
 use std::fs;
 use std::cmp::max;
 
-// Read the file and create a vector of vectors that contains u32s
-fn read_data() -> Vec<Vec<u32>> {
+// Read the file and create a vector of vectors that contains u16s
+fn read_data() -> Vec<Vec<u16>> {
     let s = fs::read_to_string(\"Euler18Doc.txt\").unwrap();
     let rows = s.split(\"\\r\\n\");
     let mut vec = Vec::new();
     for r in rows {
         let elems = r.split(\" \");
-        let v = elems.map(|x| x.parse::<u32>().unwrap()).collect::<Vec<u32>>();
+        let v = elems.map(|x| x.parse::<u16>().unwrap()).collect::<Vec<u16>>();
         vec.push(v);
     }
     vec
 }
 
 // Search through the triangle created for the greatest sum
-fn search_triangle(t: &Vec<Vec<u32>>, a: usize, b: usize) -> u32 {
+fn search_triangle(t: &Vec<Vec<u16>>, a: usize, b: usize) -> u16 {
     if a == 14 {
         return t[a][b];
     } else {

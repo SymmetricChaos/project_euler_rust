@@ -58,7 +58,6 @@ fn read_data() -> Vec<Vec<u16>> {
     vec
 }
 
-// Work from the bottom up!
 fn search_triangle(t: &mut Vec<Vec<u16>>) -> u16 {
     let mut row = 98;
     while row != 0 {
