@@ -80,7 +80,7 @@ fn make_message(input: &str) {
 }
 
 fn main() {
-    println!("\nWelcome to My Project Euler Rust Project!\nhttps://github.com/SymmetricChaos/project_euler_rust\nProblems 1 to 67 are available\n\nType \"quit\" to exit.");
+    println!("\nWelcome to My Project Euler Rust Project!\nhttps://github.com/SymmetricChaos/project_euler_rust\nProblems 1 to 68 are available\n\nType \"quit\" to exit.");
     loop {
         println!("\n\nWhich Project Euler Problem Should I Show You?");
         let mut val = String::new();
