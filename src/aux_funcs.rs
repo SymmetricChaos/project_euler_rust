@@ -245,6 +245,46 @@ pub fn prime_sieve() -> PrimeSieve {
         n: 1u64}
 }
 
+pub struct TotientSieve {
+    sieve: HashMap::<u64,Vec<u64>>,
+    n: u64,
+}
+
+impl Iterator for TotientSieve {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<u64> {
+        loop {
+            self.n += 1;
+            if !self.sieve.contains_key(&self.n) {
+                self.sieve.insert(self.n+self.n,vec![self.n]);
+                return Some(self.n-1)
+            } else {
+                let factors = &self.sieve[&self.n].clone();
+                let mut num = 1;
+                let mut den = 1;
+                for factor in factors {
+                    num *= factor-1;
+                    den *= factor;
+                    if self.sieve.contains_key(&(factor+self.n)) {
+                        self.sieve.get_mut(&(factor+self.n)).unwrap().push(*factor);
+                    } else {
+                        self.sieve.insert(factor+self.n,vec![*factor]);
+                    }
+                }
+                self.sieve.remove(&self.n);
+                return Some((self.n*num)/den)
+            }
+        }
+    }
+}
+
+pub fn totient_sieve() -> TotientSieve {
+    TotientSieve{
+        sieve: HashMap::<u64,Vec<u64>>::new(),
+        n: 1u64}
+}
+
 pub fn prime_factorization(n: u64) -> HashMap<u64,u64> {
     let mut canon = HashMap::new();
     let mut x = n;

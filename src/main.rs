@@ -76,12 +76,13 @@ fn make_message(input: &str) {
         "67" => worked_problems::euler_67::euler67_example(),
         "68" => worked_problems::euler_68::euler68_example(),
         "69" => worked_problems::euler_69::euler69_example(),
+        "70" => worked_problems::euler_70::euler70_example(),
         _ => println!("Haven't gotten to that one yet, sorry."),
     };
 }
 
 fn main() {
-    println!("\nWelcome to My Project Euler Rust Project!\nhttps://github.com/SymmetricChaos/project_euler_rust\nProblems 1 to 69 are available\n\nType \"quit\" to exit.");
+    println!("\nWelcome to My Project Euler Rust Project!\nhttps://github.com/SymmetricChaos/project_euler_rust\nProblems 1 to 70 are available\n\nType \"quit\" to exit.");
     loop {
         println!("\n\nWhich Project Euler Problem Should I Show You?");
         let mut val = String::new();
