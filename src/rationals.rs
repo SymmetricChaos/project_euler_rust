@@ -1,6 +1,6 @@
 
 use std::fmt;
-use std::ops::{Mul,Add};
+use std::ops::{Mul};
 use crate::aux_funcs::{gcd};
 
 #[derive(Debug, Copy, Clone)]
@@ -50,6 +50,7 @@ impl Rational {
         Rational{n: self.n/g, d: self.d/g}
     }
 
+    /*
     pub fn invert(&mut self) {
         let t = self.n;
         self.n = self.d;
@@ -59,4 +60,5 @@ impl Rational {
     pub fn inverted(&self) -> Self {
         Rational{n: self.d, d: self.n}
     }
+    */
 }
