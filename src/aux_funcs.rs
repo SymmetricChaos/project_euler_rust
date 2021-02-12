@@ -159,7 +159,7 @@ pub fn is_prime(n: u64) -> bool {
     true
 }
 
-// 23-bit primality test
+// 32-bit primality test
 // First checks small possible factors then switches to deterministic Miller-Rabin
 pub fn is_prime32(n: u32) -> bool {
 

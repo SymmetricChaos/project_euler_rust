@@ -71,3 +71,4 @@ pub mod euler_70;
 pub mod euler_71;
 pub mod euler_72;
 pub mod euler_73;
+pub mod euler_74;
