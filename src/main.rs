@@ -1,4 +1,3 @@
-
 use std::io;
 
 mod rationals;
@@ -78,13 +77,14 @@ fn make_message(input: &str) {
         "69" => worked_problems::euler_69::euler69_example(),
         "70" => worked_problems::euler_70::euler70_example(),
         "71" => worked_problems::euler_71::euler71_example(),
-        "72" => worked_problems::euler_72::euler72_example(),       
+        "72" => worked_problems::euler_72::euler72_example(),
+        "73" => worked_problems::euler_73::euler73_example(),
         _ => println!("Haven't gotten to that one yet, sorry."),
     };
 }
 
 fn main() {
-    println!("\nWelcome to My Project Euler Rust Project!\nhttps://github.com/SymmetricChaos/project_euler_rust\nProblems 1 to 72 are available\n\nType \"quit\" to exit.");
+    println!("\nWelcome to My Project Euler Rust Project!\nhttps://github.com/SymmetricChaos/project_euler_rust\nProblems 1 to 73 are available\n\nType \"quit\" to exit.");
     loop {
         println!("\n\nWhich Project Euler Problem Should I Show You?");
         let mut val = String::new();
