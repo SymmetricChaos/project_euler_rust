@@ -12,7 +12,7 @@ pub fn euler75() -> u64 {
     // sqrt(1,500,000) is approximately 1225
     for m in 2..=1225 {
         for n in 1..m {
-            if gcd(m,n) != 1 || (m-n)%2 == 1 {
+            if gcd(m,n) != 1 || (m-n)%2 == 0 {
                 continue
             }
             let a = m*m-n*n;
