@@ -4,8 +4,6 @@
 
 use crate::aux_funcs::{prime_sieve};
 
-
-
 fn restricted_partition(coins: &Vec<u64>, pos: usize, cur: u64) -> u64 {
     let mut total = 0;
     for (n,c) in coins.iter().enumerate() {
