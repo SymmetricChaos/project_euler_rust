@@ -14,7 +14,7 @@ fn next_digit(p: &BigUint, c: &BigUint) -> u8 {
     let twenty = BigUint::from(20u32);
     let mut out = 9;
     for t in 0..10 {
-        if i.clone()*(i.clone()+twenty.clone()*p) > *c {
+        if &i*(&i+&twenty*p) > *c {
             out = t-1;
             break
         }
@@ -37,10 +37,10 @@ fn sqrt_digit_sum(n: u64) -> u64 {
         let c = hundred.clone()*r+d;
         let x = next_digit(&p,&c);
         digits.push(x);
-        let bigx = BigUint::from(x);
-        r = c.clone() - bigx.clone()*(bigx.clone()+twenty.clone()*p.clone());
-        p = ten.clone()*p+bigx.clone();
-        d = zero.clone();
+        let bigx = &BigUint::from(x);
+        r = c - bigx*(bigx+&twenty*&p);
+        p = &ten*&p+bigx;
+        d = BigUint::zero();
     }
     sum_digits(&digits)
 }
