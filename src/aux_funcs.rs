@@ -98,17 +98,14 @@ pub fn digit_multiplication<T: Unsigned + Zero + Copy + Debug>(a: &Vec<T>, b: &V
 }
 
 
-
-pub fn gcd(a: u64, b: u64) -> u64 {
-    let mut x = a;
-    let mut y = b;
-    while y != 0 {
-        let t = y;
-        y = x % y;
-        x = t;
+pub fn sum_digits(digits: &Vec<u8>) -> u64 {
+    let mut sum = 0u64;
+    for d in digits.iter() {
+        sum += *d as u64
     }
-    return x;
+    sum
 }
+
 
 // 64-bit primality test
 // First checks small possible factors then switches to deterministic Miller-Rabin

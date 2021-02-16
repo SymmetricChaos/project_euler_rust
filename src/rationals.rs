@@ -1,7 +1,7 @@
 
 use std::fmt;
 use std::ops::{Mul};
-use crate::aux_funcs::{gcd};
+use num::integer::gcd;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Rational {
