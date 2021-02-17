@@ -5,6 +5,7 @@
 */
 use std::fs;
 use std::cmp::min;
+use std::collections::VecDeque;
 
 // The sum will not overflow a u32
 fn read_data() -> Vec<Vec<u32>> {
@@ -19,47 +20,45 @@ fn read_data() -> Vec<Vec<u32>> {
     vec
 }
 
-fn top_triangle(s: &Vec<Vec<u32>>) -> Vec<Vec<u32>> {
-    let mut t = Vec::new();
-    for x in 0..80 {
-        let mut r = vec![];
-        for (i,j) in (0..=x).rev().zip(0..=x) {
-            r.push(s[i][j])
-        }
-        t.push(r)
+// WE CAN SOLVE IT AS A MAZE
+// LOOK UP Dijkstra
+
+// Simple depth first search works for a small matrix
+fn depth_first_search(mat: &Vec<Vec<u32>>, lim: u32, pos: &[usize]) -> u32 {
+    let cur = mat[pos[0]][pos[1]];
+    let mut choices = vec![];
+    if pos[0] + 1 < lim as usize {
+        choices.push(cur + depth_first_search(mat, lim, &[pos[0]+1, pos[1]]))
     }
-    t
+    if pos[1] + 1 < lim as usize {
+        choices.push(cur + depth_first_search(mat, lim, &[pos[0], pos[1]+1]))
+    }
+    if choices.len() == 0 {
+        return cur
+    }
+    return *choices.iter().min().unwrap()
 }
 
-// Work from the bottom up!
-// I expect it is easier to think of this in terms of a diamond rather than a square
-// As a diamond it has 159 rows (79+80)
-/*
-fn search_diamond(t: &mut Vec<Vec<u32>>, row: usize, col: usize) -> u32 {
+// Dijkstra's algorithm should be much faster for a large one
+fn best_first_search() {
 
-
-    /*
-    let mut row = 159;
-    while row != 0 {
-        for (pos,val) in t[row].clone().iter().enumerate() {
-            t[row][pos] = val + min(t[row+1][pos],t[row+1][pos+1])
-        }
-        row -= 1
-    }
-    return t[0][0] + min(t[1][0],t[1][0])
-    */
 }
-*/
+
 
 pub fn euler81() -> u64 {
     let mat = read_data();
-    println!("{:?}",top_triangle(&mat));
+    let mat2 = vec![vec![131,673,234,103,18],
+                    vec![201,96,342,965,150],
+                    vec![630,803,746,422,111],
+                    vec![537,699,497,121,956],
+                    vec![805,732,524,37,331]];
+    println!("{}",depth_first_search(&mat, 80, &[0,0]));
     0u64
 }
 
 pub fn euler81_example() {
     println!("\nProblem: Find the minimal path sum from the top left to the bottom right by only moving right and down in the provided file.");
-    println!("\n\n");
+    println!("\n\nThis problem along with Problems 82 and 83 are all variations on the same theme, traversing a grid to find the path with the lowest sum. This is similar in presentation to Problem 67 but is probably better addressed as solving a maze.");
     let s = "
 ";
     println!("\n{}\n",s);
