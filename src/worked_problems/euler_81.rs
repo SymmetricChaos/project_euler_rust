@@ -5,7 +5,7 @@
 */
 use std::fs;
 use std::cmp::min;
-use std::collections::VecDeque;
+use std::collections::{HashMap,BinaryHeap};
 
 // The sum will not overflow a u32
 fn read_data() -> Vec<Vec<u32>> {
@@ -20,10 +20,9 @@ fn read_data() -> Vec<Vec<u32>> {
     vec
 }
 
-// WE CAN SOLVE IT AS A MAZE
-// LOOK UP Dijkstra
 
-// Simple depth first search works for a small matrix
+/*
+// Simple recursive depth first search works for a small matrix
 fn depth_first_search(mat: &Vec<Vec<u32>>, lim: u32, pos: &[usize]) -> u32 {
     let cur = mat[pos[0]][pos[1]];
     let mut choices = vec![];
@@ -38,27 +37,53 @@ fn depth_first_search(mat: &Vec<Vec<u32>>, lim: u32, pos: &[usize]) -> u32 {
     }
     return *choices.iter().min().unwrap()
 }
+*/
+
+// Returns a table of adjacencies
+fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec<u32>> {
+    let mut adjacency = HashMap::new();
+    for i in 0..lim {
+        for j in 0..lim {
+            adjacency.insert((i,j),vec![]);
+            if i+1 < lim {
+                adjacency.get_mut(&(i,j)).unwrap().push(mat[i+1][j])
+            }
+            if j+1 < lim {
+                adjacency.get_mut(&(i,j)).unwrap().push(mat[i][j+1])
+            }
+            
+        }
+    }
+    adjacency
+}
 
 // Dijkstra's algorithm should be much faster for a large one
-fn best_first_search() {
+fn dijkstra() {
 
 }
 
 
+
+
 pub fn euler81() -> u64 {
     let mat = read_data();
-    let mat2 = vec![vec![131,673,234,103,18],
+    let mat_test = vec![
+                    vec![131,673,234,103,18],
                     vec![201,96,342,965,150],
                     vec![630,803,746,422,111],
                     vec![537,699,497,121,956],
-                    vec![805,732,524,37,331]];
-    println!("{}",depth_first_search(&mat, 80, &[0,0]));
+                    vec![805,732,524,37,331]
+                    ];
+    let g = matrix_to_graph(&mat_test,5);
+    for r in g {
+        println!("{:?}",r)
+    }
     0u64
 }
 
 pub fn euler81_example() {
     println!("\nProblem: Find the minimal path sum from the top left to the bottom right by only moving right and down in the provided file.");
-    println!("\n\nThis problem along with Problems 82 and 83 are all variations on the same theme, traversing a grid to find the path with the lowest sum. This is similar in presentation to Problem 67 but is probably better addressed as solving a maze.");
+    println!("\n\nThis problem along with Problems 82 and 83 are all variations on the same theme, traversing a grid to find the path with the lowest sum. This is similar in presentation to Problem 67 but is probably better addressed as if finding a route. An ordinary search simply will not work on an 80x80 grid so instead a more efficient method is needed. I looked up information on implemented Dijsktra's algorithm.");
     let s = "
 ";
     println!("\n{}\n",s);
