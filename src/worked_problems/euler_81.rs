@@ -40,16 +40,16 @@ fn depth_first_search(mat: &Vec<Vec<u32>>, lim: u32, pos: &[usize]) -> u32 {
 */
 
 // Returns a table of adjacencies
-fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec<u32>> {
+fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec<((usize,usize),u32)>> {
     let mut adjacency = HashMap::new();
     for i in 0..lim {
         for j in 0..lim {
             adjacency.insert((i,j),vec![]);
             if i+1 < lim {
-                adjacency.get_mut(&(i,j)).unwrap().push(mat[i+1][j])
+                adjacency.get_mut(&(i,j)).unwrap().push( ((i+1,j), mat[i+1][j]) )
             }
             if j+1 < lim {
-                adjacency.get_mut(&(i,j)).unwrap().push(mat[i][j+1])
+                adjacency.get_mut(&(i,j)).unwrap().push( ((i,j+1), mat[i][j+1]) )
             }
             
         }
