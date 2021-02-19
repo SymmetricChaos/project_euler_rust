@@ -3,9 +3,14 @@
 /*
 
 */
-use std::fs;
-use std::cmp::min;
-use std::collections::{HashMap,BinaryHeap};
+use std::{
+    fs,
+    cell::Cell,
+    cmp::Ordering,
+    collections::{BinaryHeap, HashMap, HashSet},
+    hash::{Hash, Hasher},
+};
+
 
 // The sum will not overflow a u32
 fn read_data() -> Vec<Vec<u32>> {
@@ -19,7 +24,6 @@ fn read_data() -> Vec<Vec<u32>> {
     }
     vec
 }
-
 
 /*
 // Simple recursive depth first search works for a small matrix
@@ -39,17 +43,66 @@ fn depth_first_search(mat: &Vec<Vec<u32>>, lim: u32, pos: &[usize]) -> u32 {
 }
 */
 
+//https://codereview.stackexchange.com/questions/202677/dijkstras-algorithm-in-rust
+
+// This vertex structure will make it possible to keep track of the distance through each node
+// Cell is needed in order to have a shared mutable reference. We may need to change the distance through that node many times.
+// Since the BinaryHeap that Rust provides is a max-heap the order relation is reversed to make it act as a min-heap.
+// The Hash trait is necessary for using a vertex as a key in a HashMap or HashSet.
+#[derive(Eq)]
+struct Vertex<'a> {
+    name: &'a str,
+    distance: Cell<usize>,
+    score: u32,
+}
+
+impl<'a> Vertex<'a> {
+    fn new(i: usize, j: usize, score: u32) -> Vertex<'a> {
+        Vertex {
+            name: format!("({},{})",i,j),
+            distance: Cell::new(usize::max_value()),
+            score,
+        }
+    }
+}
+
+impl<'a> Hash for Vertex<'a> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.name.hash(state);
+    }
+}
+
+impl<'a> Ord for Vertex<'a> {
+    fn cmp(&self, other: &Vertex<'a>) -> Ordering {
+        other.distance.get().cmp(&self.distance.get())
+    }
+}
+
+impl<'a> PartialOrd for Vertex<'a> {
+    fn partial_cmp(&self, other: &Vertex<'a>) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl<'a> PartialEq for Vertex<'a> {
+    fn eq(&self, other: &Vertex<'a>) -> bool {
+        self.name == other.name
+    }
+}
+
 // Returns a table of adjacencies
-fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec<((usize,usize),u32)>> {
+// Every position is linked to a vector that contains the adjacent positions and the distance to them
+fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<Vertex,Vec<Vertex>> {
     let mut adjacency = HashMap::new();
     for i in 0..lim {
         for j in 0..lim {
-            adjacency.insert((i,j),vec![]);
+            let v = Vertex::new(i,j,mat[i][j]);
+            adjacency.insert(v,vec![]);
             if i+1 < lim {
-                adjacency.get_mut(&(i,j)).unwrap().push( ((i+1,j), mat[i+1][j]) )
+                adjacency.get_mut(&v).unwrap().push( Vertex::new(i+1,j,mat[i+1][j]) )
             }
             if j+1 < lim {
-                adjacency.get_mut(&(i,j)).unwrap().push( ((i,j+1), mat[i][j+1]) )
+                adjacency.get_mut(&v).unwrap().push( Vertex::new(i,j+1,mat[i][j+1]) )
             }
             
         }
@@ -57,8 +110,26 @@ fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec
     adjacency
 }
 
-// Dijkstra's algorithm should be much faster for a large one
-fn dijkstra() {
+
+
+// Overview of what we need to do
+// The verticies should be held in a BinaryHeap (the Rust implementation of a priority queue)
+// To work properly it must be possible to sort the verticies
+// We set the vertex [0,0] as the current position to start
+// For each unvisisted neighbor check the total distance to them by going through the current position
+// If we find a faster way to that neighbor than we previously knew set that distance as the new one
+// From the BinaryHeap select the vertex with the shortest total distance
+// If that vertex is [79,79] we're done otherwise it becomes the current position
+
+
+// Dijkstra's algorithm should be much faster for a large matrix
+fn dijkstra(adjacency_map: HashMap<Vertex,Vec<Vertex>>) {
+    let mut to_visit = BinaryHeap::new();
+    let mut visited = HashSet::<Vertex>::new();
+    let mut distances = HashMap::<Vertex,usize>::new();
+    adjacency_map.keys().for_each(|p| to_visit.push(p));
+
+
 
 }
 
