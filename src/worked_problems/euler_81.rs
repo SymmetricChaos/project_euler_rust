@@ -104,9 +104,6 @@ fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec
 // From the BinaryHeap select the vertex with the shortest total distance
 // If that vertex is [79,79] we're done otherwise it becomes the current position
 
-
-// Dijkstra's algorithm should be much faster for a large matrix
-
 fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) -> u32 {
     // Relate every vertex to a distance
     let mut distances = HashMap::new();
@@ -123,6 +120,8 @@ fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) ->
         distance: 4445,
     });
 
+    // The "while let" syntax means this will break if the destructure fails because we pop a None
+    // The BinaryHeap ensures that we always work on the KnownVertex which has the shortest path from the starting point
     while let Some(KnownVertex { name, distance }) = to_visit.pop() {
         if !visited.insert(name) {
             // Already visited this node
@@ -134,7 +133,10 @@ fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) ->
             break
         }
 
+        // The "if let" syntax skips this block if the assignment fails
         if let Some(neighbors) = adjacency_list.get(&name) {
+            // If we find a shorter path to this neighbor than is known (or if no path is known)
+            // then we update the distances HashMap and push this neighbor onto the to_visit BinaryHeap as a KnownVertex
             for (neighbor, cost) in neighbors {
                 let new_distance = distance + cost;
                 let is_shorter = distances
@@ -165,9 +167,78 @@ pub fn euler81() -> u64 {
 
 pub fn euler81_example() {
     println!("\nProblem: Find the minimal path sum from the top left to the bottom right by only moving right and down in the provided file.");
-    println!("\n\nThis problem along with Problems 82 and 83 are all variations on the same theme, traversing a grid to find the path with the lowest sum. This is similar in presentation to Problem 67 but is probably better addressed as if finding a route. An ordinary search simply will not work on an 80x80 grid so instead a more efficient method is needed. I looked up information on implemented Dijsktra's algorithm.");
+    println!("\n\nThis problem along with Problems 82 and 83 are all variations on the same theme, traversing a grid to find the path with the lowest sum. This is similar in presentation to Problem 67, however more complicated since the method of going in reverse is harder to apply. Traversing a grid to find the lowest sum is the same as traversing a graph to find the lowest sum, which can be done efficiently Dijsktra's algorithm. The code below is just for that algorithm and the adjacency matrix. To make it work the KnownVertex type needs to be implemented with a reversed Ord and PartialOrd to make the BinaryHeap act as a min-heap.");
     let s = "
-";
+fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec<((usize,usize),u32)>> {
+    let mut adjacency = HashMap::new();
+    for i in 0..lim {
+        for j in 0..lim {
+            let v = (i,j);
+            adjacency.insert(v,vec![]);
+            if i+1 < lim {
+                adjacency.get_mut(&v).unwrap().push( ((i+1,j),mat[i+1][j]) )
+            }
+            if j+1 < lim {
+                adjacency.get_mut(&v).unwrap().push( ((i,j+1),mat[i][j+1]) )
+            }
+            
+        }
+    }
+    adjacency
+}
+
+fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) -> u32 {
+    // Relate every vertex to a distance
+    let mut distances = HashMap::new();
+    // Track which verticies have been visited
+    let mut visited = HashSet::new();
+    // A heap to act as a priority queue
+    let mut to_visit = BinaryHeap::new();
+
+    
+    distances.insert((0,0), 4445);
+
+    to_visit.push(KnownVertex {
+        name: (0,0),
+        distance: 4445,
+    });
+
+    // The \"while let\" syntax means this will break if the destructure fails because we pop a None
+    // The BinaryHeap ensures that we always work on the KnownVertex which has the shortest path from the starting point
+    while let Some(KnownVertex { name, distance }) = to_visit.pop() {
+        if !visited.insert(name) {
+            // Already visited this node
+            continue;
+        }
+
+        // Once we visit the target we're done
+        if visited.contains(&(79,79)) {
+            break
+        }
+
+        // The \"if let\" syntax skips this block if the assignment fails
+        if let Some(neighbors) = adjacency_list.get(&name) {
+            // If we find a shorter path to this neighbor than is known (or if no path is known)
+            // then we update the distances HashMap and push this neighbor onto the to_visit BinaryHeap as a KnownVertex
+            for (neighbor, cost) in neighbors {
+                let new_distance = distance + cost;
+                let is_shorter = distances
+                    .get(&neighbor)
+                    .map_or(true, |&current| new_distance < current);
+
+                if is_shorter {
+                    distances.insert(*neighbor, new_distance);
+                    to_visit.push(KnownVertex {
+                        name: *neighbor,
+                        distance: new_distance,
+                    });
+                }
+            }
+        }
+    }
+
+    distances[&(79,79)]
+}";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler81());
 }
