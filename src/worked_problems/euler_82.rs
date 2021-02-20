@@ -99,11 +99,11 @@ fn dijkstra(start: (usize,usize), mat: &Vec<Vec<u32>>, adjacency_list: &HashMap<
                     .get(&neighbor)
                     .map_or(true, |&current| new_distance < current);
 
-                // This is our exit condition
-                if neighbor.1 == 79 {
-                    return new_distance
-                }                
                 if is_shorter {
+                    // This is our exit condition
+                    if neighbor.1 == 79 {
+                        return new_distance
+                    }   
                     distances.insert(*neighbor, new_distance);
                     to_visit.push(KnownVertex {
                         name: *neighbor,
@@ -114,7 +114,8 @@ fn dijkstra(start: (usize,usize), mat: &Vec<Vec<u32>>, adjacency_list: &HashMap<
         }
     }
 
-    0u32
+    // We can never get here and this tells the copiler that.
+    unreachable!()
 }
 
 pub fn euler82() -> u64 {
@@ -139,7 +140,6 @@ fn dijkstra(start: (usize,usize), mat: &Vec<Vec<u32>>, adjacency_list: &HashMap<
     // A heap to act as a priority queue
     let mut to_visit = BinaryHeap::new();
 
-    
     distances.insert(start, mat[start.0][start.1]);
 
     to_visit.push(KnownVertex {
@@ -160,7 +160,6 @@ fn dijkstra(start: (usize,usize), mat: &Vec<Vec<u32>>, adjacency_list: &HashMap<
                     .get(&neighbor)
                     .map_or(true, |&current| new_distance < current);
 
-                
                 // This is our exit condition
                 if neighbor.1 == 79 {
                     return new_distance
@@ -176,7 +175,8 @@ fn dijkstra(start: (usize,usize), mat: &Vec<Vec<u32>>, adjacency_list: &HashMap<
         }
     }
 
-    0u32
+    // We can never get here and this tells the copiler that.
+    unreachable!()
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler82());

@@ -128,11 +128,6 @@ fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) ->
             continue;
         }
 
-        // Once we visit the target we're done
-        if visited.contains(&(79,79)) {
-            break
-        }
-
         // The "if let" syntax skips this block if the assignment fails
         if let Some(neighbors) = adjacency_list.get(&name) {
             // If we find a shorter path to this neighbor than is known (or if no path is known)
@@ -144,6 +139,10 @@ fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) ->
                     .map_or(true, |&current| new_distance < current);
 
                 if is_shorter {
+                    // Once we visit the target we're done
+                    if *neighbor == (79,79) {
+                        return new_distance
+                    }
                     distances.insert(*neighbor, new_distance);
                     to_visit.push(KnownVertex {
                         name: *neighbor,
@@ -154,7 +153,8 @@ fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) ->
         }
     }
 
-    distances[&(79,79)]
+    // We can never get here and this tells the copiler that.
+    unreachable!()
 }
 
 
