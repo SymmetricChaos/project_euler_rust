@@ -5,10 +5,8 @@
 */
 use std::{
     fs,
-    cell::Cell,
     cmp::Ordering,
     collections::{BinaryHeap, HashMap, HashSet},
-    hash::{Hash, Hasher},
 };
 
 
@@ -45,71 +43,56 @@ fn depth_first_search(mat: &Vec<Vec<u32>>, lim: u32, pos: &[usize]) -> u32 {
 
 //https://codereview.stackexchange.com/questions/202677/dijkstras-algorithm-in-rust
 
-// This vertex structure will make it possible to keep track of the distance through each node
-// Cell is needed in order to have a shared mutable reference. We may need to change the distance through that node many times.
+// Instead of a Vertex type we will just use a pair (usize,usize) since we can get the information directly from the matrix
+
+// This KnownVertex type will store a vertex that has been visisted before along with a distance through it
 // Since the BinaryHeap that Rust provides is a max-heap the order relation is reversed to make it act as a min-heap.
-// The Hash trait is necessary for using a vertex as a key in a HashMap or HashSet.
+
+
 #[derive(Eq)]
-struct Vertex<'a> {
-    name: &'a str,
-    distance: Cell<usize>,
-    score: u32,
+struct KnownVertex {
+    name: (usize,usize),
+    distance: u32,
 }
 
-impl<'a> Vertex<'a> {
-    fn new(i: usize, j: usize, score: u32) -> Vertex<'a> {
-        Vertex {
-            name: format!("({},{})",i,j),
-            distance: Cell::new(usize::max_value()),
-            score,
-        }
+impl PartialEq for KnownVertex {
+    fn eq(&self, other: &Self) -> bool {
+        other.distance.eq(&self.distance)
     }
 }
 
-impl<'a> Hash for Vertex<'a> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.name.hash(state);
+impl Ord for KnownVertex {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.distance.cmp(&self.distance)
     }
 }
 
-impl<'a> Ord for Vertex<'a> {
-    fn cmp(&self, other: &Vertex<'a>) -> Ordering {
-        other.distance.get().cmp(&self.distance.get())
-    }
-}
-
-impl<'a> PartialOrd for Vertex<'a> {
-    fn partial_cmp(&self, other: &Vertex<'a>) -> Option<Ordering> {
+impl PartialOrd for KnownVertex {
+    fn partial_cmp(&self, other: &KnownVertex) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
-impl<'a> PartialEq for Vertex<'a> {
-    fn eq(&self, other: &Vertex<'a>) -> bool {
-        self.name == other.name
-    }
-}
 
 // Returns a table of adjacencies
 // Every position is linked to a vector that contains the adjacent positions and the distance to them
-fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<Vertex,Vec<Vertex>> {
+fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec<((usize,usize),u32)>> {
     let mut adjacency = HashMap::new();
     for i in 0..lim {
         for j in 0..lim {
-            let v = Vertex::new(i,j,mat[i][j]);
+            let v = (i,j);
             adjacency.insert(v,vec![]);
             if i+1 < lim {
-                adjacency.get_mut(&v).unwrap().push( Vertex::new(i+1,j,mat[i+1][j]) )
+                adjacency.get_mut(&v).unwrap().push( ((i+1,j),mat[i+1][j]) )
             }
             if j+1 < lim {
-                adjacency.get_mut(&v).unwrap().push( Vertex::new(i,j+1,mat[i][j+1]) )
+                adjacency.get_mut(&v).unwrap().push( ((i,j+1),mat[i][j+1]) )
             }
             
         }
     }
     adjacency
 }
-
 
 
 // Overview of what we need to do
@@ -123,33 +106,61 @@ fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<Vertex,Vec<Vertex
 
 
 // Dijkstra's algorithm should be much faster for a large matrix
-fn dijkstra(adjacency_map: HashMap<Vertex,Vec<Vertex>>) {
+
+fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) -> u32 {
+    // Relate every vertex to a distance
+    let mut distances = HashMap::new();
+    // Track which verticies have been visited
+    let mut visited = HashSet::new();
+    // A heap to act as a priority queue
     let mut to_visit = BinaryHeap::new();
-    let mut visited = HashSet::<Vertex>::new();
-    let mut distances = HashMap::<Vertex,usize>::new();
-    adjacency_map.keys().for_each(|p| to_visit.push(p));
 
+    
+    distances.insert((0,0), 4445);
 
+    to_visit.push(KnownVertex {
+        name: (0,0),
+        distance: 4445,
+    });
 
+    while let Some(KnownVertex { name, distance }) = to_visit.pop() {
+        if !visited.insert(name) {
+            // Already visited this node
+            continue;
+        }
+
+        // Once we visit the target we're done
+        if visited.contains(&(79,79)) {
+            break
+        }
+
+        if let Some(neighbors) = adjacency_list.get(&name) {
+            for (neighbor, cost) in neighbors {
+                let new_distance = distance + cost;
+                let is_shorter = distances
+                    .get(&neighbor)
+                    .map_or(true, |&current| new_distance < current);
+
+                if is_shorter {
+                    distances.insert(*neighbor, new_distance);
+                    to_visit.push(KnownVertex {
+                        name: *neighbor,
+                        distance: new_distance,
+                    });
+                }
+            }
+        }
+    }
+
+    distances[&(79,79)]
 }
-
 
 
 
 pub fn euler81() -> u64 {
     let mat = read_data();
-    let mat_test = vec![
-                    vec![131,673,234,103,18],
-                    vec![201,96,342,965,150],
-                    vec![630,803,746,422,111],
-                    vec![537,699,497,121,956],
-                    vec![805,732,524,37,331]
-                    ];
-    let g = matrix_to_graph(&mat_test,5);
-    for r in g {
-        println!("{:?}",r)
-    }
-    0u64
+    let g = matrix_to_graph(&mat,80);
+    dijkstra(&g) as u64
 }
 
 pub fn euler81_example() {
@@ -161,9 +172,8 @@ pub fn euler81_example() {
     println!("The answer is: {}",euler81());
 }
 
-/*
+
 #[test]
 fn test81() {
-    assert_eq!(euler81(),)
+    assert_eq!(euler81(),427337)
 }
-*/
