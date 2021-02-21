@@ -89,6 +89,7 @@ fn make_message(input: &str) {
         "81" => worked_problems::euler_81::euler81_example(),
         "82" => worked_problems::euler_82::euler82_example(),
         "83" => worked_problems::euler_83::euler83_example(),
+        "84" => worked_problems::euler_84::euler84_example(),
         _ => println!("Haven't gotten to that one yet, sorry."),
     };
 }

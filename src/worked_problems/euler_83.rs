@@ -210,9 +210,8 @@ pub fn euler83() -> u64 {
     println!("The answer is: {}",euler83());
 }
 
-/*
+
 #[test]
 fn test83() {
-    assert_eq!(euler83(),)
+    assert_eq!(euler83(),425185)
 }
-*/
