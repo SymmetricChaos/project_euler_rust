@@ -238,6 +238,12 @@ fn dijkstra(adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) ->
     }
 
     distances[&(79,79)]
+}
+
+pub fn euler81() -> u64 {
+    let mat = read_data();
+    let g = matrix_to_graph(&mat,80);
+    dijkstra(&g) as u64
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler81());

@@ -130,8 +130,28 @@ pub fn euler82() -> u64 {
 
 pub fn euler82_example() {
     println!("\nProblem: Find the minimal path sum from the left column to the right column by only moving up, down, and right in the provided file.");
-    println!("\n\nThe solution to this is essentially the same as for Problem 81, only the implementation of Dijkstra's algorithm needs to be lightly modified. We include the ability to specify a starting point and detect a slightly different exit condition.");
+    println!("\n\nThe solution to this is essentially the same as for Problem 81 with only a few small changes needed. The adjacency map now allows for movement up and Dijkstra's algorithm now includes the ability to specify a starting point and it set to detect a slightly different exit condition. Then we run the algorithm starting in each left column position and find the shortest path.");
     let s = "
+fn matrix_to_graph(mat: &Vec<Vec<u32>>, lim: usize) -> HashMap<(usize,usize),Vec<((usize,usize),u32)>> {
+    let mut adjacency = HashMap::new();
+    for i in 0..lim {
+        for j in 0..lim {
+            let v = (i,j);
+            adjacency.insert(v,vec![]);
+            if i+1 < lim {
+                adjacency.get_mut(&v).unwrap().push( ((i+1,j),mat[i+1][j]) )
+            }
+            if i > 0 {
+                adjacency.get_mut(&v).unwrap().push( ((i-1,j),mat[i-1][j]) )
+            }
+            if j+1 < lim {
+                adjacency.get_mut(&v).unwrap().push( ((i,j+1),mat[i][j+1]) )
+            }
+        }
+    }
+    adjacency
+}
+
 fn dijkstra(start: (usize,usize), mat: &Vec<Vec<u32>>, adjacency_list: &HashMap<(usize,usize),Vec<((usize,usize),u32)>>) -> u32 {
     // Relate every vertex to a distance
     let mut distances = HashMap::new();
@@ -177,6 +197,16 @@ fn dijkstra(start: (usize,usize), mat: &Vec<Vec<u32>>, adjacency_list: &HashMap<
 
     // We can never get here and this tells the copiler that.
     unreachable!()
+}
+
+pub fn euler82() -> u64 {
+    let mat = read_data();
+    let g = matrix_to_graph(&mat,80);
+    let mut attempts = vec![];
+    for i in 0..80 {
+        attempts.push(dijkstra((i,0),&mat,&g))
+    }
+    *attempts.iter().min().unwrap() as u64
 }";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler82());
