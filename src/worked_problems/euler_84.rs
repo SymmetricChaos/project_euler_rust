@@ -4,7 +4,6 @@ Monte-Carlo simulation?
 */
 
 use std::collections::VecDeque;
-use std::iter::FromIterator;
 use rand::prelude::*;
 
 const CHEST: [u8;3] = [2,17,33];
@@ -138,7 +137,7 @@ pub fn euler84() -> u64 {
 
     let mut spaces = [0u32;40];
 
-    for g in 0..10000 {
+    for g in 0..1000 {
         println!("Game {}",g);
 
         cc_cards.shuffle(&mut rng);
@@ -155,26 +154,30 @@ pub fn euler84() -> u64 {
 
         let mut game = Board::new(chest,chance);
 
-        for _ in 0..10000 {
+        for _ in 0..1000 {
             spaces[game.roll()] += 1;
         }
     }
+
+    for (pos, val) in spaces.iter().enumerate() {
+        println!("{} {}",pos,val)
+    }
+
     println!("{:?}",spaces);
     0u64
 }
 
 pub fn euler84_example() {
     println!("\nProblem: If, instead of using two 6-sided dice, two 4-sided dice are used, find the six-digit modal string representing the three most frequently visited squares in Monopoly.");
-    println!("\n\nThe problem provides extensive specifics to understand this problem.");
+    println!("\n\nThe problem provides extensive specifics to understand this problem. There is probably some clever way to solve this using transition matricies but I decided to just use a Monte-Carlo Simulation. That is to say, I simulated a large number of games are simulated and used the staistics from those.");
     let s = "
 ";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler84());
 }
 
-/*
+
 #[test]
 fn test84() {
-    assert_eq!(euler84(),)
+    assert_eq!(euler84(),101524)
 }
-*/
