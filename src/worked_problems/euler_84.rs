@@ -72,50 +72,34 @@ impl Board {
             if card == "G" {
                 //println!("GO TO GO");
                 self.pos = GO
-            }
-            if card == "J" {
+            } else if card == "J" {
                 //println!("GO TO JAIL");
                 self.pos = JAIL
-            }
-            if card == "C1" {
+            } else if card == "C1" {
                 //println!("GO TO C1");
                 self.pos = 11
-            }
-            if card == "E3" {
+            } else if card == "E3" {
                 //println!("GO TO E3");
                 self.pos = 24
-            }
-            if card == "H2" {
+            } else if card == "H2" {
                 //println!("GO TO H2");
                 self.pos = 39
-            }
-            if card == "R1" {
+            } else if card == "R1" {
                 //println!("GO TO R1");
                 self.pos = 5
-            }
-            if card == "R" {
+            } else if card == "R" {
                 //println!("GO TO NEXT RAIL");
                 while !RAIL.contains(&self.pos) {
                     self.pos = (self.pos + 1) % 40;
                 }
-            }
-            if card == "U" {
+            } else if card == "U" {
                 //println!("GO TO NEXT UTIL");
                 while !UTIL.contains(&self.pos) {
                     self.pos = (self.pos + 1) % 40;
                 }
-            }
-            if card == "3" {
+            } else if card == "3" {
                 //println!("GO BACK 3");
-                if self.pos == 0 {
-                    self.pos = 37
-                }
-                if self.pos == 1 {
-                    self.pos = 38
-                }
-                if self.pos == 2 {
-                    self.pos = 39
-                }
+                self.pos += 40;
                 self.pos = (self.pos - 3) % 40;
             }
 
@@ -137,9 +121,7 @@ pub fn euler84() -> u64 {
 
     let mut spaces = [0u32;40];
 
-    for g in 0..1000 {
-        println!("Game {}",g);
-
+    for _ in 0..2000 {
         cc_cards.shuffle(&mut rng);
         ch_cards.shuffle(&mut rng);
     
@@ -154,17 +136,19 @@ pub fn euler84() -> u64 {
 
         let mut game = Board::new(chest,chance);
 
-        for _ in 0..1000 {
+        for _ in 0..2000 {
             spaces[game.roll()] += 1;
         }
     }
 
+    let mut v = Vec::new();
     for (pos, val) in spaces.iter().enumerate() {
-        println!("{} {}",pos,val)
+        v.push( (pos,val) )
     }
 
-    println!("{:?}",spaces);
-    0u64
+    v.sort_by_key(|x| x.1);
+
+    (v[39].0*10000 + v[38].0*100 + v[37].0) as u64
 }
 
 pub fn euler84_example() {
