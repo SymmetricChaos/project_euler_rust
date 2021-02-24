@@ -34,8 +34,7 @@ fn search_triangle(t: &mut Vec<Vec<u16>>) -> u16 {
 pub fn euler67() -> u64 {
     let mut triangle = read_data();
     let out = search_triangle(&mut triangle);
-    println!("{}",out);
-    0u64
+    out as u64
 }
 
 pub fn euler67_example() {
