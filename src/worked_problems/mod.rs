@@ -83,3 +83,4 @@ pub mod euler_82;
 pub mod euler_83;
 pub mod euler_84;
 pub mod euler_85;
+pub mod euler_86;
