@@ -6,7 +6,7 @@ There are 908 2nd powers we need to consider.
 */
 
 use crate::aux_funcs::prime_sieve;
-
+use std::collections::HashSet;
 
 pub fn euler87() -> u64 {
     let mut little = Vec::new();
@@ -41,19 +41,24 @@ pub fn euler87() -> u64 {
             }
         }
     }
-    
+
     // Count
+    let mut known = HashSet::<u64>::new();
     let mut out = 0;
     for n in big {
         let mut ctr = 0;
-        for m in little.iter() {
-            if n+m > 50_000_000 {
+        for m in &little {
+            let s = n+m;
+
+            if s > 50_000_000 {
                 break
             } else {
-                ctr += 1;
+                if !known.contains(&s) {
+                    ctr += 1;
+                    known.insert(s);
+                }
             }
         }
-        println!("{}",ctr);
         out += ctr;
     }
 
