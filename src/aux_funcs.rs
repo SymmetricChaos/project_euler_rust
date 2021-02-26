@@ -276,6 +276,7 @@ impl Iterator for TotientSieve {
     }
 }
 
+
 pub fn totient_sieve() -> TotientSieve {
     TotientSieve{
         sieve: HashMap::<u64,Vec<u64>>::new(),
