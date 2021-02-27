@@ -16,7 +16,16 @@ What if we try to build the factorization from the tuple?
 
 use std::collections::HashSet;
 
-// This brings the position up to its maximum before the next number changes, we need it to increase by 1 and move to the next
+// This brings the position up to its maximum before the next number changes and never reduces it
+// We want to get results in the order:
+/*
+1,1,1,1
+1,1,1,2
+1,1,2,2
+1,1,2,3
+
+
+*/
 // We can bound our search in any situation where the sum becomes less than the product
 // Probably have to do it recursively?
 fn prod_sum_num(k: usize) -> u64 {
@@ -24,7 +33,7 @@ fn prod_sum_num(k: usize) -> u64 {
         let mut set = vec![1u64; k];
         set[0] = i;
         for pos in 1..k {
-            while set[pos] < set[pos-1] {
+            if set[pos] < set[pos-1] {
                 set[pos] += 1;
                 let s: u64 = set.iter().sum();
                 let p: u64 = set.iter().product();
@@ -38,10 +47,54 @@ fn prod_sum_num(k: usize) -> u64 {
     unreachable!()
 }
 
+// Too slow
+fn prod_sum_num_recur(pos: usize, set: &mut Vec<u64>) -> Option<u64> {
+    let s: u64 = set.iter().sum();
+    let p: u64 = set.iter().product();
+    if pos == set.len()-1 {
+        return None
+    }
+    if s < p {
+        return None
+    } else if s == p {
+        return Some(s)
+    } else {
+        let mut vecs = Vec::<Option<u64>>::new();
+        for i in 2..=set[pos-1] {
+            set[pos] = i;
+            vecs.push(prod_sum_num_recur(pos+1,&mut set.clone()))
+        }
+        let mut out = u64::MAX;
+        for v in vecs {
+            if matches!(v,Some(_)) {
+                if v.unwrap() < out {
+                    out = v.unwrap()
+                }
+            }
+        }
+        if out != u64::MAX {
+            return Some(out)
+        }
+    }
+    None
+}
+
 pub fn euler88() -> u64 {
+
     let mut nums = HashSet::new();
-    for k in 2..=12 {
-        nums.insert(prod_sum_num(k));
+    nums.insert(4);
+    nums.insert(6);
+    'outer: for k in 4..=12000 {
+        for i in 2.. {
+            let mut set = vec![1u64; k];
+            set[0] = i;
+            let num = prod_sum_num_recur(1, &mut set);
+            if matches!(num,Some(_)) {
+                //println!("{}",num.unwrap());
+                nums.insert(num.unwrap());
+                continue 'outer
+            }
+        }
     }
     let out: u64 = nums.iter().sum();
     out
