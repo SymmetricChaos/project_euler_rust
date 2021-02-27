@@ -10,12 +10,15 @@
 The 1s are quite important here because they increase the sum but not the product.
 For an k-tuple we essentially need a factorization and then some 1s to fill in the rest.
 Primes can never qualify.
-It is not feasible to calculate every factorization for numbers unless we reach k = 12000.
+It is not feasible to calculate every factorization for numbers until we reach k = 12000.
 What if we try to build the factorization from the tuple?
 */
 
 use std::collections::HashSet;
 
+// This brings the position up to its maximum before the next number changes, we need it to increase by 1 and move to the next
+// We can bound our search in any situation where the sum becomes less than the product
+// Probably have to do it recursively?
 fn prod_sum_num(k: usize) -> u64 {
     for i in 2.. {
         let mut set = vec![1u64; k];
@@ -37,7 +40,7 @@ fn prod_sum_num(k: usize) -> u64 {
 
 pub fn euler88() -> u64 {
     let mut nums = HashSet::new();
-    for k in 2..=6 {
+    for k in 2..=12 {
         nums.insert(prod_sum_num(k));
     }
     let out: u64 = nums.iter().sum();
