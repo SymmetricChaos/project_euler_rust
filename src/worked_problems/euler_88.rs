@@ -16,47 +16,14 @@ What if we try to build the factorization from the tuple?
 
 use std::collections::HashSet;
 
-// This brings the position up to its maximum before the next number changes and never reduces it
-// We want to get results in the order:
-/*
-1,1,1,1
-1,1,1,2
-1,1,2,2
-1,1,2,3
-
-
-*/
-// We can bound our search in any situation where the sum becomes less than the product
-// Probably have to do it recursively?
-fn prod_sum_num(k: usize) -> u64 {
-    for i in 2.. {
-        let mut set = vec![1u64; k];
-        set[0] = i;
-        for pos in 1..k {
-            if set[pos] < set[pos-1] {
-                set[pos] += 1;
-                let s: u64 = set.iter().sum();
-                let p: u64 = set.iter().product();
-                if s == p {
-                    println!("{:?}",set);
-                    return s
-                }
-            }
-        }
-    }
-    unreachable!()
-}
-
-// Too slow
+// Much yoo slow, have to get rid of cloning and just mutate the vector
 fn prod_sum_num_recur(pos: usize, set: &mut Vec<u64>) -> Option<u64> {
     let s: u64 = set.iter().sum();
     let p: u64 = set.iter().product();
-    if pos == set.len()-1 {
-        return None
-    }
-    if s < p {
+    if pos == set.len()-1 || s < p {
         return None
     } else if s == p {
+        println!("{:?}",set);
         return Some(s)
     } else {
         let mut vecs = Vec::<Option<u64>>::new();
@@ -79,22 +46,48 @@ fn prod_sum_num_recur(pos: usize, set: &mut Vec<u64>) -> Option<u64> {
     None
 }
 
+// Iterative version with no cloning
+fn prod_sum_num(k: usize) -> u64 {
+    let mut set = vec![1u64; k];
+    let mut pos: usize = 0;
+
+    loop {
+        // This has to be the bottleneck
+        // How can we avoid adding and multiplying thousands of numbers?
+        // Some way to bootstrap from previous?
+        let s: u64 = set.iter().sum();
+        let p: u64 = set.iter().product();
+
+        if p > s {
+            set[pos] = 1;
+            pos -=1
+        }
+        if s == p {
+            return s
+        }
+
+        if pos == 0 {
+            set[pos] += 1;
+            pos += 1;
+        } else if set[pos] == set[pos-1] {
+            set[pos] = 1;
+            pos -= 1;
+        } else {
+            set[pos] += 1;
+            pos += 1;
+        }
+    }
+}
+
 pub fn euler88() -> u64 {
 
     let mut nums = HashSet::new();
     nums.insert(4);
     nums.insert(6);
-    'outer: for k in 4..=12000 {
-        for i in 2.. {
-            let mut set = vec![1u64; k];
-            set[0] = i;
-            let num = prod_sum_num_recur(1, &mut set);
-            if matches!(num,Some(_)) {
-                //println!("{}",num.unwrap());
-                nums.insert(num.unwrap());
-                continue 'outer
-            }
-        }
+    for k in 4..=12000 {
+        println!("{}",k);
+        let num = prod_sum_num(k);
+        nums.insert(num);
     }
     let out: u64 = nums.iter().sum();
     out
