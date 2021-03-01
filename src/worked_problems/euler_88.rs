@@ -12,11 +12,18 @@ For an k-tuple we essentially need a factorization and then some 1s to fill in t
 Primes can never qualify.
 It is not feasible to calculate every factorization for numbers until we reach k = 12000.
 What if we try to build the factorization from the tuple?
+
+If the product of a set is greater than the sum then its not possible to get a product sum number by increasing any of the elements
+
+Okay I looked up some hints and they note that for each k the lower limit of the minimal number is k and the upper limit is 2k.
+https://www.mathblog.dk/project-euler-88-minimal-product-sum-numbers/
+To make progress on this I'll have to look more closely as the explanation of a solution given here. It seems similar to mine but avoids recomputation.
 */
 
 use std::collections::HashSet;
 
-// Much yoo slow, have to get rid of cloning and just mutate the vector
+/*
+// Much too slow, have to get rid of cloning and just mutate the vector
 fn prod_sum_num_recur(pos: usize, set: &mut Vec<u64>) -> Option<u64> {
     let s: u64 = set.iter().sum();
     let p: u64 = set.iter().product();
@@ -45,19 +52,23 @@ fn prod_sum_num_recur(pos: usize, set: &mut Vec<u64>) -> Option<u64> {
     }
     None
 }
+*/
+
 
 // Iterative version with no cloning
 fn prod_sum_num(k: usize) -> u64 {
-    let mut set = vec![1u64; k];
+    
+    let mut set = vec![1u64;k];
+
     let mut pos: usize = 0;
 
     loop {
         // This has to be the bottleneck
         // How can we avoid adding and multiplying thousands of numbers?
         // Some way to bootstrap from previous?
-        let s: u64 = set.iter().sum();
         let p: u64 = set.iter().product();
-
+        let s: u64 = set.iter().sum();
+        
         if p > s {
             set[pos] = 1;
             pos -=1
