@@ -18,6 +18,8 @@ If the product of a set is greater than the sum then its not possible to get a p
 Okay I looked up some hints and they note that for each k the lower limit of the minimal number is k and the upper limit is 2k.
 https://www.mathblog.dk/project-euler-88-minimal-product-sum-numbers/
 To make progress on this I'll have to look more closely as the explanation of a solution given here. It seems similar to mine but avoids recomputation.
+
+Any set of factors can be turned into a product sum by appending product-sum 1s to it. 
 */
 
 use std::collections::HashSet;
@@ -78,20 +80,96 @@ fn prod_sum_num(k: usize) -> u64 {
         }
 
         if pos == 0 {
+            // If we've backtracked to the root then increase by 1 and go forward
             set[pos] += 1;
             pos += 1;
         } else if set[pos] == set[pos-1] {
+            // If we've already increased this position to match the previous set it to 1 and go back
             set[pos] = 1;
             pos -= 1;
         } else {
+            // In all other cases increase the position by 1 and go forward
             set[pos] += 1;
             pos += 1;
         }
     }
 }
 
+
+// Can't get this attempt to recreate the C# code to work
+fn prod_sum_once() -> [u64;12000] {
+    // Array of candidates initialized with 24000, the greatest possible product sum number in the range
+    let mut candidates = [24000u64;12000];
+    let mut set = vec![2u64,1u64];
+    candidates[0] = 0;
+    candidates[1] = 0;
+    let mut pos: usize = 0;
+    
+    loop {
+        if pos == 0 {
+            // Can't need more than 14 factors
+            if set.len() == 15 {
+                break
+            }
+            if set[0] < set[1] {
+                set[0] += 1
+            } else {
+                set.push(u64::MAX);
+                set[0] = 2
+            }
+            pos += 1;
+            set[1] = set[0]-1
+        } else if pos == set.len()-1 {
+            println!("{:?}",set);
+            set[pos] += 1;
+            let p: u64 = set.iter().product();
+            let s: u64 = set.iter().sum();
+            if p > 24000 {
+                pos -= 1
+            } else {
+                let k = p-s+(set.len() as u64);
+                if k < 12000 {
+                    if p < candidates[k as usize] {
+                        candidates[k as usize] = p;
+                    }
+                }
+            }
+        } else if set[pos] < set[pos+1] {
+            set[pos] += 1;
+            set[pos+1] = set[pos]-1;
+            pos += 1
+        } else if set[pos] >= set[pos+1] {
+            pos -= 1 
+        }
+    }
+    
+    candidates
+}
+
+
+// Generate pairs with product less than 24000
+fn pairs() -> Vec<(u64,u64)> {
+
+    let mut out = vec![];
+    let mut a = 2;
+    loop {
+        if a > 154 {
+            break
+        }
+        for b in a..(24000/a) {
+            out.push((a,b))
+        }
+        a += 1
+    }
+    out
+}
+
+
 pub fn euler88() -> u64 {
 
+    let nums = pairs();
+    println!("{:?}",nums);
+    /*
     let mut nums = HashSet::new();
     nums.insert(4);
     nums.insert(6);
@@ -102,11 +180,13 @@ pub fn euler88() -> u64 {
     }
     let out: u64 = nums.iter().sum();
     out
+    */
+    0u64
 }
 
 pub fn euler88_example() {
     println!("\nProblem: What is the sum of all the minimal product-sum numbers for 2≤k≤12000?");
-    println!("\n\n");
+    println!("\n\nWe can set an upper limit on the value of such a minimal number for a set of k number as 2k because the set {{2,k}} with k-2 ones always works so we never need any number greater than 24000. Likewise because 2^15 > 24000 we know every product of more than 14 integers greater than 1 is too large for the previous limit.");
     let s = "
 ";
     println!("\n{}\n",s);
