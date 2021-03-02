@@ -105,10 +105,9 @@ fn prod_sum_num1() -> [u64;12001] {
     let mut candidates = [24000u64;12001];
     candidates[0] = 0;
     candidates[1] = 0;
-    candidates[2] = 4;
 
     // The list of factors we are working with
-    let mut list = vec![1u64];
+    let mut list = vec![1u64,24000u64];
 
     let mut pos: usize = 0;
 
@@ -123,19 +122,14 @@ fn prod_sum_num1() -> [u64;12001] {
         // At the root
         if pos == 0 {
 
-            if list.len() == 1 {
+            // If the root can get bigger do so
+            if list[0] < list[1] {
+                list[0] += 1;
+            
+            // Otherwise reset the root to 2 and append some large number to the end
+            } else {
                 list[0] = 2;
                 list.push(24000)
-            } else {
-                // If the root can get bigger do so
-                if list[0] < list[1] {
-                    list[0] += 1;
-                
-                // Otherwise reset the root to 2 and append some large number to the end
-                } else {
-                    list[0] = 2;
-                    list.push(24000)
-                }
             }
 
             // Either way move forward and set position 1 to be one less than the root
@@ -198,7 +192,7 @@ pub fn euler88() -> u64 {
 
 pub fn euler88_example() {
     println!("\nProblem: What is the sum of all the minimal product-sum numbers for 2≤k≤12000?");
-    println!("\n\nCan't claim to have solved this one myself but I did come up with a technique similar to this. We can set an upper limit on the value of such a minimal number for a set of k number as 2k because the set {{2,k}} with k-2 ones always works so we never need any number greater than 24000. In general for a list of numbers with product \'p\' and sum \'s\' the product and sum are equal when p-s 1s are appended. Likewise because 2^15 > 24000 we know every product of more than 14 integers greater than 1 is too large for the previous limit. Knowing this it is possible to generate all 2-tuples with a product less than 24000 then all 3-tuples, and so on up to 14-tuples.");
+    println!("\n\nCan't claim to have solved this one myself but I did come up with a technique similar to this, though mine tried to recompute everything for each number which is infeasibly slow. We can set an upper limit on the value of such a minimal number for a set of k number as 2k because the set {{2,k}} with k-2 ones always works so we never need any number greater than 24000. In general for a list of numbers with product \'p\' and sum \'s\' the product and sum are equal when p-s 1s are appended. Likewise because 2^15 > 24000 we know every product of more than 14 integers greater than 1 is too large for the previous limit. Knowing this it is possible to generate all 2-tuples with a product less than 24000 then all 3-tuples, and so on up to 14-tuples.");
     let s = "
 // We want to do the equivalent of producing pairs then triplets and so on, growing the set as needed
 fn prod_sum_num1() -> [u64;12001] {
@@ -208,15 +202,15 @@ fn prod_sum_num1() -> [u64;12001] {
     let mut candidates = [24000u64;12001];
     candidates[0] = 0;
     candidates[1] = 0;
-    candidates[2] = 4;
 
     // The list of factors we are working with
-    let mut list = vec![1u64];
+    // We start with (1,24000) so that the logic below will make the first step (2,1) which is where we want to begin
+    let mut list = vec![1u64,24000u64];
 
     let mut pos: usize = 0;
 
     loop {
-        // If we pass the determined limit end
+        // If we pass the determined limit then end
         if list.len() == 15 {
             break
         }
@@ -226,19 +220,14 @@ fn prod_sum_num1() -> [u64;12001] {
         // At the root
         if pos == 0 {
 
-            if list.len() == 1 {
+            // If the root can get bigger do so
+            if list[0] < list[1] {
+                list[0] += 1;
+            
+            // Otherwise reset the root to 2 and append some large number to the end
+            } else {
                 list[0] = 2;
                 list.push(24000)
-            } else {
-                // If the root can get bigger do so
-                if list[0] < list[1] {
-                    list[0] += 1;
-                
-                // Otherwise reset the root to 2 and append some large number to the end
-                } else {
-                    list[0] = 2;
-                    list.push(24000)
-                }
             }
 
             // Either way move forward and set position 1 to be one less than the root
@@ -283,8 +272,6 @@ fn prod_sum_num1() -> [u64;12001] {
     }
     candidates
 }
-
-
 
 pub fn euler88() -> u64 {
     let mut out = 0;
