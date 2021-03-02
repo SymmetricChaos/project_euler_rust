@@ -56,7 +56,7 @@ fn prod_sum_num_recur(pos: usize, set: &mut Vec<u64>) -> Option<u64> {
 }
 */
 
-
+/*
 // Iterative version with no cloning
 fn prod_sum_num(k: usize) -> u64 {
     
@@ -94,108 +94,216 @@ fn prod_sum_num(k: usize) -> u64 {
         }
     }
 }
+*/
 
 
-// Can't get this attempt to recreate the C# code to work
-fn prod_sum_once() -> [u64;12000] {
-    // Array of candidates initialized with 24000, the greatest possible product sum number in the range
-    let mut candidates = [24000u64;12000];
-    let mut set = vec![2u64,1u64];
+// We want to do the equivalent of producing pairs then triplets and so on, growing the set as needed
+fn prod_sum_num1() -> [u64;12001] {
+    
+    // Array of possible values set to the greatest value allowed
+    // We ignore k = 0 and k = 1 since we only need to know from 2 to 12000
+    let mut candidates = [24000u64;12001];
     candidates[0] = 0;
     candidates[1] = 0;
+    candidates[2] = 4;
+
+    // The list of factors we are working with
+    let mut list = vec![1u64];
+
     let mut pos: usize = 0;
-    
+
     loop {
+        // If we pass the determined limit end
+        if list.len() == 15 {
+            break
+        }
+        // The logic for producing the sets of factors
+        // The example makes the root always the smallest and the end the biggest
+
+        // At the root
         if pos == 0 {
-            // Can't need more than 14 factors
-            if set.len() == 15 {
-                break
-            }
-            if set[0] < set[1] {
-                set[0] += 1
+
+            if list.len() == 1 {
+                list[0] = 2;
+                list.push(24000)
             } else {
-                set.push(u64::MAX);
-                set[0] = 2
-            }
-            pos += 1;
-            set[1] = set[0]-1
-        } else if pos == set.len()-1 {
-            println!("{:?}",set);
-            set[pos] += 1;
-            let p: u64 = set.iter().product();
-            let s: u64 = set.iter().sum();
-            if p > 24000 {
-                pos -= 1
-            } else {
-                let k = p-s+(set.len() as u64);
-                if k < 12000 {
-                    if p < candidates[k as usize] {
-                        candidates[k as usize] = p;
-                    }
+                // If the root can get bigger do so
+                if list[0] < list[1] {
+                    list[0] += 1;
+                
+                // Otherwise reset the root to 2 and append some large number to the end
+                } else {
+                    list[0] = 2;
+                    list.push(24000)
                 }
             }
-        } else if set[pos] < set[pos+1] {
-            set[pos] += 1;
-            set[pos+1] = set[pos]-1;
-            pos += 1
-        } else if set[pos] >= set[pos+1] {
-            pos -= 1 
+
+            // Either way move forward and set position 1 to be one less than the root
+            pos += 1;
+            list[1] = list[0]-1
+        
+            // At the last position
+            } else if pos == list.len() - 1 {
+
+                list[pos] += 1;
+                // Current product and sum
+                let p: u64 = list.iter().product();
+                let s: u64 = list.iter().sum();
+
+                // If the sequence is disallowed go back
+                if p > 24000 {
+                    pos -= 1
+                } else {
+                    // Otherwise find the k-tuple for which, by appending 1s, both the product and sum equal p
+                    let k = p-s+(list.len() as u64);
+                    // If we can assign to that position do so
+                    if k <= 12000 {
+                        if p < candidates[k as usize] {
+                            candidates[k as usize] = p
+                        }
+                    }
+                }
+
+        // In every other position
+        } else {
+            // If the sequence is increasing left to right, then increment, reset the next factor, and move forward
+            if list[pos] < list[pos+1] {
+                list[pos] += 1;
+                list[pos+1] = list[pos]-1;
+                pos += 1;
+
+            // Otherwise we have an already searched sequence and need to go back
+            } else {
+                pos -= 1
+            }
         }
     }
-    
     candidates
 }
 
 
-// Generate pairs with product less than 24000
-fn pairs() -> Vec<(u64,u64)> {
-
-    let mut out = vec![];
-    let mut a = 2;
-    loop {
-        if a > 154 {
-            break
-        }
-        for b in a..(24000/a) {
-            out.push((a,b))
-        }
-        a += 1
-    }
-    out
-}
-
 
 pub fn euler88() -> u64 {
-
-    let nums = pairs();
-    println!("{:?}",nums);
-    /*
-    let mut nums = HashSet::new();
-    nums.insert(4);
-    nums.insert(6);
-    for k in 4..=12000 {
-        println!("{}",k);
-        let num = prod_sum_num(k);
-        nums.insert(num);
+    let mut out = 0;
+    let c = prod_sum_num1();
+    let mut h = HashSet::new();
+    for n in c.iter() {
+        if !h.contains(&n) {
+            out += n;
+            h.insert(n);
+        }
     }
-    let out: u64 = nums.iter().sum();
     out
-    */
-    0u64
 }
 
 pub fn euler88_example() {
     println!("\nProblem: What is the sum of all the minimal product-sum numbers for 2≤k≤12000?");
-    println!("\n\nWe can set an upper limit on the value of such a minimal number for a set of k number as 2k because the set {{2,k}} with k-2 ones always works so we never need any number greater than 24000. Likewise because 2^15 > 24000 we know every product of more than 14 integers greater than 1 is too large for the previous limit.");
+    println!("\n\nCan't claim to have solved this one myself but I did come up with a technique similar to this. We can set an upper limit on the value of such a minimal number for a set of k number as 2k because the set {{2,k}} with k-2 ones always works so we never need any number greater than 24000. In general for a list of numbers with product \'p\' and sum \'s\' the product and sum are equal when p-s 1s are appended. Likewise because 2^15 > 24000 we know every product of more than 14 integers greater than 1 is too large for the previous limit. Knowing this it is possible to generate all 2-tuples with a product less than 24000 then all 3-tuples, and so on up to 14-tuples.");
     let s = "
-";
+// We want to do the equivalent of producing pairs then triplets and so on, growing the set as needed
+fn prod_sum_num1() -> [u64;12001] {
+    
+    // Array of possible values set to the greatest value allowed
+    // We ignore k = 0 and k = 1 since we only need to know from 2 to 12000
+    let mut candidates = [24000u64;12001];
+    candidates[0] = 0;
+    candidates[1] = 0;
+    candidates[2] = 4;
+
+    // The list of factors we are working with
+    let mut list = vec![1u64];
+
+    let mut pos: usize = 0;
+
+    loop {
+        // If we pass the determined limit end
+        if list.len() == 15 {
+            break
+        }
+        // The logic for producing the sets of factors
+        // The example makes the root always the smallest and the end the biggest
+
+        // At the root
+        if pos == 0 {
+
+            if list.len() == 1 {
+                list[0] = 2;
+                list.push(24000)
+            } else {
+                // If the root can get bigger do so
+                if list[0] < list[1] {
+                    list[0] += 1;
+                
+                // Otherwise reset the root to 2 and append some large number to the end
+                } else {
+                    list[0] = 2;
+                    list.push(24000)
+                }
+            }
+
+            // Either way move forward and set position 1 to be one less than the root
+            pos += 1;
+            list[1] = list[0]-1
+        
+            // At the last position
+            } else if pos == list.len() - 1 {
+
+                list[pos] += 1;
+                // Current product and sum
+                let p: u64 = list.iter().product();
+                let s: u64 = list.iter().sum();
+
+                // If the sequence is disallowed go back
+                if p > 24000 {
+                    pos -= 1
+                } else {
+                    // Otherwise find the k-tuple for which, by appending 1s, both the product and sum equal p
+                    let k = p-s+(list.len() as u64);
+                    // If we can assign to that position do so
+                    if k <= 12000 {
+                        if p < candidates[k as usize] {
+                            candidates[k as usize] = p
+                        }
+                    }
+                }
+
+        // In every other position
+        } else {
+            // If the sequence is increasing left to right, then increment, reset the next factor, and move forward
+            if list[pos] < list[pos+1] {
+                list[pos] += 1;
+                list[pos+1] = list[pos]-1;
+                pos += 1;
+
+            // Otherwise we have an already searched sequence and need to go back
+            } else {
+                pos -= 1
+            }
+        }
+    }
+    candidates
+}
+
+
+
+pub fn euler88() -> u64 {
+    let mut out = 0;
+    let c = prod_sum_num1();
+    let mut h = HashSet::new();
+    for n in c.iter() {
+        if !h.contains(&n) {
+            out += n;
+            h.insert(n);
+        }
+    }
+    out
+}";
     println!("\n{}\n",s);
     println!("The answer is: {}",euler88());
 }
 
-/*
+
 #[test]
 fn test88() {
-    assert_eq!(euler88(),)
+    assert_eq!(euler88(),7587457)
 }
-*/
