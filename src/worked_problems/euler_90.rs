@@ -1,34 +1,27 @@
 // Problem: How many distinct arrangements of the two dice allow for all of the square numbers to be displayed?
 
 /*
-D1 can only be [0,1,2,3,4,6,8] and [0,1,2,3,4,8,9]
-
-The work is thus what the options are for D2.
-The numbers 1,4,5 and then 6 or 9 are required with two spaces remaining
-[1,4,5,6,_,_] 
-[1,4,5,9,_,_] 
+Important: USING THE DICE IN ANY ORDER
+The number of possible six sided dice using the digits 0-9 without repetition is 210
+So there can't be more than 210*210 = 44100 possibilities
+Only half of those are distinct so really just 22050
+That's possible to do by brute force
 */
 
 
 pub fn euler90() -> u64 {
-
-    // There are two optional spaces for D2 since 1,4,5 is always required along with 6/9
-    // Including only 6 is the same as including only 9
-    // Assuming we always include 6 to fulfilling the 6/9 requirement then we pick from these
-    let ex = [2,3,7,8,9];
-
-    // The actual answer is much bigger than I've come up with. Must have made some sigificant error.
-    let mut ctr = 0;
+    let digits = [0,1,2,3,4,5,6,7,8,9];
+    let squares = [01,04,09,16,25,36,49,64,81];
 
 
 
-    ctr * 2
+    0u64
 }
 
 
 pub fn euler90_example() {
     println!("\nProblem: How many distinct arrangements of the two dice allow for all of the square numbers to be displayed?");
-    println!("\n\nD1 can only be [0,1,2,3,4,6,8] or [0,1,2,3,4,8,9].");
+    println!("\n\n");
     let s = "
 ";
     println!("\n{}\n",s);
