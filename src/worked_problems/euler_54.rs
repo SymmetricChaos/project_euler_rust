@@ -173,7 +173,7 @@ fn compare_hands(p1: &Vec<&str>, p2: &Vec<&str>) -> bool {
 
 pub fn euler54() -> u64 {
 
-    let s = fs::read_to_string("Euler54Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler54Doc.txt").unwrap();
     let games: Vec<&str> = s.split("\r\n").collect();
 
     let mut p1_hands: Vec<Vec<&str>> = Vec::new();

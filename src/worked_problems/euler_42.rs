@@ -4,7 +4,7 @@ use std::fs;
 
 // Read the file and create a vector of strings
 fn read_data() -> Vec<String> {
-    let s = fs::read_to_string("Euler42Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler42Doc.txt").unwrap();
     let words = s.split(",");
     let mut v = Vec::new();
     for w in words {

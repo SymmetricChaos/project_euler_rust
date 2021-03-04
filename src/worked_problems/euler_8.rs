@@ -27,7 +27,7 @@ use std::fs;
 
 pub fn euler8() -> u64 {
     let mut biggest_num = 0u64;
-    let s = fs::read_to_string("Euler8Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler8Doc.txt").unwrap();
     for i in 0..988 {
         let substring = &s[i..i+13];
         if substring.contains("0") {

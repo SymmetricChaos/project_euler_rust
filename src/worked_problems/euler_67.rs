@@ -8,7 +8,7 @@ use std::cmp::max;
 
 // We can use u16s here as the greatest possible path sum in 9900 which fits within a u16
 fn read_data() -> Vec<Vec<u16>> {
-    let s = fs::read_to_string("Euler67Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler67Doc.txt").unwrap();
     let rows = s.split("\r\n");
     let mut vec = Vec::new();
     for r in rows {

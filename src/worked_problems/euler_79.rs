@@ -28,7 +28,7 @@ use std::collections::HashSet;
 use crate::aux_funcs::{digits_to_int};
 
 fn read_data() -> Vec<Vec<u8>> {
-    let s = fs::read_to_string("Euler79Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler79Doc.txt").unwrap();
     let rows = s.split("\r\n");
     let mut vec = Vec::new();
     for r in rows {

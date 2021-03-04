@@ -12,7 +12,7 @@ use std::{
 
 // The sum will not overflow a u32
 fn read_data() -> Vec<Vec<u32>> {
-    let s = fs::read_to_string("Euler81Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler81Doc.txt").unwrap();
     let rows = s.split("\r\n");
     let mut vec = Vec::new();
     for r in rows {

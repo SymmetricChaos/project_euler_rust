@@ -4,7 +4,7 @@ use std::fs;
 use num::bigint::BigInt;
 
 pub fn euler13() -> u64 {
-    let s = fs::read_to_string("Euler13Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler13Doc.txt").unwrap();
     let nums = s.split("\r\n");
     let mut sum = BigInt::from(0);
     for n in nums {

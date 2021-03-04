@@ -34,7 +34,7 @@ fn sum_of_u8(digits: &Vec<u8>) -> u64 {
 }
 
 pub fn euler59() -> u64 {
-    let s = fs::read_to_string("Euler59Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler59Doc.txt").unwrap();
     let strings: Vec<&str> = s.split(",").collect();
     let numbers: Vec<u8> = strings.iter().map(|x| str::parse::<u8>(x).unwrap()).collect();
     for a in 97..=122 {

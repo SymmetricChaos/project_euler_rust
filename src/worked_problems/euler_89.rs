@@ -11,7 +11,7 @@ use std::{
 
 
 fn read_data() -> Vec<String> {
-    let s = fs::read_to_string("Euler89Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler89Doc.txt").unwrap();
     let rows = s.split("\r\n");
     let mut vec = Vec::new();
     for r in rows {

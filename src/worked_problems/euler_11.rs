@@ -27,7 +27,7 @@ use std::fs;
 
 pub fn euler11() -> u64 {
     // Read the file and split it into numbers
-    let s = fs::read_to_string("Euler11Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler11Doc.txt").unwrap();
     let nums = s.split(" ");
 
     // 20 x 20 array of zeroes

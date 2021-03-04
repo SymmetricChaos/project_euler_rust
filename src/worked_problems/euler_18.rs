@@ -23,7 +23,7 @@ use std::cmp::max;
 
 // Read the file and create a vector of vectors that contains u16s
 fn read_data() -> Vec<Vec<u16>> {
-    let s = fs::read_to_string("Euler18Doc.txt").unwrap();
+    let s = fs::read_to_string("files\\Euler18Doc.txt").unwrap();
     let rows = s.split("\r\n");
     let mut vec = Vec::new();
     for r in rows {
