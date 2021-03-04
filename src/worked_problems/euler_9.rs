@@ -40,6 +40,6 @@ pub fn euler9() -> u64 {
 }
 
 #[test]
-fn test9() {
+fn test09() {
     assert_eq!(euler9(),31875000)
 }

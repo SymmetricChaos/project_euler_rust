@@ -40,6 +40,6 @@ pub fn euler3_example() {
 
 
 #[test]
-fn test3() {
+fn test03() {
     assert_eq!(euler3(),6857)
 }

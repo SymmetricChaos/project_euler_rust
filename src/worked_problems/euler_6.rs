@@ -28,6 +28,6 @@ pub fn euler6() -> u64 {
 }
 
 #[test]
-fn test6() {
+fn test06() {
     assert_eq!(euler6(),25164150)
 }

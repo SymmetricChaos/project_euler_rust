@@ -24,7 +24,6 @@ fn is_square(n: u64) -> bool {
 pub fn euler86() -> u64 {
     let mut ctr = 0;
     for a in 1u64.. {
-        //println!("{} -> {}",a-1,ctr);
         if ctr > 1_000_000 {
             return a-1
         }
@@ -62,8 +61,8 @@ pub fn euler86() -> u64 {
         for b in 1..=a {
             for c in 1..=b {
                 let paths = [a*a + (b+c)*(b+c),
-                                b*b + (a+c)*(a+c),
-                                c*c + (a+b)*(a+b)];
+                             b*b + (a+c)*(a+c),
+                             c*c + (a+b)*(a+b)];
                 let best = paths.iter().min().unwrap();
                 if is_square(*best) {
                     ctr += 1;

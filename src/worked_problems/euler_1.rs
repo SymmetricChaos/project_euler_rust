@@ -27,6 +27,6 @@ pub fn euler1_example() {
 }
 
 #[test]
-fn test() {
+fn test01() {
     assert_eq!(euler1(),233168)
 }
