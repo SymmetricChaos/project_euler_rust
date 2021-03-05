@@ -9,8 +9,9 @@ That's possible to do by brute force
 */
 
 use std::collections::HashSet;
+use itertools::Itertools;
 
-fn check_dice(d1: Vec<u8>, d2: Vec<u8>, set: HashSet<u8>) -> bool {
+fn check_dice(d1: &Vec<u8>, d2: &Vec<u8>, set: &HashSet<u8>) -> bool {
     let mut new_set = HashSet::<u8>::new();
 
     for a in d1.iter() {
@@ -32,17 +33,24 @@ fn check_dice(d1: Vec<u8>, d2: Vec<u8>, set: HashSet<u8>) -> bool {
 }
 
 pub fn euler90() -> u64 {
-    let digits: [u8;10] = [0,1,2,3,4,5,6,7,8,9];
-    let squares: [u8;9] = [01,04,09,16,25,36,49,64,81];
-    let set: HashSet::<u8> = squares.iter().cloned().collect();
+    let set: HashSet::<u8> = [01,04,09,16,25,36,49,64,81].iter().cloned().collect();
+    let mut known = HashSet::new();
+    let mut ctr = 0;
+    let comb1 = (0..=9).combinations(6);
+    let comb2 = (0..=9).combinations(6);
+    for a in comb1 {
+        known.insert(format!("{:?}",a));
+        for b in &comb2 {
+            if known.contains(&format!("{:?}",b)) {
+                continue
+            }
+            if check_dice(&a,&b,&set) {
+                ctr += 1
+            }
+        }
+    }
 
-    // Example dice from problem, thought evaluate to true
-    let ex1 = vec![0,5,6,7,8,9];
-    let ex2 = vec![1,2,3,4,8,9];
-        
-    println!("{}",check_dice(ex1,ex2,set));
-
-    0u64
+    ctr
 }
 
 
